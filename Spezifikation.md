@@ -12,6 +12,9 @@ SOLL NICHT, KANN gekennzeichnet.
 ## Überblick
 Die vorliegende Basisspezifikation ergänzt die eHealth-CardLink-Spezifkation [gemSpec_eHealth-CardLink](https://gemspec.gematik.de/downloads/gemSpec/gemSpec_eHealth-CardLink/gemSpec_eHealth-CardLink_V1.0.0.pdf) der gematik dahingehend, dass zusätzlich zum dort spezifizierten "Hinweg" von der App zum Primärsystem (PS) eines Leistungserbringers (z.B. Apothekenverwaltungssystem (AVS) einer Apotheke oder Praxisverwaltungssystem (PVS) eines Arztes oder Zahnarztes) hier der "Rückweg" vom PS zur App - das so genannte "**application_interface**" spezifiziert wird. 
 ![eHealth-CardLink-detailbild](https://github.com/eHealthCardLink/Spezifikation/assets/166988235/fb2bb66b-5605-4cc9-b9b8-d2f1e6127d00)
+
+** Nachrichtenbasiert, wenige Nachrichten, um kompletten Geschäftsprozess abzuwickeln **
+ 
 ## Anforderungen an das application_interface
 Für das application_interface existieren folgende Anforderungen:
 * `TF_01` Für den Datenaustausch im application_interface zwischen App und eHealth-CardLink MUSS der bereits etablierte TLS-Kanal genutzt werden, über den auch der Datenaustausch beim card_interface erfolgt.
