@@ -1,0 +1,57 @@
+title Ablauf mit eHealth-CardLink gemäß gemSpec_eHealth-CardLink (v1.0.0)
+
+actor Nutzer
+participant eGK
+participant App
+participant VZD
+participant "eHealth-CardLink" as CL
+participant "Konnektor" as Kon
+participant "Primärsystem" as PS
+participant "FD_VSDM" as FD_VSDM
+participant "FD_x" as FD_x
+
+entryspacing 0.5
+
+Kon <-> CL: 0.a Pairing zwischen Konnektor und eHealth-CardlLink
+Nutzer -> App: 0.b Installation und Konfiguration der App
+App <-> App: 0.b.1 Zugriff auf Telefonstatus erlauben (optional)
+ref over Nutzer, App: 0.b.2: Mobilfunknummer ermitteln oder erfassen
+App <-> VZD: 0.b.3 LEI konfigurieren (optional)
+App -> CL: 0.b.4 TAN anfordern (requestSmsTan)
+CL -> App: 0.b.5 TAN per SMS senden
+Nutzer -> App: 0.b.6 TAN erfassen
+App -> CL: 0.b.7 TAN übermitteln (confirmTan)
+CL -> CL: 0.b.8 TAN validieren
+CL -> App: 0.b.9 TAN-Validierung bestätigen (confirmTanResponse)
+Nutzer -> App: 1. eGK und CAN  bereitstellen
+App <-> eGK: 1.1 PACE mit CAN
+App <-> eGK: 1.2 eGK-Daten auslesen
+
+App -> CL: 2. eGK-Daten übermitteln (registerEGK)
+CL -> CL: 2.1 eGK-Daten validieren
+CL -> CL: 2.2 Protokollierung
+CL -> Kon: 2.3 Signalisiere CARD/INSERTED
+Kon -> PS: 2.4 Signalisiere CARD/INSERTED
+PS -> Kon: 2.5 GetCards(cardType=eGK)
+Kon -> CL: 2.6 SICCT-cmdAPDUs für GetCards
+CL --> Kon: 2.7 SICCT-resAPDUs für GetCards
+Kon --> PS: 2.8 GetCardsResponse zurückliefern
+PS -> Kon: 3. ReadVSD aufrufen
+Kon <-> CL: 3.1 SICCT-APDUs vor INTERNAL AUTHENTICATE
+Kon -> CL: 3.2 SICCT-APDU für INTERNAL_AUTHENTICATE
+CL -> App: 3.3 sendAPDU(INTERNAL_AUTHENTICATE)
+App -> eGK: 3.4 INTERNAL_AUTHENTICATE
+eGK -> eGK: 3.5 Erzeuge Signatur für Challenge
+eGK --> App: 3.6 signature || 90 00
+App --> CL: 3.6 sendAPDUResponse(signature)
+CL --> Kon: 3.7 SICCT-Response-APDU(signature)
+Kon <-> Kon: 3.8 Signaturvalidierung
+Kon -> FD_VSDM: 4. Online- und Gültigkeitsprüfung
+FD_VSDM --> Kon: 5. Bereitstellung der Prüfziffer
+Kon -> Kon: 6. Erstellung Prüfungsnachweis aus Prüfziffer
+Kon --> PS: 7. ReadVSDResponse mit Prüfungsnachweis 
+FD_x <-> Nutzer: 8. Anwendungsfallspezifischer Ablauf
+
+
+
+
