@@ -24,8 +24,8 @@ Der grundlegende Ablauf ist im nachfolgenden Sequenzdiagramm dargestellt, wobei 
 
 Die Nummerierung der Schritte orientiert sich an den sieben in [gemSpec_eHealth-CardLink](https://gemspec.gematik.de/downloads/gemSpec/gemSpec_eHealth-CardLink/gemSpec_eHealth-CardLink_V1.0.0.pdf) (Abschnitt 2.1.1) grob beschriebenen Schritten:
 
-* *0.a* Damit der eHealth-CardLink-Dienst später mit dem Konnektor kommunizieren kann, muss zunächst ein Pairing stattfinden.
-* *0.b* In einem ersten Schritt muss die App installiert und ggf. konfiguriert werdne.
+* **0.a** Damit der eHealth-CardLink-Dienst später mit dem Konnektor kommunizieren kann, muss zunächst ein Pairing stattfinden.
+* **0.b** In einem ersten Schritt muss die App installiert und ggf. konfiguriert werdne.
 * 
  
 # 3. Anwendungsfallspezifische Ergänzungsmodule
