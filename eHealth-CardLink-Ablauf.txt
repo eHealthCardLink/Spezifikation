@@ -40,7 +40,7 @@ Kon -> PS: 2.6 Signalisiere CARD/INSERTED
 PS -> Kon: 2.7 GetCards(cardType=eGK)
 Kon -> CL: 2.8 SICCT-cmdAPDUs für GetCards
 CL --> Kon: 2.9 SICCT-resAPDUs für GetCards
-Kon --> PS: 2.10 GetCardsResponse zurückliefern
+Kon --> PS: 2.10 GetCardsResponse inkl. ICCSN zurückliefern
 PS -> Kon: 3. ReadVSD am Konnektor aufrufen
 Kon <-> CL: 3.1 SICCT-APDUs **vor** INTERNAL AUTHENTICATE
 Kon -> CL: 3.2 SICCT-APDU **für** INTERNAL_AUTHENTICATE
@@ -48,15 +48,19 @@ CL -> App: 3.3 sendAPDU(INTERNAL_AUTHENTICATE)
 App -> eGK: 3.4 INTERNAL_AUTHENTICATE
 eGK -> eGK: 3.5 Erzeuge Signatur für Challenge
 eGK --> App: 3.6 signature || 90 00
-App --> CL: 3.6 sendAPDUResponse(signature)
-CL --> Kon: 3.7 SICCT-Response-APDU(signature)
-Kon <-> Kon: 3.8 Signaturvalidierung
+App --> CL: 3.7 sendAPDUResponse(signature)
+CL --> Kon: 3.8 SICCT-Response-APDU(signature)
+Kon <-> Kon: 3.9 Signaturvalidierung
 Kon -> FD_VSDM: 4. Online-Gültigkeitsprüfung
 FD_VSDM --> Kon: 5. Bereitstellung der Prüfziffer
 Kon -> Kon: 6. Erstellung Prüfungsnachweis aus Prüfziffer
 Kon --> PS: 7. ReadVSDResponse mit Prüfungsnachweis 
+PS -> CL: 7.1 Etabliere Websocket-Verbindung (ICCSN)
+CL -#red:4> PS:  7.2 gib <color:#red>**sessionInformation**</color> mit webSocketId zurück
+CL -> App: 7.3 <color:#red>**RegisterEGKFinish**</color>  
 
-FD_x <-> Nutzer: 8. Anwendungsfallspezifischer Ablauf
+
+FD_x <-> Nutzer: Anwendungsfallspezifische Abläufe
 
 
 
