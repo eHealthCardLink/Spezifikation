@@ -20,12 +20,12 @@ Darüber hinaus haben Detailbetrachtungen gezeigt, dass in der von der gematik b
 Der grundlegende Ablauf ist im nachfolgenden Sequenzdiagramm dargestellt, wobei die rot markierten Nachrichten über das derzeit spezifizierte 
 [card_interface](https://github.com/gematik/api-ehcl/blob/main/ehcl/asyncapi.yaml) hinausgehen.
 
-![eHealth-CardLink-Ablauf](https://github.com/eHealthCardLink/Spezifikation/blob/main/eHealth-CardLink-Ablauf.svg)
+![Grundlegender eHealth-CardLink-Ablauf](https://github.com/eHealthCardLink/Spezifikation/blob/main/eHealth-CardLink-Ablauf.svg)
 
 Die Nummerierung der Schritte orientiert sich an den sieben in [gemSpec_eHealth-CardLink](https://gemspec.gematik.de/downloads/gemSpec/gemSpec_eHealth-CardLink/gemSpec_eHealth-CardLink_V1.0.0.pdf) (Abschnitt 2.1.1) grob beschriebenen Schritten:
 
-* **0.a** -- Damit der eHealth-CardLink-Dienst später mit dem Konnektor kommunizieren kann, muss zunächst ein Pairing stattfinden.
-* **0.b** -- In einem ersten Schritt muss die App installiert und ggf. konfiguriert werdne.
+* **(0.a)** - Damit der eHealth-CardLink-Dienst später mit dem Konnektor kommunizieren kann, muss zunächst ein Pairing stattfinden.
+* **(0.b)** - In einem ersten Schritt muss die App installiert und ggf. konfiguriert werdne.
 * 
  
 # 3. Anwendungsfallspezifische Ergänzungsmodule
@@ -36,8 +36,14 @@ Für das application_interface existieren folgende Anforderungen:
 * `TF_02` Für den Datenaustausch im application_interface zwischen App und eHealth-CardLink MUSS der bereits etablierte TLS-Kanal genutzt werden, über den auch der Datenaustausch beim card_interface erfolgt.
 * `TF_03` Für den Datenaustausch im application_interface zwischen AVS und eHealth-CardLink MUSS ein separater TLS-Kanal aufgebaut werden. 
 
-## 3.2 Einlösen eines E-Rezeptes in einer Apotheke
-Der grundlegende Ablauf ist im nachfolgenden Sequenzdiagramm dargestellt. 
+## 3.2 Einlösen von E-Rezepten in einer Apotheke
+Der grundlegende Ablauf für das Einlösen von E-Rezepten ist im nachfolgenden Sequenzdiagramm dargestellt. 
+
+![Ablauf zum Einlösen von E-Rezepten in einer Apotheke](https://github.com/eHealthCardLink/Spezifikation/blob/main/E-Rezept-Einl%C3%B6sen-Ablauf.svg)
+
+* **(1)** -
+* **(2)** -
+* **(3)** -
 
 
 ## 3.3 Anforderung eines Folgerezeptes
