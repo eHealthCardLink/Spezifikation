@@ -24,18 +24,21 @@ Der grundlegende Ablauf ist im nachfolgenden Sequenzdiagramm dargestellt, wobei 
 
 Die Nummerierung der Schritte orientiert sich an den sieben in [gemSpec_eHealth-CardLink](https://gemspec.gematik.de/downloads/gemSpec/gemSpec_eHealth-CardLink/gemSpec_eHealth-CardLink_V1.0.0.pdf) (Abschnitt 2.1.1) grob beschriebenen Schritten:
 
-* **0.a** Damit der eHealth-CardLink-Dienst später mit dem Konnektor kommunizieren kann, muss zunächst ein Pairing stattfinden.
-* **0.b** In einem ersten Schritt muss die App installiert und ggf. konfiguriert werdne.
+* **0.a** -- Damit der eHealth-CardLink-Dienst später mit dem Konnektor kommunizieren kann, muss zunächst ein Pairing stattfinden.
+* **0.b** -- In einem ersten Schritt muss die App installiert und ggf. konfiguriert werdne.
 * 
  
 # 3. Anwendungsfallspezifische Ergänzungsmodule
 
-## 3.1 Anforderungen an das application_interface
+## 3.1 Generelle Anforderungen an das application_interface
 Für das application_interface existieren folgende Anforderungen:
-* `TF_01` Für den Datenaustausch im application_interface zwischen App und eHealth-CardLink MUSS der bereits etablierte TLS-Kanal genutzt werden, über den auch der Datenaustausch beim card_interface erfolgt.
-* `TF_02` Der Datenaustausch im application_interface MUSS auf Basis von Websockets gemäß [RFC 6455](https://datatracker.ietf.org/doc/html/rfc6455) sowie einer Kombination aus JSON gemäß [RFC8259](https://datatracker.ietf.org/doc/html/rfc8259) und [REST](https://de.wikipedia.org/wiki/Representational_State_Transfer) erfolgen.
+* `TF_01` Der Datenaustausch im application_interface MUSS auf Basis von Websockets gemäß [RFC 6455](https://datatracker.ietf.org/doc/html/rfc6455) unter Verwendung von JSON-Nachrichten gemäß [RFC8259](https://datatracker.ietf.org/doc/html/rfc8259) erfolgen.
+* `TF_02` Für den Datenaustausch im application_interface zwischen App und eHealth-CardLink MUSS der bereits etablierte TLS-Kanal genutzt werden, über den auch der Datenaustausch beim card_interface erfolgt.
+* `TF_03` Für den Datenaustausch im application_interface zwischen AVS und eHealth-CardLink MUSS ein separater TLS-Kanal aufgebaut werden. 
 
 ## 3.2 Einlösen eines E-Rezeptes in einer Apotheke
+Der grundlegende Ablauf ist im nachfolgenden Sequenzdiagramm dargestellt. 
+
 
 ## 3.3 Anforderung eines Folgerezeptes
 ## 3.4 Entfernter Versicherungsnachweis
