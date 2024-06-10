@@ -1,6 +1,6 @@
 # Anhang A - Einlösen von E-Rezepten
 
-## Ablauf beim Einlösen von E-Rezepten
+## A.1 Ablauf beim Einlösen von E-Rezepten
 
 Der grundlegende Ablauf für das Einlösen von E-Rezepten ist im nachfolgenden Sequenzdiagramm dargestellt. 
 
@@ -35,11 +35,11 @@ Der grundlegende Ablauf für das Einlösen von E-Rezepten ist im nachfolgenden S
 * `(33)` - Der eHealth-CardLink-Dienst überträgt den Status weiter an die App.
 * `(34)` - Die App zeigt den Status schließlich dem Nutzer an.
 
-# Nachrichten jenseits der gematik-Spezifikationen
+## A.2 Nachrichten jenseits der gematik-Spezifikationen
 
-# PrescriptionSummary
+### A.2.1 PrescriptionSummary
 
-# AvailablePrescriptionList 
+### A.2.2 AvailablePrescriptionList 
 
-# SelectedPrescriptionList
+### A.2.3 SelectedPrescriptionList
 
