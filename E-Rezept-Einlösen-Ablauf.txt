@@ -1,41 +1,47 @@
-title Ablauf zum E-Rezept einlösen mit eHealth-CardLink
+title Ablauf zum Einlösen von E-Rezepten mit eHealth-CardLink
 
 actor Nutzer
 
 participant App
 participant "eHealth-CardLink" as CL
-
 participant "AVS" as AVS
+participant "Konnektor" as Konnektor
+participant "IDP-Dienst" as IDP
 participant "FD_eRp" as FD_eRp
+
+
 
 entryspacing 0.6
 
 App <-> AVS: Schritte (0)-(7) gemäß eHealth-CardLink-Basisablauf
-AVS -> FD_eRp: 8: GET /Task?pnw=<xyz>
-FD_eRp --> AVS: 9: 200: Bundle(Task, Task ...)
-AVS -> AVS: 10. Dekodiere Bundle 
+AVS <-> IDP: 8: beim IDP-Dienst authentifizieren, um verschlüsseltes ID-Token und Access-Token zu erhalten
+AVS <-> FD_eRp: 9: Etabliere Kanal zur VAU des FD_eRp
+AVS -> FD_eRp: 10: GET /Task?pnw=<xyz>
+FD_eRp --> AVS: 11: 200: Bundle(Task, Task ...)
+AVS -> AVS: 12. Dekodiere Bundle 
 loop für alle verfügbaren E-Rezepte
-AVS -> FD_eRp: 11. GET /Task/<id>?pnw=...
-FD_eRp --> AVS: 12. 200: (secret, P7-MIME(medicationReference))
-AVS->AVS: 13. Dekodiere P7-MIME und extrahiere "E-Rezept-Zusammenfassung"
+AVS -> FD_eRp: 13. GET /Task/<id>?pnw=...
+FD_eRp --> AVS: 14. 200: (secret, P7-MIME(MedicationReference))
+AVS->AVS: 15. Dekodiere P7-MIME und extrahiere "E-Rezept-Zusammenfassung" (PrescriptionSummary)ber
 end
-AVS -> CL: 14. Liste mit "E-Rezept-Zusammenfassungen" (AvailablePrescriptionSummaryList)
-CL -> App: 15. Liste mit "E-Rezept-Zusammenfassungen" (AvailablePrescriptionSummaryList)
-App -> Nutzer: 16. Zeige verfügbare "E-Rezepte" 
-Nutzer --> App: 17. Wähle zu dispensierende E-Rezepte 
-App --> CL: 18. Ausgewählte E-Rezepte (SelectedPrescriptionSummaryList)
-CL --> AVS: 19 Ausgewählte E-Rezepte (SelectedPrescriptionSummaryList)
+AVS -> CL: 16. Liste mit "E-Rezept-Zusammenfassungen" (AvailablePrescriptionSummaryList)
+CL -> App: 17. Liste mit "E-Rezept-Zusammenfassungen" (AvailablePrescriptionSummaryList)
+App -> Nutzer: 18. Zeige verfügbare "E-Rezepte" 
+Nutzer --> App: 19. Wähle zu dispensierende E-Rezepte 
+App --> CL: 20. Ausgewählte E-Rezepte (SelectedPrescriptionSummaryList)
+CL --> AVS: 21 Ausgewählte E-Rezepte (SelectedPrescriptionSummaryList)
 loop für alle zu dispensierenden E-Rezepte
-AVS -> FD_eRp: 20. POST /Task/<id>?$accept?ac=...
-FD_eRp --> AVS: 21. 200: Bundle(Task,P7-Container)
-AVS -> AVS: 22. Speichere secret
-AVS -> Konnektor: 23. Verify-Document (P7-Container)
-Konnektor --> AVS: 24. Signaturstatus
-AVS->AVS: 25. Extrahiere FHIR-Bundle aus P7-Container
-AVS->AVS: 26. Medikament abgeben und MedicationDispense erzeugen
-AVS->FD_eRp: 27. POST /Task/<id>$close?secret=...ac=...MedicationDispense 
-FD_eRp --> AVS: 28. signierte Quittung
-AVS -> AVS: 29. Protokollieren
+AVS -> FD_eRp: 22. POST /Task/<id>?$accept?ac=...
+FD_eRp --> AVS: 23. 200: Bundle(Task,P7-Container)
+AVS -> AVS: 24. Dekodiere Nachricht und speichere secret
+AVS -> Konnektor: 25. Verify-Document (P7-Container)
+Konnektor --> AVS: 26. Signaturstatus
+AVS->AVS: 27. Extrahiere FHIR-basierte E-Rezept-Nutzdaten aus P7-Container
+AVS->AVS: 28. Medikament abgeben und MedicationDispense erzeugen
+AVS->FD_eRp: 29. POST /Task/<id>$close?secret=...ac=...MedicationDispense 
+FD_eRp --> AVS: 30. signierte Quittung
+AVS -> AVS: 31. Protokollieren
 end
-AVS -> App: 30. Status
-App -> App: 31. Zeige Status für Nutzer an
+AVS -> CL: 32. Status
+CL -> App: 33. Status
+App -> App: 34. Zeige Status für Nutzer an
