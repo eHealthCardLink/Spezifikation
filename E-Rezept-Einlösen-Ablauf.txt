@@ -24,12 +24,12 @@ AVS -> FD_eRp: 13. GET /Task/<id>?pnw=...
 FD_eRp --> AVS: 14. 200: (secret, P7-MIME(MedicationReference))
 AVS->AVS: 15. Dekodiere P7-MIME und extrahiere "E-Rezept-Zusammenfassung" (PrescriptionSummary)ber
 end
-AVS -> CL: 16. Liste mit "E-Rezept-Zusammenfassungen" (AvailablePrescriptionSummaryList)
-CL -> App: 17. Liste mit "E-Rezept-Zusammenfassungen" (AvailablePrescriptionSummaryList)
+AVS -> CL: 16. Liste mit "E-Rezept-Zusammenfassungen" (AvailablePrescriptionList)
+CL -> App: 17. Liste mit "E-Rezept-Zusammenfassungen" (AvailablePrescriptionList)
 App -> Nutzer: 18. Zeige verfügbare "E-Rezepte" 
 Nutzer --> App: 19. Wähle zu dispensierende E-Rezepte 
-App --> CL: 20. Ausgewählte E-Rezepte (SelectedPrescriptionSummaryList)
-CL --> AVS: 21 Ausgewählte E-Rezepte (SelectedPrescriptionSummaryList)
+App --> CL: 20. Ausgewählte E-Rezepte (SelectedPrescriptionList)
+CL --> AVS: 21 Ausgewählte E-Rezepte (SelectedPrescriptionList)
 loop für alle zu dispensierenden E-Rezepte
 AVS -> FD_eRp: 22. POST /Task/<id>?$accept?ac=...
 FD_eRp --> AVS: 23. 200: Bundle(Task,P7-Container)
