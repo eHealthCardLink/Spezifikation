@@ -40,14 +40,6 @@ Für das application_interface existieren folgende Anforderungen:
 * `TF_03` Für den Datenaustausch im application_interface zwischen AVS und eHealth-CardLink MUSS ein separater TLS-Kanal aufgebaut werden. 
 
 ## 3.2 Einlösen von E-Rezepten in einer Apotheke
-Der grundlegende Ablauf für das Einlösen von E-Rezepten ist im nachfolgenden Sequenzdiagramm dargestellt. 
-
-![Ablauf zum Einlösen von E-Rezepten in einer Apotheke](https://github.com/eHealthCardLink/Spezifikation/blob/main/E-Rezept-Einl%C3%B6sen-Ablauf.svg)
-
-* **(1)** -
-* **(2)** -
-* **(3)** -
-
 
 ## 3.3 Anforderung eines Folgerezeptes
 ## 3.4 Entfernter Versicherungsnachweis
