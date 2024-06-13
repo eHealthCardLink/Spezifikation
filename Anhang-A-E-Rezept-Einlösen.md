@@ -93,13 +93,11 @@ In diesem Profil werden die Rezeptierdaten einer Rezepturverordnung abgebildet.
 | --- | --- |  --- |
 | `Kategorie` | string | 81 | 
 | `Impfstoff` | boolean | 84 |
-
 | `Rezepturname` | string | 118 | 
 | `Gesamtmenge` | string | 119 | 
 | `Einheit` | string | 120 | 
 | `Herstellungsanweisung` | string | 121 | 
 | `Verpackung` | string | 104 (nicht 103!) | 
-
 | `NameDesBestandteils` | string | 111 |
 | `PZNDesBestandteils` | string | 112 | 
 | `DarreichungsformDesBestandteils` | string | 110 |
