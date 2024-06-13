@@ -59,12 +59,55 @@ In diesem Profil werden die Rezeptierdaten einer Verordnung aus den Preis- und P
 
 | Element | Datentyp | Beschreibung | 
 | --- | --- |  --- |
-| `Kategorie` | string | | 
-| `Impfstoff` | boolean | |
-
+| `Kategorie` | string | 81 | 
+| `Impfstoff` | boolean | 84 |
+| `PZN` | string | 115 | 
+| `Handelsname` | string | 116 |
+| `Darreichungsform` | string | 103 | 
+| `PackungsgroesseNachMenge` | string | 111 |
+| `Einheit` | string | 112 | 
+| `PackungsgroesseNachNBezeichnung` | string | 110 |
 
 #### A.2.1.3 [KBV_PR_ERP_Medication_Ingredient](https://simplifier.net/erezept/kbvprerpmedicationingredient)
+
+In diesem Profil werden die Rezeptierdaten einer Wirkstoffverordnung abgebildet. 
+
+| Element | Datentyp | Beschreibung | 
+| --- | --- |  --- |
+| `Kategorie` | string | 81 | 
+| `Impfstoff` | boolean | 84 |
+| `Wirkstoffnummer` | string | 118 | 
+| `Wirkstoffname` | string | 119 | 
+| `Wirkstaerke` | string | 120 | 
+| `Wirkstaerkeneinheit` | string | 121 | 
+| `Darreichungsform` | string | 104 (nicht 103!) | 
+| `PackungsgroesseNachMenge` | string | 111 |
+| `Einheit` | string | 112 | 
+| `PackungsgroesseNachNBezeichnung` | string | 110 |
+
 #### A.2.1.4 [KBV_PR_ERP_Medication_Compounding](https://simplifier.net/eRezept/KBVPRERPMedicationCompounding/~overview)
+
+In diesem Profil werden die Rezeptierdaten einer Rezepturverordnung abgebildet.
+
+| Element | Datentyp | Beschreibung | 
+| --- | --- |  --- |
+| `Kategorie` | string | 81 | 
+| `Impfstoff` | boolean | 84 |
+
+| `Rezepturname` | string | 118 | 
+| `Gesamtmenge` | string | 119 | 
+| `Einheit` | string | 120 | 
+| `Herstellungsanweisung` | string | 121 | 
+| `Verpackung` | string | 104 (nicht 103!) | 
+
+| `NameDesBestandteils` | string | 111 |
+| `PZNDesBestandteils` | string | 112 | 
+| `DarreichungsformDesBestandteils` | string | 110 |
+| `MengeDesBestandteils` | string | 110 |
+| `MengeUndEinheitDesBestandteils` | string | 110 |
+| `DarreichungsformDesBestandteils` | string | 110 |
+
+
 
 #### A.2.1.1 [KBV_PR_ERP_Medication_FreeText](https://simplifier.net/eRezept/KBVPRERPMedicationFreeText/)
 
