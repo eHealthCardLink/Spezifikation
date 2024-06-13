@@ -36,16 +36,39 @@ Der grundlegende Ablauf für das Einlösen von E-Rezepten ist im nachfolgenden S
 * `(34)` - Die App zeigt den Status schließlich dem Nutzer an.
 
 ## A.2 Nachrichten jenseits der gematik-Spezifikationen
-Für die Kommunikation zwischen AVS und App müssen unter Berücksichtigung der entsprechenden FHIR-Strukturen ( ) und der zugehörigen "Technischen Anlage zur elektronischen Arzneimittelverordnung (E16A)" [[KBV_ITA_VGEX_TECHNISCHE_ANLAGE_ERP]](https://update.kbv.de/ita-update/DigitaleMuster/ERP/KBV_ITA_VGEX_Technische_Anlage_ERP.pdf) der Kassenärztlichen Bundesvereinigung folgende Datenstrukturen und Nachrichten definiert werden:
+Für die Kommunikation zwischen AVS und App müssen unter Berücksichtigung der entsprechenden FHIR-Profile 
+* [KBV_PR_ERP_Medication_FreeText](https://simplifier.net/eRezept/KBVPRERPMedicationFreeText/~overview)
+* [KBV_PR_ERP_Medication_PZN](https://simplifier.net/eRezept/KBVPRERPMedicationPZN/~overview)
+* [KBV_PR_ERP_Medication_Ingredient](https://simplifier.net/erezept/kbvprerpmedicationingredient)
+* [KBV_PR_ERP_Medication_Compounding](https://simplifier.net/eRezept/KBVPRERPMedicationCompounding/~overview)
+   
+der Ressource [Medication](https://build.fhir.org/medication.html) und der zugehörigen "Technischen Anlage zur elektronischen Arzneimittelverordnung (E16A)" [[KBV_ITA_VGEX_TECHNISCHE_ANLAGE_ERP]](https://update.kbv.de/ita-update/DigitaleMuster/ERP/KBV_ITA_VGEX_Technische_Anlage_ERP.pdf) der Kassenärztlichen Bundesvereinigung folgende Datenstrukturen und Nachrichten definiert werden:
+
 * MedicationSummary
 * AvailablePrescriptionList 
 * SelectedPrescriptionList
 
 ### A.2.1 MedicationSummary
-Die MedicationSummary-Datenstruktur enthält die Essenz einer elektronischen Verordnung in den in den folgenden Unterabschnitten vorgesehenen Ausprägungen:
-* KBV_PR_ERP_Medication_FreeText
+Die MedicationSummary-Datenstruktur enthält die Rezeptierdaten  einer elektronischen Verordnung in den verschiedenen Ausprägungen. 
+
+Choice!
+
+#### A.2.1.1 [KBV_PR_ERP_Medication_PZN](https://simplifier.net/eRezept/KBVPRERPMedicationPZN/~overview)
+
+In diesem Profil werden die Rezeptierdaten einer Verordnung aus den Preis- und Produktverzeichnissen nach § 131 SGB V abgebildet. 
+
+| Element | Datentyp | Beschreibung | 
+| --- | --- |  --- |
+| `Kategorie` | string | | 
+| `Impfstoff` | boolean | |
+
+
+#### A.2.1.3 [KBV_PR_ERP_Medication_Ingredient](https://simplifier.net/erezept/kbvprerpmedicationingredient)
+#### A.2.1.4 [KBV_PR_ERP_Medication_Compounding](https://simplifier.net/eRezept/KBVPRERPMedicationCompounding/~overview)
 
 #### A.2.1.1 [KBV_PR_ERP_Medication_FreeText](https://simplifier.net/eRezept/KBVPRERPMedicationFreeText/)
+
+Die Freitext-Verordnung 
 
 
 ### A.2.2 AvailablePrescriptionList 
