@@ -36,8 +36,17 @@ Der grundlegende Ablauf für das Einlösen von E-Rezepten ist im nachfolgenden S
 * `(34)` - Die App zeigt den Status schließlich dem Nutzer an.
 
 ## A.2 Nachrichten jenseits der gematik-Spezifikationen
+Für die Kommunikation zwischen AVS und App müssen unter Berücksichtigung der entsprechenden FHIR-Strukturen ( ) und der zugehörigen "Technischen Anlage zur elektronischen Arzneimittelverordnung (E16A)" [[KBV_ITA_VGEX_TECHNISCHE_ANLAGE_ERP]](https://update.kbv.de/ita-update/DigitaleMuster/ERP/KBV_ITA_VGEX_Technische_Anlage_ERP.pdf) der Kassenärztlichen Bundesvereinigung folgende Datenstrukturen und Nachrichten definiert werden:
+* MedicationSummary
+* AvailablePrescriptionList 
+* SelectedPrescriptionList
 
-### A.2.1 PrescriptionSummary
+### A.2.1 MedicationSummary
+Die MedicationSummary-Datenstruktur enthält die Essenz einer elektronischen Verordnung in den in den folgenden Unterabschnitten vorgesehenen Ausprägungen:
+* KBV_PR_ERP_Medication_FreeText
+
+#### A.2.1.1 [KBV_PR_ERP_Medication_FreeText](https://simplifier.net/eRezept/KBVPRERPMedicationFreeText/)
+
 
 ### A.2.2 AvailablePrescriptionList 
 
