@@ -37,10 +37,11 @@ Der grundlegende Ablauf für das Einlösen von E-Rezepten ist im nachfolgenden S
 
 ## A.2 Nachrichten jenseits der gematik-Spezifikationen
 Für die Kommunikation zwischen AVS und App müssen unter Berücksichtigung der entsprechenden FHIR-Profile 
-* [KBV_PR_ERP_Medication_FreeText](https://simplifier.net/eRezept/KBVPRERPMedicationFreeText/~overview)
+
 * [KBV_PR_ERP_Medication_PZN](https://simplifier.net/eRezept/KBVPRERPMedicationPZN/~overview)
 * [KBV_PR_ERP_Medication_Ingredient](https://simplifier.net/erezept/kbvprerpmedicationingredient)
 * [KBV_PR_ERP_Medication_Compounding](https://simplifier.net/eRezept/KBVPRERPMedicationCompounding/~overview)
+* [KBV_PR_ERP_Medication_FreeText](https://simplifier.net/eRezept/KBVPRERPMedicationFreeText/~overview)
    
 der Ressource [Medication](https://build.fhir.org/medication.html) und der zugehörigen "Technischen Anlage zur elektronischen Arzneimittelverordnung (E16A)" [[KBV_ITA_VGEX_TECHNISCHE_ANLAGE_ERP]](https://update.kbv.de/ita-update/DigitaleMuster/ERP/KBV_ITA_VGEX_Technische_Anlage_ERP.pdf) der Kassenärztlichen Bundesvereinigung folgende Datenstrukturen und Nachrichten definiert werden:
 
@@ -49,7 +50,7 @@ der Ressource [Medication](https://build.fhir.org/medication.html) und der zugeh
 * SelectedPrescriptionList
 
 ### A.2.1 MedicationSummary
-Die MedicationSummary-Datenstruktur enthält die Rezeptierdaten  einer elektronischen Verordnung in den verschiedenen Ausprägungen. 
+Die MedicationSummary-Datenstruktur enthält die Rezeptierdaten  einer elektronischen Verordnung in den verschiedenen oben genannten Ausprägungen. 
 
 Choice!
 
@@ -59,58 +60,63 @@ In diesem Profil werden die Rezeptierdaten einer Verordnung aus den Preis- und P
 
 | Element | Datentyp | Beschreibung | 
 | --- | --- |  --- |
-| `Kategorie` | string | 81 | 
-| `Impfstoff` | boolean | 84 |
-| `PZN` | string | 115 | 
-| `Handelsname` | string | 116 |
-| `Darreichungsform` | string | 103 | 
-| `PackungsgroesseNachMenge` | string | 111 |
-| `Einheit` | string | 112 | 
-| `PackungsgroesseNachNBezeichnung` | string | 110 |
+| `Kategorie` | string | Dieses Feld enthält die Kennzeichnung der Verordnungskategorie, bspw. für ein BtM-Rezept. | 
+| `Impfstoff` | boolean | Dieses Feld enthält die Kennzeichnung, ob es sich bei der Verordnung um Impfstoff handelt. |
+| `PZN` | string | Dieses Feld enthält die Pharmazentralnummer (PZN), die von der Informationsstelle für Arzneispezialitäten IFA, Frankfurt produktbezogen vergeben wird und für die gesetzlichen Krankenkassen gemäß Vereinbarungen nach § 131 SGB V mit der Pharmazeutischen Industrie und nach § 300 SGB V mit dem Deutschen Apothekerverband vereinbart ist. Die Angaben Handelsname, Darreichungsform, Packungsgröße usw. entstammen den Preis- und Produktangaben nach § 131 Abs. 4 SGB V. | 
+| `Handelsname` | string | Dieses Feld enthält den Handelsnamen des verordneten Präparates, welcher aus der PZN abgeleitet wird. |
+| `Darreichungsform` | string | Dieses Feld enthält die Angabe der Darreichungsform entsprechend der Daten nach § 131 Abs. 4 SGB V und ist immer zu verwenden, wenn ein Fertigarzneimittel gemäß Preis- und Produktverzeichnis verordnet wird. | 
+| `PackungsgroesseNachMenge` | string | Dieses Feld enthält die Packungsgröße (z.B. 100) und tritt nur in Verbindung mit „Einheit“ auf (z.B. 100 Stück). | 
+| `Einheit` | string | Dieses Feld enthält die Einheit (z.B. Stück) und tritt nur in Verbindung mit „Packungsgröße nach abgeteilter Menge“ auf (z.B. 100 Stück). | 
+| `PackungsgroesseNachNBezeichnung` | string | Dieses Feld enthält die Normgröße der therapiegerechten Packung (z.B. N1). |
 
 #### A.2.1.3 [KBV_PR_ERP_Medication_Ingredient](https://simplifier.net/erezept/kbvprerpmedicationingredient)
 
-In diesem Profil werden die Rezeptierdaten einer Wirkstoffverordnung abgebildet. 
+In diesem Profil werden die Rezeptierdaten einer **Wirkstoffverordnung** abgebildet. 
 
 | Element | Datentyp | Beschreibung | 
 | --- | --- |  --- |
-| `Kategorie` | string | 81 | 
-| `Impfstoff` | boolean | 84 |
-| `Wirkstoffnummer` | string | 118 | 
-| `Wirkstoffname` | string | 119 | 
-| `Wirkstaerke` | string | 120 | 
-| `Wirkstaerkeneinheit` | string | 121 | 
-| `Darreichungsform` | string | 104 (nicht 103!) | 
-| `PackungsgroesseNachMenge` | string | 111 |
-| `Einheit` | string | 112 | 
-| `PackungsgroesseNachNBezeichnung` | string | 110 |
+| `Kategorie` | string | siehe oben | 
+| `Impfstoff` | boolean | siehe oben |
+| `Wirkstoffnummer` | string | Dieses Feld enthält eine ASK-Nummer (Arzneimittelstoffkatalog-Nummer). | 
+| `Wirkstoffname` | string | Dieses Feld enthält einen Wirkstoffnamen für ein Wirkstoff- bzw. sonstiges Fertigarzneimittel oder ein Produkt, welches nicht nach § 131 Abs. 4 SGB V gelistet ist. | 
+| `Wirkstaerke` | string | Dieses Feld enthält eine Angabe der Wirkstärke. Diese ermittelt sich durch die Angabe von Wirkstoffmenge /Bezugsgrößenmenge. Die zugehörige Einheit ist im Feld "Wirkstärkeneinheit" anzugeben. | 
+| `Wirkstaerkeneinheit` | string | Dieses Feld enthält die Einheit der Wirkstärke (bspw. mg/ml). | 
+| `Darreichungsform` | string | Dieses Feld enthält die Darreichungsform als Freitext und kann verwendet werden, wenn es sich nicht um ein Fertigarzneimittel handelt. | 
+| `PackungsgroesseNachMenge` | string | siehe oben |
+| `Einheit` | string | siehe oben | 
+| `PackungsgroesseNachNBezeichnung` | string | siehe oben |
 
 #### A.2.1.4 [KBV_PR_ERP_Medication_Compounding](https://simplifier.net/eRezept/KBVPRERPMedicationCompounding/~overview)
 
-In diesem Profil werden die Rezeptierdaten einer Rezepturverordnung abgebildet.
+In diesem Profil werden die Rezeptierdaten einer **Rezepturverordnung** abgebildet.
 
 | Element | Datentyp | Beschreibung | 
 | --- | --- |  --- |
-| `Kategorie` | string | 81 | 
-| `Impfstoff` | boolean | 84 |
-| `Rezepturname` | string | 118 | 
-| `Gesamtmenge` | string | 119 | 
-| `Einheit` | string | 120 | 
-| `Herstellungsanweisung` | string | 121 | 
-| `Verpackung` | string | 104 (nicht 103!) | 
-| `NameDesBestandteils` | string | 111 |
-| `PZNDesBestandteils` | string | 112 | 
-| `DarreichungsformDesBestandteils` | string | 110 |
-| `MengeDesBestandteils` | string | 110 |
-| `MengeUndEinheitDesBestandteils` | string | 110 |
-| `DarreichungsformDesBestandteils` | string | 110 |
-
-
+| `Kategorie` | string | siehe oben | 
+| `Impfstoff` | boolean | siehe oben |
+| `Rezepturname` | string | Dieses Feld enthält eine Bezeichnung der Rezeptur (z.B. gemäß Deutschem Arzneibuch: Zinkpaste DAB). | 
+| `Gesamtmenge` | string | Dieses Feld enthält die Gesamtmenge der Rezeptur (ohne die Einheit). | 
+| `Einheit` | string | Dieses Feld enthält die Einheit der Gesamtmenge der Rezeptur. | 
+| `Herstellungsanweisung` | string | Dieses Feld enthält Anweisungen bzgl. der Herstellung der Rezeptur (Subscriptio). | 
+| `Verpackung` | string | Dieses Feld enthält Angaben zur Verpackung der Rezeptur, z.B. Transportbehältnisse, und Applikationshilfen. | 
+| `NameDesBestandteils` | string | Dieses Feld enthält die namentliche Bezeichnung des Bestandteils der Rezeptur. Wenn die PZN des Bestandteils vorhanden ist, dann ist der hinter der PZN liegende Name anzugeben. |
+| `PZNDesBestandteils` | string | Dieses Feld enthält die namentliche Bezeichnung des Bestandteils der Rezeptur. Wenn die PZN des Bestandteils vorhanden ist, dann ist der hinter der PZN liegende Name anzugeben. | 
+| `DarreichungsformDesBestandteils` | string | Dieses Feld enthält die Darreichungsform des Bestandteils als Freitext und kann verwendet werden, wenn es sich bei dem Bestandteil der Rezeptur nicht um ein Fertigarzneimittel handelt. |
+| `MengeDesBestandteils` | string | Dieses Feld enthält die Menge des Bestandteils z. B. 100. |
+| `EinheitDesBestandteils` | string | Dieses Feld enthält die Einheit des Bestandteils z.B. mg. |
+| `MengeUndEinheitDesBestandteils` | string | Dieses Feld enthält eine freitextliche Angabe zur Menge und Einheit des Bestandteils und kann insbesondere für klassische lateinische Angaben z.B. „ad 100,0“ oder „quantum satis“ genutzt werden. |
+| `Darreichungsform` | string | siehe oben  |
 
 #### A.2.1.1 [KBV_PR_ERP_Medication_FreeText](https://simplifier.net/eRezept/KBVPRERPMedicationFreeText/)
 
-Die Freitext-Verordnung 
+In diesem Profil werden die Rezeptierdaten einer **freitextlichen Verordnung** abgebildet. 
 
+| Element | Datentyp | Beschreibung | 
+| --- | --- |  --- |
+| `Kategorie` | string | siehe oben | 
+| `Impfstoff` | boolean | siehe oben |
+| `Freitextverordnung` | string | Dieses Feld enthält den Text einer Freitextverordnung. | 
+| `Darreichungsform` | string | siehe oben |
 
 ### A.2.2 AvailablePrescriptionList 
 
