@@ -85,9 +85,10 @@ components:
         - name: availablePrescriptionList
           summary: availablePrescriptionList message
           payload:
+            type: availablePrescriptionList
             availablePrescriptionList: Example follows ASAP
             messageId: e9a148b9-e70a-498e-af0e-358c8226cae8
-            type: availablePrescriptionList
+            
 
     selectedPrescriptionListMessage:
       name: selectedPrescriptionListMessage
@@ -100,14 +101,17 @@ components:
         allOf:
           - $ref: '#/components/schemas/selectedPrescriptionList'
           - $ref: '#/components/schemas/messageIdTrait'
-          - $ref: '#/components/schemas/correlationIdOptionalTrait'
-      examples:
+        examples:
         - name: selectedPrescriptionList
           summary: selectedPrescriptionList message
           payload:
-            messageId: e9a148b9-e70a-498e-af0e-358c8226cae8
             type: selectedPrescriptionList
-            selectedPrescriptionListMessage: Example follows ASAP
+            selectedPrescriptionListMessage: 
+              medicationIndexList:
+                index: 0
+              supplyOptionsType:
+                type: onPremise
+            messageId: e9a148b9-e70a-498e-af0e-358c8226cae8
 
     genericErrorMessage:
       name: error
