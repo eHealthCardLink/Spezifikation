@@ -85,10 +85,61 @@ components:
         - name: availablePrescriptionList
           summary: availablePrescriptionList message
           payload:
-            type: availablePrescriptionList
-            availablePrescriptionList: Example follows ASAP
+            availablePrescriptionList:
+              type: availablePrescriptionList
+                      - medicationSummary:
+                        index: 0
+                        medication:
+                          type: medicationPZN
+                          kategorie: 00
+                          impfstoff: false
+                          normgroesse: N3
+                          pzn: 06313728
+                          handelsname: Sumatriptan-1a Pharma 100 mg Tabletten
+                          darreichungsform: TAB
+                          packungsgroesseNachMenge: 12
+                          einheit: TAB
+                        index: 1
+                        medication:
+                          type: medicationIngredient
+                          kategorie: 00
+                          impfstoff: false
+                          normgroesse: N3
+                          darreichungsform: Tabletten
+                          packungsgroesseNachMenge: 100
+                          einheit: Stück
+                          listeBestandteilWirkstoffverordnung:
+                            - type: bestandteilWirkstoffverordnung
+                              wirkstoffnummer: 22686
+                              wirkstoffname: Ramipril
+                              wirkstaerke: 5
+                              wirkstaerkeneinheit: mg
+                        index: 2
+                        medication:
+                          type: medicationCompounding
+                          kategorie: 00
+                          impfstoff: false
+                          herstellungsanweisung: Lösung
+                          verpackung:
+                          rezepturname:
+                          darreichungsform:
+                          gesamtmenge: 100
+                          einheit: ml
+                          listeBestandteilRezepturverordnung:
+                            - type: bestandteilRezepturverordnung
+                              name: Salicylsäure
+                              menge: 5
+                              einheit: g
+                            - name: 2-propanol 70 %
+                              mengeUndEinheit: Ad 100 g
+                        index: 3
+                        medication:
+                          type: medicationFreeText
+                          kategorie: 00
+                          impfstoff: false
+                          freitextverordnung: Metformin 850mg Tabletten N3
+                      - hint: Sie erreichen uns nun telefonisch unter +49 123 456 7890.
             messageId: e9a148b9-e70a-498e-af0e-358c8226cae8
-            
 
     selectedPrescriptionListMessage:
       name: selectedPrescriptionListMessage
@@ -106,11 +157,14 @@ components:
           summary: selectedPrescriptionList message
           payload:
             type: selectedPrescriptionList
-            selectedPrescriptionListMessage: 
+            selectedPrescriptionListMessage:
               medicationIndexList:
-                index: 0
+                index: [0,3]
               supplyOptionsType:
-                type: onPremise
+                type: delivery
+              name: Nachbar: Heinz Müller (2. OG)
+              hint: Bitte beim Nachbarn (Heinz Müller (2. OG)) abgeben und bei Belieferung anrufen.
+              phone: +49 89 123 456789
             messageId: e9a148b9-e70a-498e-af0e-358c8226cae8
 
     genericErrorMessage:
@@ -154,7 +208,7 @@ components:
       required:
         - medicationSummaryList
       properties:
-        type: 
+        type:
           type: string
           const: availablePrescriptionList
         medicationSummaryList:
@@ -387,9 +441,9 @@ components:
         listeBestandteilWirkstoffverordnung:
           type: array
           description: List of ingredients
-          items: 
+          items:
             type: bestandteilWirkstoffverordnung
-          
+
     medicationCompounding:
       type: object
       required:
@@ -433,9 +487,9 @@ components:
         listeBestandteilRezepturverordnung:
           type: array
           description: List of ingredients
-          items: 
+          items:
             type: bestandteilRezepturverordnung
-          
+
     medicationFreeText:
       type: object
       required:
@@ -488,9 +542,11 @@ components:
           allOf:
             $ref: '#/components/schemas/index'
         supplyOptionsType:
-          type: supplyOptionsType
+          type: object
           description: Allows the user to choose between different delivery options,
             such as onPremise, shipment and delivery.
+          allOf:
+            - $ref: '#/components/schemas/supplyOptionsType'
         name:
           type: string
           maxLength: 100
