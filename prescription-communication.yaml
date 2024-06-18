@@ -24,9 +24,9 @@ channels:
   prescriptionExchange:
     address: /
     messages:
-      sessionStatusMessage:
+      availablePrescriptionListMessage:
         $ref: '#/components/messages/availablePrescriptionListMessage'
-      requestSMSCodeMessage:
+      selectedPrescriptionListMessage:
         $ref: '#/components/messages/selectedPrescriptionListMessage'
       genericErrorMessage:
         $ref: '#/components/messages/genericErrorMessage'
@@ -58,7 +58,7 @@ operations:
     channel:
       $ref: '#/channels/prescriptionExchange'
     messages:
-      - $ref: '#/channels/cardExchange/messages/selectedPrescriptionListMessage'
+      - $ref: '#/channels/prescriptionExchange/messages/selectedPrescriptionListMessage'
   sendGenericErrorMessage:
     action: send
     title: Generic Error
@@ -146,11 +146,13 @@ components:
 
     availablePrescriptionList:
       type: object
+      description: List of available prescriptions
       required:
         - medicationSummaryList
       properties:
-        type: string
-        const: availablePrescriptionList
+        type: 
+          type: string
+          const: availablePrescriptionList
         medicationSummaryList:
           type: array
           allOf:
@@ -381,10 +383,9 @@ components:
         listeBestandteilWirkstoffverordnung:
           type: array
           description: List of ingredients
-          items: {
-                   type: bestandteilWirkstoffverordnung
-          }
-
+          items: 
+            type: bestandteilWirkstoffverordnung
+          
     medicationCompounding:
       type: object
       required:
@@ -428,10 +429,9 @@ components:
         listeBestandteilRezepturverordnung:
           type: array
           description: List of ingredients
-          items: {
+          items: 
             type: bestandteilRezepturverordnung
-          }
-
+          
     medicationFreeText:
       type: object
       required:
@@ -476,8 +476,9 @@ components:
         - medicationIndexList
         - supplyOptionsType
       properties:
-        type: string
-        const: selectedPrescriptionList
+        type:
+          type: string
+          const: selectedPrescriptionList
         medicationIndexList:
           type: array
           allOf:
