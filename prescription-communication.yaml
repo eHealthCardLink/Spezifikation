@@ -24,6 +24,8 @@ channels:
   prescriptionExchange:
     address: /
     messages:
+      requestPrescriptionListMessage:
+        $ref: '#/components/messages/requestPrescriptionListMessage'
       availablePrescriptionListMessage:
         $ref: '#/components/messages/availablePrescriptionListMessage'
       selectedPrescriptionListMessage:
@@ -43,6 +45,14 @@ channels:
               description: Version of the API required by the client
 
 operations:
+  requestPrescriptionListMessage:
+    action: receive
+    title: Receive request to list available prescriptions
+    summary: Receive request to list available prescriptions from the Pharmacy App to the Pharmacy System via the eHealth-CardLink service
+    channel:
+      $ref: '#/channels/prescriptionExchange'
+    messages:
+      - $ref: '#/channels/prescriptionExchange/messages/requestPrescriptionListMessage'
   availablePrescriptionListMessage:
     action: send
     title: Send list of available prescriptions
@@ -70,76 +80,104 @@ operations:
 
 components:
   messages:
+    requestPrescriptionListMessage:
+      name: requestPrescriptionListMessage
+      title: Receive request to list available prescriptions
+      summary: Receive request to list available prescriptions from the Pharmacy App to the Pharmacy System via the eHealth-CardLink service
+      contentType: application/json
+      payload:
+        title: requestPrescriptionList
+        type: object
+        allOf:
+          - $ref: '#/components/schemas/requestPrescriptionList'
+          - $ref: '#/components/schemas/messageIdTrait'
+      examples:
+        - name: requestPrescriptionList_single
+          summary: requestPrescriptionList single ICCSN message
+          payload:
+            type: requestPrescriptionList
+            ICCSNs:
+              - MTIzNDU2Nzg5
+            messageId: df094bd9-4669-458a-b47f-8330e8254306
+        - name: requestPrescriptionList_all
+          summary: requestPrescriptionList all ICCSNs message
+          payload:
+            type: requestPrescriptionList
+            messageId: df094bd9-4669-458a-b47f-8330e8254306
     availablePrescriptionListMessage:
       name: availablePrescriptionListMessage
       title: Send List of Available Prescriptions
       summary: Send list of available prescriptions from the Pharmacy System to the Pharmacy App via the eHealth-CardLink service
       contentType: application/json
       payload:
-        title: availablePrescriptionList
+        title: availablePrescriptionLists
         type: object
         allOf:
-          - $ref: '#/components/schemas/availablePrescriptionList'
+          - $ref: '#/components/schemas/availablePrescriptionLists'
           - $ref: '#/components/schemas/messageIdTrait'
+          - $ref: '#/components/schemas/correlationIdTrait'
       examples:
         - name: availablePrescriptionList
           summary: availablePrescriptionList message
           payload:
-            type: availablePrescriptionList
-            iccsn: MTIzNDU2Nzg5
-            medicationSummaryList:
-              - index: 0
-                medication:
-                  type: medicationPZN
-                  kategorie: 00
-                  impfstoff: false
-                  normgroesse: N3
-                  pzn: 06313728
-                  handelsname: Sumatriptan-1a Pharma 100 mg Tabletten
-                  darreichungsform: TAB
-                  packungsgroesseNachMenge: 12
-                  einheit: TAB
-              - index: 1
-                medication:
-                  type: medicationIngredient
-                  kategorie: 00
-                  impfstoff: false
-                  normgroesse: N3
-                  darreichungsform: Tabletten
-                  packungsgroesseNachMenge: 100
-                  einheit: Stück
-                  listeBestandteilWirkstoffverordnung:
-                    - type: bestandteilWirkstoffverordnung
-                      wirkstoffnummer: 22686
-                      wirkstoffname: Ramipril
-                      wirkstaerke: 5
-                      wirkstaerkeneinheit: mg
-              - index: 2
-                medication:
-                  type: medicationCompounding
-                  kategorie: 00
-                  impfstoff: false
-                  herstellungsanweisung: Lösung
-                  verpackung:
-                  rezepturname:
-                  darreichungsform:
-                  gesamtmenge: 100
-                  einheit: ml
-                  listeBestandteilRezepturverordnung:
-                    - type: bestandteilRezepturverordnung
-                      name: Salicylsäure
-                      menge: 5
-                      einheit: g
-                    - name: 2-propanol 70 %
-                      mengeUndEinheit: Ad 100 g
-              - index: 3
-                medication:
-                  type: medicationFreeText
-                  kategorie: 00
-                  impfstoff: false
-                  freitextverordnung: Metformin 850mg Tabletten N3
-            hint: Sie erreichen uns nun telefonisch unter +49 123 456 7890.
+            type: availablePrescriptionLists
+            availablePrescriptionLists:
+            - type: availablePrescriptionList
+              ICCSN: MTIzNDU2Nzg5
+              medicationSummaryList:
+                - index: 0
+                  medication:
+                    type: medicationPZN
+                    kategorie: 00
+                    impfstoff: false
+                    normgroesse: N3
+                    pzn: 06313728
+                    handelsname: Sumatriptan-1a Pharma 100 mg Tabletten
+                    darreichungsform: TAB
+                    packungsgroesseNachMenge: 12
+                    einheit: TAB
+                - index: 1
+                  medication:
+                    type: medicationIngredient
+                    kategorie: 00
+                    impfstoff: false
+                    normgroesse: N3
+                    darreichungsform: Tabletten
+                    packungsgroesseNachMenge: 100
+                    einheit: Stück
+                    listeBestandteilWirkstoffverordnung:
+                      - type: bestandteilWirkstoffverordnung
+                        wirkstoffnummer: 22686
+                        wirkstoffname: Ramipril
+                        wirkstaerke: 5
+                        wirkstaerkeneinheit: mg
+                - index: 2
+                  medication:
+                    type: medicationCompounding
+                    kategorie: 00
+                    impfstoff: false
+                    herstellungsanweisung: Lösung
+                    verpackung:
+                    rezepturname:
+                    darreichungsform:
+                    gesamtmenge: 100
+                    einheit: ml
+                    listeBestandteilRezepturverordnung:
+                      - type: bestandteilRezepturverordnung
+                        name: Salicylsäure
+                        menge: 5
+                        einheit: g
+                      - name: 2-propanol 70 %
+                        mengeUndEinheit: Ad 100 g
+                - index: 3
+                  medication:
+                    type: medicationFreeText
+                    kategorie: 00
+                    impfstoff: false
+                    freitextverordnung: Metformin 850mg Tabletten N3
+              hint: Sie erreichen uns nun telefonisch unter +49 123 456 7890.
             messageId: e9a148b9-e70a-498e-af0e-358c8226cae8
+            correlationId: df094bd9-4669-458a-b47f-8330e8254306
 
     selectedPrescriptionListMessage:
       name: selectedPrescriptionListMessage
@@ -209,6 +247,37 @@ components:
       type: string
       format: byte
       description: ICCSN (Integrated Circuit Card Serial Number) of the eHealth card
+
+    requestPrescriptionList:
+      type: object
+      description: List of available prescriptions
+      required:
+        - type
+      properties:
+        type:
+          type: string
+          const: requestPrescriptionList
+        ICCSNs:
+          description: The ICCSNs for which to request prescriptions, or all ICCNs know to the server if the array is empty or absent
+          type: array
+          minItems: 0
+          items:
+            - $ref: '#/components/schemas/ICCSN'
+
+    availablePrescriptionLists:
+        type: object
+        description: List of available prescription lists
+        required:
+            - type
+            - availablePrescriptionLists
+        properties:
+          type:
+            type: string
+            const: availablePrescriptionLists
+          availablePrescriptionLists:
+            type: array
+            items:
+              - $ref: '#/components/schemas/availablePrescriptionList'
 
     availablePrescriptionList:
       type: object
