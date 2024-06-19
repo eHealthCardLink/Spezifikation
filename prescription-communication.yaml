@@ -210,6 +210,7 @@ components:
       description: List of available prescriptions
       required:
         - iccsn
+        - type
         - medicationSummaryList
       properties:
         type:
@@ -539,6 +540,7 @@ components:
       type: object
       required:
         - iccsn
+        - type
         - medicationIndexList
         - supplyOptionsType
       properties:
