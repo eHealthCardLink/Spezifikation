@@ -30,7 +30,7 @@ Die Spezifikationen in diesem Dokument werden durch die folgenden [asyncapi](htt
 * [eHealth-CardLink Card Communication Interface](https://github.com/eHealthCardLink/api-ehcl-proposal/blob/additional-messages-reworked/ehcl/asyncapi.yaml) der eHealth-CardLink-Taskforce
 
 > [!NOTE]  
-> Die gematik GmbH hat am 17.06.2024 zu verstehen gegeben, dass in Kürze eine Aktualisierung ihrer derzeitn pezifikation erfolgen soll,
+> Die gematik GmbH hat am 17.06.2024 zu verstehen gegeben, dass in Kürze eine Aktualisierung ihrer derzeitigen Spezifikation erfolgen soll,
 > welche die derzeit nicht mögliche Schemavalidierung und die nicht zur Spezifikation passenden Beispielnachrichten korrigieren wird. 
 
 ## Versionierung
