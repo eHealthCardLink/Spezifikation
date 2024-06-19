@@ -225,7 +225,7 @@ components:
           $ref: '#/components/schemas/ICCSN'
         medicationSummaryList:
           type: array
-          allOf:
+          items:
             - $ref: '#/components/schemas/medicationSummary'
         hint:
           type: string
