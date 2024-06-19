@@ -19,12 +19,13 @@
   </ol>
 </details>
 
-## [Über dieses Dokument](#ueber-dieses-dokument)
+## Über dieses Dokument
 
 Dieses Dokument wurde in der [eHealth-CardLink-Taskforce](https://github.com/eHealthCardLink) entwickelt und ist die
-**Basisspezifikation** für den eHealth-CardLink-Ablauf, der auf [gemSpec_eHealth-CardLink](https://gemspec.gematik.de/downloads/gemSpec/gemSpec_eHealth-CardLink/gemSpec_eHealth-CardLink_V1.0.0.pdf) aufbaut
-und diese Spezifikation ergänzt.
+**Basisspezifikation** für den eHealth-CardLink-Ablauf, der auf [gemSpec_eHealth-CardLink](https://gemspec.gematik.de/downloads/gemSpec/gemSpec_eHealth-CardLink/gemSpec_eHealth-CardLink_V1.0.0.pdf) aufbaut und diese Spezifikation ergänzt.
+
 Die Spezifikationen in diesem Dokument werden durch die folgenden [asyncapi](https://www.asyncapi.com/)-Spezifikationen ergänzt:
+
 * [eHealth-CardLink Card Communication Interface](https://github.com/gematik/api-ehcl/blob/main/ehcl/asyncapi.yaml) der gematik GmbH 
 * [eHealth-CardLink Card Communication Interface](https://github.com/eHealthCardLink/api-ehcl-proposal/blob/additional-messages-reworked/ehcl/asyncapi.yaml) der eHealth-CardLink-Taskforce
 
@@ -33,7 +34,6 @@ Die Spezifikationen in diesem Dokument werden durch die folgenden [asyncapi](htt
 > welche die derzeit nicht mögliche Schemavalidierung und die nicht zur Spezifikation passenden Beispielnachrichten korrigieren wird. 
 
 ## Versionierung
-(#versionierung)
 
 | Version | Datum | Beschreibung der wesentlichen Änderungen | 
 | --- | --- |  --- |
@@ -54,29 +54,118 @@ SOLL NICHT, KANN gekennzeichnet.
 # 2. Generische Basisspezifikation
 
 ## 2.1 Überblick
-Die vorliegende Basisspezifikation ergänzt die eHealth-CardLink-Spezifkation [gemSpec_eHealth-CardLink](https://gemspec.gematik.de/downloads/gemSpec/gemSpec_eHealth-CardLink/gemSpec_eHealth-CardLink_V1.0.0.pdf) der gematik dahingehend, dass zusätzlich zum dort spezifizierten "Hinweg" von der App zum Primärsystem (PS) eines Leistungserbringers (z.B. Apothekenverwaltungssystem (AVS) einer Apotheke oder Praxisverwaltungssystem (PVS) eines Arztes oder Zahnarztes) hier der "Rückweg" vom PS zur App - das so genannte "**application_interface**" spezifiziert wird. 
+Die vorliegende Spezifikation ergänzt die eHealth-CardLink-Spezifkation [gemSpec_eHealth-CardLink](https://gemspec.gematik.de/downloads/gemSpec/gemSpec_eHealth-CardLink/gemSpec_eHealth-CardLink_V1.0.0.pdf) der gematik dahingehend, dass zusätzlich zum dort spezifizierten "Hinweg" von der App zum Primärsystem (PS) eines Leistungserbringers (z.B. Apothekenverwaltungssystem (AVS) einer Apotheke oder Praxisverwaltungssystem (PVS) eines Arztes oder Zahnarztes) hier der "Rückweg" vom PS zur App - das so genannte "**application_interface**" spezifiziert wird. 
+
 ![eHealth-CardLink-detailbild](https://github.com/eHealthCardLink/Spezifikation/assets/166988235/fb2bb66b-5605-4cc9-b9b8-d2f1e6127d00)
 
-Darüber hinaus haben Detailbetrachtungen gezeigt, dass in der von der gematik bereitgestellten Schnittstellenspezifikation für das [card_interface](https://github.com/gematik/api-ehcl/blob/main/ehcl/asyncapi.yaml) essentielle Nachrichten (z.B. für Behandlung der SMS-TAN) leider komplett fehlen.
+Darüber hinaus haben Detailbetrachtungen gezeigt, dass in der von der gematik bereitgestellten Schnittstellenspezifikation für das [card_interface](https://github.com/gematik/api-ehcl/blob/main/ehcl/asyncapi.yaml) essentielle Nachrichten (z.B. für Behandlung der SMS-TAN) leider bislang komplett fehlen.
+Diese notwendigen Ergänzungen der gematik-Spezifikation finden sich in [Abschnitt 2.3](#zusaetzliche-nachrichten).
 
 ## 2.2 Grundlegende Abläufe beim eHealth-CardLink-Verfahren 
 
-gemäß [gemSpec_eHealth-CardLink](https://gemspec.gematik.de/downloads/gemSpec/gemSpec_eHealth-CardLink/gemSpec_eHealth-CardLink_V1.0.0.pdf)
-
-Der grundlegende Ablauf ist im nachfolgenden Sequenzdiagramm dargestellt, wobei die rot markierten Nachrichten über das derzeit spezifizierte 
-[card_interface](https://github.com/gematik/api-ehcl/blob/main/ehcl/asyncapi.yaml) hinausgehen.
+Der grundlegende Ablauf beim eHealth-CardLink-Verfahren gemäß [gemSpec_eHealth-CardLink](https://gemspec.gematik.de/downloads/gemSpec/gemSpec_eHealth-CardLink/gemSpec_eHealth-CardLink_V1.0.0.pdf) ist im nachfolgenden Sequenzdiagramm dargestellt, wobei die rot markierten Nachrichten über das derzeit von der gematik GmbH spezifizierte [card_interface](https://github.com/gematik/api-ehcl/blob/main/ehcl/asyncapi.yaml) hinausgehen und in [Abschnitt 2.3](#zusaetzliche-nachrichten) näher erläutert sind.
 
 ![Grundlegender eHealth-CardLink-Ablauf](https://github.com/eHealthCardLink/Spezifikation/blob/main/eHealth-CardLink-Ablauf.svg)
 
 Die Nummerierung der Schritte orientiert sich an den sieben in [gemSpec_eHealth-CardLink](https://gemspec.gematik.de/downloads/gemSpec/gemSpec_eHealth-CardLink/gemSpec_eHealth-CardLink_V1.0.0.pdf) (Abschnitt 2.1.1) grob beschriebenen Schritten:
 
-* **(0.a)** - Damit der eHealth-CardLink-Dienst später mit dem Konnektor kommunizieren kann, muss zunächst ein Pairing stattfinden. Detials hierzu finden sich in [gemSpec_Kon](https://fachportal.gematik.de/fachportal-import/files/gemSpec_Kon_V5.21.0.pdf) (Abschnitt 4.1.4.3.3).
-* **(0.b)** - In einem ersten Schritt muss die App installiert und ggf. konfiguriert werden. 
-* **(0.b.1)** - Der Nutzer kann den Zugriff auf den Telefonstatus erlauben. Sofern er den Zugriff ablehnt, muss er später seine Mobilfunknummer von Hand erfassen.
-* **(0.b.2)** - Die App kann entweder systemseitig die Mobilfunknummer (Mobile Subscriber Number, MSN) aus dem Smartphone auslesen oder der Nutzer muss die MSN von Hand erfassen.
+#### 2.2.1 Schritt 0 - Vorbereitende Schritte und SMS-TAN-Verfahren
 
+* `(0.a)` - Damit der eHealth-CardLink-Dienst später mit dem Konnektor kommunizieren kann, muss zunächst ein Pairing stattfinden. Detials hierzu finden sich in [gemSpec_Kon](https://fachportal.gematik.de/fachportal-import/files/gemSpec_Kon_V5.21.0.pdf) (Abschnitt 4.1.4.3.3).
+* `(0.b)` - In einem ersten Schritt muss die App installiert und ggf. konfiguriert werden. 
+* `(0.b.1)` - Der Nutzer bzw. die Nutzerin kann den Zugriff auf den Telefonstatus erlauben. Sofern er den Zugriff ablehnt, muss er später seine Mobilfunknummer von Hand erfassen.
+* `(0.b.2)` - Die App kann entweder systemseitig die Mobilfunknummer (Mobile Subscriber Number, MSN) aus dem Smartphone auslesen oder der Nutzer bzw. die Nutzerin muss die MSN von Hand erfassen.
+* `(0.b.3)` - Sofern das nicht bereits durch die Auslieferung und Installation der App erfolgt ist, muss hier die entsprechende Leistungserbringerinstitution (LEI) konfiguriert werden.
+* `(0.b.4)` - Nun etabliert die App eine Websocket-Verbindung mit dem eHealth-CardLink-Dienst.
+* `(0.b.5)` - Der eHealth-CardLink-Dienst antwortet mit einer **sessionStatus**-Nachricht, die insbesondere die webSocketId enthält, welche die Websocket-Verbindung identifiziert.
+* `(0.b.6)` - Nun wird mit der Nachricht **requestSMSCode** der Versand einer SMS mit einer Transaktionsnummer (TAN) angefordert
+* `(0.b.7)` - In diesem Schritt wird die TAN im eHealth-CardLink-Dienst erzeugt und gespeichert.
+* `(0.b.8)` - Die App erhält eine Nachricht **requestSMSResponse**, so dass sie den Nutzer bzw. die Nutzerin geeignet darauf hinweisen kann, dass die per SMS erhaltene TAN eingegeben werden soll.  
+* `(0.b.9)` - In diesem Schritt wird die TAN per SMS an das Smartphone des Nutzers bzw. der Nutzerin geschickt.
+* `(0.b.10)` - Der Nutzer bzw. die Nutzerin erfasst die erhaltene TAN in der App.
+* `(0.b.11)` - Die TAN wird mit der Nachricht **confirmSMSCode** an den eHealth-CardLink-Dienst geschickt.
+* `(0.b.12)` - Der eHealth-CardLink-Dienst überprüft, ob die im Schritt (0.b.11) erhaltene TAN mit der im Schritt (0.b.7) erzeugten und verschickten TAN übereinstimmt.
+* `(0.b.13)` - Das Ergebnis der TAN-Validierung wird mit der Nachricht **confirmSMSCodeResponse** an die App zurückgemeldet. 
 
- 
+#### 2.2.2 Schritt 1 - eGK mit App kontaktieren und Daten auslesen
+
+Der Nutzer bzw. die Nutzerin hält die eGK an das NFC-fähige Smartphone ("Client des Nutzers").
+Damit "übergibt" sie gewissermaßen die eGK an die an den eHealth-CardLink-Dienst angeschlossene LEI und autorisiert dadurch den nachfolgenden Ablauf zur Erstellung des VSDM-Prüfungsnachweises.
+
+* `(1)` - In diesem Schritt stellt der Nutzer bzw. die Nutzerin die auf der eGK aufgedruckte "Card Access Number" (CAN) und die eGK bereit.
+* `(1.1)` -  Die nutzt die CAN, um das PACE-Protokoll durchzuführen, um eine sichere Verbindung zwischen der eGK und der App zu etablieren.
+* `(1.2)` - In diesem Schritt liest die App die für den weiteren Ablauf notwendigen Daten von der eGK aus.
+
+#### 2.2.3 Schritt 2 - Übermittlung der für den Prüfablauf relevanten Daten
+
+Die für den Prüfablauf relevanten Daten der eGK werden von der App an den eHealth-
+CardLink-Dienst übermittelt.
+
+* `(2)` - Die App überträgt die aus der eGK ausgelesenen Daten in der **registerEGK**-Nachricht an den eHealth-CardLink-Dienst.
+* `(2.1)` - In diesem Schritt wird die Verknüpfung der ICCSN der eGK mit der MSN geprüft.
+* `(2.2)` - Sofern die eGK vorher bereits mit einer anderen MSN verknüpft war, wird die App in diesem Schritt mit der **ICCSNReassignment** Nachricht informiert.
+* `(2.3)` - Sofern die eGK vorher mit einer anderen MSN verknüpft war, wird der Nutzer dieser vorherigen MSN per SMS informiert, um einen potenziellen Missbrauch erkennbar zu machen.
+* `(2.4)` - In diesem Schritt werden die Vorgänge protokolliert.
+* `(2.5)` - Der eHealth-CardLink-Dienst signalisiert dem Konnektor über das SICCT-Protokoll,
+  dass eine eGK verfübar ist.  
+* `(2.6)` - Der Konnektor signalisiert dem Primärsystem, dass eine Karte verfügbar gemacht wurde.  
+* `(2.7)` - Das Primärsystem schickt das **GetCards** Kommando an den Konnektor, um die zur aktuellen Websocket-Session gehörende(n) eGK(s) zu ermitteln.
+* `(2.8)` - Die entsprechenden SICCT-Nachrichten, die zum **GetCards**-Aufruf korrespondieren, wreden an den eHealth-CardLink-Dienst geschickt.
+* `(2.9)` - Die entsprechenden SICCT-Nachrichten, die zum **GetCards**-Aufruf korrespondieren, wreden an den eHealth-CardLink-Dienst geschickt.
+* `(2.10)` - Die **GetCardsResponse**-Nachricht wird samt der zugehörigen ICCSN(s) an das Primärsystem zurückgeliefert.
+
+#### 2.2.4 Schritt 3 - Das Primärsystem ruft ReadVSD am Konnektor auf
+
+Das Primärsystem (PS) ruft die Operation **ReadVSD** am Konnektor auf, wodurch zunächst eine einseitige Authentisierung der eGK durchgeführt wird.
+
+* `(3)` - Das PS ruft **ReadVSD** am Konnektor auf.
+* `(3.1)` - Der Konnektor tauscht mit dem eHealth-CardLink-Dienst die entsprechenden APDUs über SICCT aus, um die notwendigen eGK-Daten zu ermitteln.
+
+> [!WARNING]  
+> Es sei hier darauf hingewiesen, dass die Konnektor-internen Abläufe für das **ReadVSD**-Kommando **nicht** im Details spezifiziert und normiert sind, so dass die genauen Nachrichten bei den verschiedenen Konnektoren deshalb an dieser Stelle in Details voneinander abweichen können.
+
+* `(3.2)` - Der Konnektor schickt über SICCT eine Challenge, die später für die einseitige Authentisierung der eGK genutzt wird.
+* `(3.3)` - Der eHealth-CardLink-Dienst schickt die Challenge in der **sendAPDU**-Nachricht an die App.
+* `(3.4)` - Die App schickt über den etablierten PACE-Kanal die Challenge im INTERNAL_AUTHENTICATE-Chipkartenkommand an die eGK.
+* `(3.5)` - Die eGK erzeugt eine Signatur für die Challenge
+* `(3.6)` - Die eGK schickt im Erfolgsfall die Signatur mit dem Statuscode "90 00" zurück zur App.
+* `(3.7)` - Die App schickt die **sendAPDUResponse**-Nachricht zurück an den eHealth-CardLink-Dienst.
+* `(3.8)` - Der eHealth-CardLink-Dienst schickt über SICCT die entsprechende Antwort an den Konnektor.
+* `(3.9)` - Der Konnektor validiert die Signatur, wodurch die Echtheit der eGK nachgewiesen ist.
+
+#### 2.2.5 Schritt 4 - Das Fachmodul VSDM startet die Onlineprüfung der eGK
+
+Das Fachmodul VSDM startet die Onlineprüfung und Gültigkeitsprüfung der eGK.
+
+* `(4)` - Das VSDM-Fachmodul im Konnektor startet die Online-Gültigkeitsprüfung der eGK in Verbindung mit dem VSDM-Fachdienst.
+
+#### 2.2.6 Schritt 5 - Das Fachmodul VSDM im Konnektor führt Onlineprüfung der eGK durch
+
+Der Fachdienst VSDM (UFS oder VSDD) verwendet als fachliche Information für die
+Prüfziffer u.a. die KVNR und den aktuellen Zeitpunkt als Zeitstempel. Es wird mit dem
+betreiberspezifischen Geheimnis ein Hashwert über die fachlichen Informationen
+gebildet. Die fachlichen Informationen bilden zusammen mit dem Hashwert die
+Prüfziffer. 
+
+* `(5)` - Das VSDM-Fachmodul im Konnektor führt die restliche Online-Gültigkeitsprüfung der eGK in Verbindung mit dem VSDM-Fachdienst durch und liefert die Prüfziffer an den Konnektor zurück.
+
+#### 2.2.7 Schritt 6 - Das Fachmodul VSDM im Konnektor erstellt den Prüfungsnachweis
+
+* `(6)` - Das Fachmodul VSDM im Konnektor erstellt den Prüfungsnachweis und fügt die vom Fachdienst
+VSDM erhaltene Prüfziffer ein.
+
+#### 2.2.7 Schritt 7 - Der Konnektor liefert den Prüfungsnachweis in ReadVSDResponse zurück
+
+Das Fachmodul VSDM liefert im Response die Versichertenstammdaten und den
+Prüfungsnachweis an das PS. 
+
+* `(7)` - Der Konnektor liefert in der ReadVSDResponse-Nachricht den Prüfungsnachweis zurück an das Primärsystem.
+* `(7.1)` - Um den eHealth-CardLink-Dienst und später die App auf möglicherweise folgende anwendungsspezifische Nachrichten vorzubereiten, etabliert das Primärsystem eine Websocket-Verbindung, die zur entsprechenden ICCSN bzw. eGK korrespondiert.
+* `(7.2)` - Der eHealth-CardLink-Dienst liefert die entsprechende webSocketId in der **sessionStatus**-Nachricht an das Primärsystem zurück.
+* `(7.3)` - Der eHealth-CardLink-Dienst schickt die Nachricht **RegisterEGKFinish** an die App, um zu signalisieren, dass im Erfolgsfall nun anwendungsspezifische Abläufe, wie in [Abschnitt 3.2](ergaenzungsmodule) aufgelistet folgen können.
+
+## 2.3 [Nachrichten jenseits der gematik-Spezifikation](#zusaetzliche-nachrichten) 
+
 # 3. Anwendungsfallspezifische Ergänzungsmodule
 
 ## 3.1 Generelle Anforderungen an das application_interface
@@ -85,7 +174,7 @@ Für das application_interface existieren folgende Anforderungen:
 * `TF_02` Für den Datenaustausch im application_interface zwischen App und eHealth-CardLink MUSS der bereits etablierte TLS-Kanal genutzt werden, über den auch der Datenaustausch beim card_interface erfolgt.
 * `TF_03` Für den Datenaustausch im application_interface zwischen AVS und eHealth-CardLink MUSS ein separater TLS-Kanal aufgebaut werden. 
 
-## 3.2 Existierende und geplante anwendungsspezifische Ergänzungsmodule
+## 3.2 [Existierende und geplante anwendungsspezifische Ergänzungsmodule](#ergaenzungsmodule)
 
 | Anhang | Version | Datum | Beschreibung des anwendungsspezifischen Ergänzungsmoduls | 
 | --- | --- |  --- | --- |
