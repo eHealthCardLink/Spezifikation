@@ -164,8 +164,7 @@ components:
                 - 1
                 - 2
                 - 3
-              supplyOptionsType:
-                type: delivery
+              supplyOptionsType: delivery
               name: "Nachbar: Heinz Müller (2. OG)"
               hint: Bitte beim Nachbarn (Heinz Müller (2. OG)) abgeben und bei Belieferung anrufen.
               phone: +49 89 123 456789
@@ -554,11 +553,9 @@ components:
           items:
             - $ref: '#/components/schemas/index'
         supplyOptionsType:
-          type: object
           description: Allows the user to choose between different delivery options,
             such as onPremise, shipment and delivery.
-          allOf:
-            - $ref: '#/components/schemas/supplyOptionsType'
+          $ref: '#/components/schemas/supplyOptionsType'
         name:
           type: string
           maxLength: 100
