@@ -85,60 +85,59 @@ components:
         - name: availablePrescriptionList
           summary: availablePrescriptionList message
           payload:
-            availablePrescriptionList:
-              type: availablePrescriptionList
-                      - medicationSummary:
-                        index: 0
-                        medication:
-                          type: medicationPZN
-                          kategorie: 00
-                          impfstoff: false
-                          normgroesse: N3
-                          pzn: 06313728
-                          handelsname: Sumatriptan-1a Pharma 100 mg Tabletten
-                          darreichungsform: TAB
-                          packungsgroesseNachMenge: 12
-                          einheit: TAB
-                        index: 1
-                        medication:
-                          type: medicationIngredient
-                          kategorie: 00
-                          impfstoff: false
-                          normgroesse: N3
-                          darreichungsform: Tabletten
-                          packungsgroesseNachMenge: 100
-                          einheit: Stück
-                          listeBestandteilWirkstoffverordnung:
-                            - type: bestandteilWirkstoffverordnung
-                              wirkstoffnummer: 22686
-                              wirkstoffname: Ramipril
-                              wirkstaerke: 5
-                              wirkstaerkeneinheit: mg
-                        index: 2
-                        medication:
-                          type: medicationCompounding
-                          kategorie: 00
-                          impfstoff: false
-                          herstellungsanweisung: Lösung
-                          verpackung:
-                          rezepturname:
-                          darreichungsform:
-                          gesamtmenge: 100
-                          einheit: ml
-                          listeBestandteilRezepturverordnung:
-                            - type: bestandteilRezepturverordnung
-                              name: Salicylsäure
-                              menge: 5
-                              einheit: g
-                            - name: 2-propanol 70 %
-                              mengeUndEinheit: Ad 100 g
-                        index: 3
-                        medication:
-                          type: medicationFreeText
-                          kategorie: 00
-                          impfstoff: false
-                          freitextverordnung: Metformin 850mg Tabletten N3
-                      - hint: Sie erreichen uns nun telefonisch unter +49 123 456 7890.
+            type: availablePrescriptionList
+            medicationSummaryList:
+              - index: 0
+                medication:
+                  type: medicationPZN
+                  kategorie: 00
+                  impfstoff: false
+                  normgroesse: N3
+                  pzn: 06313728
+                  handelsname: Sumatriptan-1a Pharma 100 mg Tabletten
+                  darreichungsform: TAB
+                  packungsgroesseNachMenge: 12
+                  einheit: TAB
+              - index: 1
+                medication:
+                  type: medicationIngredient
+                  kategorie: 00
+                  impfstoff: false
+                  normgroesse: N3
+                  darreichungsform: Tabletten
+                  packungsgroesseNachMenge: 100
+                  einheit: Stück
+                  listeBestandteilWirkstoffverordnung:
+                    - type: bestandteilWirkstoffverordnung
+                      wirkstoffnummer: 22686
+                      wirkstoffname: Ramipril
+                      wirkstaerke: 5
+                      wirkstaerkeneinheit: mg
+              - index: 2
+                medication:
+                  type: medicationCompounding
+                  kategorie: 00
+                  impfstoff: false
+                  herstellungsanweisung: Lösung
+                  verpackung:
+                  rezepturname:
+                  darreichungsform:
+                  gesamtmenge: 100
+                  einheit: ml
+                  listeBestandteilRezepturverordnung:
+                    - type: bestandteilRezepturverordnung
+                      name: Salicylsäure
+                      menge: 5
+                      einheit: g
+                    - name: 2-propanol 70 %
+                      mengeUndEinheit: Ad 100 g
+              - index: 3
+                medication:
+                  type: medicationFreeText
+                  kategorie: 00
+                  impfstoff: false
+                  freitextverordnung: Metformin 850mg Tabletten N3
+            hint: Sie erreichen uns nun telefonisch unter +49 123 456 7890.
             messageId: e9a148b9-e70a-498e-af0e-358c8226cae8
 
     selectedPrescriptionListMessage:
@@ -152,17 +151,20 @@ components:
         allOf:
           - $ref: '#/components/schemas/selectedPrescriptionList'
           - $ref: '#/components/schemas/messageIdTrait'
-        examples:
+      examples:
         - name: selectedPrescriptionList
           summary: selectedPrescriptionList message
           payload:
             type: selectedPrescriptionList
             selectedPrescriptionListMessage:
               medicationIndexList:
-                index: [0,3]
+                - 0
+                - 1
+                - 2
+                - 3
               supplyOptionsType:
                 type: delivery
-              name: Nachbar: Heinz Müller (2. OG)
+              name: "Nachbar: Heinz Müller (2. OG)"
               hint: Bitte beim Nachbarn (Heinz Müller (2. OG)) abgeben und bei Belieferung anrufen.
               phone: +49 89 123 456789
             messageId: e9a148b9-e70a-498e-af0e-358c8226cae8
