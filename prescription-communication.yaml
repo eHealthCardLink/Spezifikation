@@ -367,6 +367,7 @@ components:
           description: Unique index of the individual medication within availablePrescriptionList, 
             whereas the index is starting at 0.
         medication:
+          title: medicationType
           type: array
           oneOf:
             - $ref: '#/components/schemas/medicationPZN'
