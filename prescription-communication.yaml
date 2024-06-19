@@ -442,7 +442,7 @@ components:
           type: array
           description: List of ingredients
           items:
-            type: bestandteilWirkstoffverordnung
+            - $ref: '#/components/schemas/bestandteilWirkstoffverordnung'
 
     medicationCompounding:
       type: object
@@ -488,7 +488,7 @@ components:
           type: array
           description: List of ingredients
           items:
-            type: bestandteilRezepturverordnung
+            - $ref: '#/components/schemas/bestandteilWirkstoffverordnung'
 
     medicationFreeText:
       type: object
@@ -539,8 +539,8 @@ components:
           const: selectedPrescriptionList
         medicationIndexList:
           type: array
-          allOf:
-            $ref: '#/components/schemas/index'
+          items:
+            - $ref: '#/components/schemas/index'
         supplyOptionsType:
           type: object
           description: Allows the user to choose between different delivery options,
