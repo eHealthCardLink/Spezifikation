@@ -1,0 +1,698 @@
+asyncapi: 3.0.0
+info:
+  title: eHealth-CardLink Prescription Communication Interface
+  version: 1.0.0
+  description: >
+    This API defines an interface between a Pharmacy System and a Pharmacy App with 
+    eHealth-CardLink service as intermediary, which is used to present the essential 
+    parts of a set of available prescriptions and allows to select electronic prescriptions
+    for dispensation and delivery.
+  contact:
+    name: eHealth-CardLink-Taskforce
+    url: https://github.com/eHealthCardLink
+  license:
+    name: Apache 2.0
+    url: 'https://www.apache.org/licenses/LICENSE-2.0'
+
+servers:
+  production:
+    host: to.be.configured
+    protocol: wss
+    description: Websocket Server
+
+channels:
+  prescriptionExchange:
+    address: /
+    messages:
+      requestPrescriptionListMessage:
+        $ref: '#/components/messages/requestPrescriptionListMessage'
+      availablePrescriptionListMessage:
+        $ref: '#/components/messages/availablePrescriptionListMessage'
+      selectedPrescriptionListMessage:
+        $ref: '#/components/messages/selectedPrescriptionListMessage'
+      confirmPrescriptionListMessage:
+        $ref: '#/components/messages/confirmPrescriptionListMessage'
+      genericErrorMessage:
+        $ref: '#/components/messages/genericErrorMessage'
+    bindings:
+      ws:
+        query:
+          type: object
+          properties:
+            token:
+              type: string
+              description: webSocketId
+            version:
+              type: string
+              description: Version of the API required by the client
+
+operations:
+  requestPrescriptionListMessage:
+    action: receive
+    title: Receive request to list available prescriptions
+    summary: Receive request to list available prescriptions from the Pharmacy App to the Pharmacy System via the eHealth-CardLink service
+    channel:
+      $ref: '#/channels/prescriptionExchange'
+    messages:
+      - $ref: '#/channels/prescriptionExchange/messages/requestPrescriptionListMessage'
+  availablePrescriptionListMessage:
+    action: send
+    title: Send list of available prescriptions
+    summary: Send list of available prescriptions from the Pharmacy System to the Pharmacy App via the eHealth-CardLink service
+    channel:
+      $ref: '#/channels/prescriptionExchange'
+    messages:
+      - $ref: '#/channels/prescriptionExchange/messages/availablePrescriptionListMessage'
+  selectedPrescriptionListMessage:
+    action: receive
+    title: Receive list of selected prescriptions
+    summary: Receive list of prescriptions selected by the user for dispensation and delivery
+    channel:
+      $ref: '#/channels/prescriptionExchange'
+    messages:
+      - $ref: '#/channels/prescriptionExchange/messages/selectedPrescriptionListMessage'
+  confirmPrescriptionListMessage:
+    action: receive
+    title: Send confirmation of selected prescriptions
+    summary: Send confirmation of prescriptions selected by the user for dispensation and delivery
+    channel:
+      $ref: '#/channels/prescriptionExchange'
+    messages:
+      - $ref: '#/channels/prescriptionExchange/messages/confirmPrescriptionListMessage'
+  sendGenericErrorMessage:
+    action: send
+    title: Generic Error
+    summary: eH-CL encountered an error
+    channel:
+      $ref: '#/channels/prescriptionExchange'
+    messages:
+      - $ref: '#/channels/prescriptionExchange/messages/genericErrorMessage'
+
+components:
+  messages:
+    requestPrescriptionListMessage:
+      name: requestPrescriptionListMessage
+      title: Receive request to list available prescriptions
+      summary: Receive request to list available prescriptions from the Pharmacy App to the Pharmacy System via the eHealth-CardLink service
+      contentType: application/json
+      payload:
+        title: requestPrescriptionList
+        type: object
+        allOf:
+          - $ref: '#/components/schemas/requestPrescriptionList'
+          - $ref: '#/components/schemas/messageIdTrait'
+      examples:
+        - name: requestPrescriptionList_single
+          summary: requestPrescriptionList single ICCSN message
+          payload:
+            type: requestPrescriptionList
+            ICCSNs:
+              - MTIzNDU2Nzg5
+            messageId: df094bd9-4669-458a-b47f-8330e8254306
+        - name: requestPrescriptionList_all
+          summary: requestPrescriptionList all ICCSNs message
+          payload:
+            type: requestPrescriptionList
+            messageId: df094bd9-4669-458a-b47f-8330e8254306
+    availablePrescriptionListMessage:
+      name: availablePrescriptionListMessage
+      title: Send List of Available Prescriptions
+      summary: Send list of available prescriptions from the Pharmacy System to the Pharmacy App via the eHealth-CardLink service
+      contentType: application/json
+      payload:
+        title: availablePrescriptionLists
+        type: object
+        allOf:
+          - $ref: '#/components/schemas/availablePrescriptionLists'
+          - $ref: '#/components/schemas/messageIdTrait'
+          - $ref: '#/components/schemas/correlationIdTrait'
+      examples:
+        - name: availablePrescriptionList
+          summary: availablePrescriptionList message
+          payload:
+            type: availablePrescriptionLists
+            availablePrescriptionLists:
+            - type: availablePrescriptionList
+              ICCSN: MTIzNDU2Nzg5
+              medicationSummaryList:
+                - index: 0
+                  medication:
+                    type: medicationPZN
+                    kategorie: 00
+                    impfstoff: false
+                    normgroesse: N3
+                    pzn: 06313728
+                    handelsname: Sumatriptan-1a Pharma 100 mg Tabletten
+                    darreichungsform: TAB
+                    packungsgroesseNachMenge: 12
+                    einheit: TAB
+                - index: 1
+                  medication:
+                    type: medicationIngredient
+                    kategorie: 00
+                    impfstoff: false
+                    normgroesse: N3
+                    darreichungsform: Tabletten
+                    packungsgroesseNachMenge: 100
+                    einheit: Stück
+                    listeBestandteilWirkstoffverordnung:
+                      - type: bestandteilWirkstoffverordnung
+                        wirkstoffnummer: 22686
+                        wirkstoffname: Ramipril
+                        wirkstaerke: 5
+                        wirkstaerkeneinheit: mg
+                - index: 2
+                  medication:
+                    type: medicationCompounding
+                    kategorie: 00
+                    impfstoff: false
+                    herstellungsanweisung: Lösung
+                    verpackung:
+                    rezepturname:
+                    darreichungsform:
+                    gesamtmenge: 100
+                    einheit: ml
+                    listeBestandteilRezepturverordnung:
+                      - type: bestandteilRezepturverordnung
+                        name: Salicylsäure
+                        menge: 5
+                        einheit: g
+                      - name: 2-propanol 70 %
+                        mengeUndEinheit: Ad 100 g
+                - index: 3
+                  medication:
+                    type: medicationFreeText
+                    kategorie: 00
+                    impfstoff: false
+                    freitextverordnung: Metformin 850mg Tabletten N3
+              hint: Sie erreichen uns nun telefonisch unter +49 123 456 7890.
+            messageId: e9a148b9-e70a-498e-af0e-358c8226cae8
+            correlationId: df094bd9-4669-458a-b47f-8330e8254306
+
+    selectedPrescriptionListMessage:
+      name: selectedPrescriptionListMessage
+      title: Send List of Available Prescriptions
+      summary: Return list of prescriptions selected by user from the Pharmacy App to the Pharmacy System via the eHealth-CardLink service
+      contentType: application/json
+      payload:
+        title: selectedPrescriptionList
+        type: object
+        allOf:
+          - $ref: '#/components/schemas/selectedPrescriptionList'
+          - $ref: '#/components/schemas/messageIdTrait'
+      examples:
+        - name: selectedPrescriptionList
+          summary: selectedPrescriptionList message
+          payload:
+            type: selectedPrescriptionList
+            selectedPrescriptionListMessage:
+              ICCSN: MTIzNDU2Nzg5
+              medicationIndexList:
+                - 0
+                - 1
+                - 2
+                - 3
+              supplyOptionsType: delivery
+              name: "Nachbar: Heinz Müller (2. OG)"
+              hint: Bitte beim Nachbarn (Heinz Müller (2. OG)) abgeben und bei Belieferung anrufen.
+              phone: +49 89 123 456789
+            messageId: e9a148b9-e70a-498e-af0e-358c8226cae8
+
+    confirmPrescriptionListMessage:
+      name: confirmPrescriptionListMessage
+      title: Receive confirmation for selecting prescriptions
+      summary: Return confirmation of prescription selection by user from the Pharmacy System to the Pharmacy App via the eHealth-CardLink service
+      contentType: application/json
+      payload:
+        title: confirmPrescriptionList
+        type: object
+        allOf:
+          - $ref: '#/components/schemas/confirmPrescriptionList'
+          - $ref: '#/components/schemas/messageIdTrait'
+          - $ref: '#/components/schemas/correlationIdTrait'
+      examples:
+        - name: confirmPrescriptionList
+          summary: confirmPrescriptionList message
+          payload:
+            type: confirmPrescriptionList
+            messageId: 48482e8c-fb65-4931-a737-60008521bf50
+            correlationId: e9a148b9-e70a-498e-af0e-358c8226cae8
+
+    genericErrorMessage:
+      name: error
+      title: error
+      contentType: application/json
+      payload:
+        title: genericErrorMessage
+        type: object
+        allOf:
+          - $ref: '#/components/schemas/genericError'
+          - $ref: '#/components/schemas/messageIdTrait'
+          - $ref: '#/components/schemas/correlationIdOptionalTrait'
+      examples:
+        - name: genericErrorMessage
+          summary: generic Error message example
+          payload:
+            messageId: 54200292-c442-4b1a-a1c1-83cfb596b72c
+            correlationId: f1f7bdb6-7562-4152-b636-9f75ca5fb7b1
+            type: genericError
+            errorCode: INVALID_MESSAGE_DATA
+            errorMessage: Received payload is missing field XYZ.
+
+  messageTraits:
+    commonHeaders:
+      headers:
+        type: object
+        properties:
+          replyTo:
+            type: string
+  correlationIds:
+    default:
+      description: Default Correlation ID
+      location: $message.payload#/correlationId
+
+  schemas:
+
+    ICCSN:
+      type: string
+      format: byte
+      description: ICCSN (Integrated Circuit Card Serial Number) of the eHealth card
+
+    requestPrescriptionList:
+      type: object
+      description: List of available prescriptions
+      required:
+        - type
+      properties:
+        type:
+          type: string
+          const: requestPrescriptionList
+        ICCSNs:
+          description: The ICCSNs for which to request prescriptions, or all ICCNs know to the server if the array is empty or absent
+          type: array
+          minItems: 0
+          items:
+            - $ref: '#/components/schemas/ICCSN'
+
+    availablePrescriptionLists:
+        type: object
+        description: List of available prescription lists
+        required:
+            - type
+            - availablePrescriptionLists
+        properties:
+          type:
+            type: string
+            const: availablePrescriptionLists
+          availablePrescriptionLists:
+            type: array
+            items:
+              - $ref: '#/components/schemas/availablePrescriptionList'
+
+    availablePrescriptionList:
+      type: object
+      description: List of available prescriptions
+      required:
+        - type
+        - ICCSN
+        - medicationSummaryList
+      properties:
+        type:
+          type: string
+          const: availablePrescriptionList
+        ICCSN:
+          $ref: '#/components/schemas/ICCSN'
+        medicationSummaryList:
+          type: array
+          items:
+            - $ref: '#/components/schemas/medicationSummary'
+        hint:
+          type: string
+          maxLength: 500
+
+
+    bestandteilRezepturverordnung:
+      type: object
+      required:
+        - type
+        - name
+      description: Medication, which is defined by a specific recipe.
+      properties:
+        type:
+          type: string
+          const: bestandteilRezepturverordnung
+        darreichungsform:
+          type: string
+          description: Contains the description how to apply the specific part of the medication.
+        name:
+          type: string
+          description: Name of the specific part of the medication.
+        pzn:
+          type: string
+          description: Identifier (Pharmazentralnummer, PZN) of the specific part of the medication.
+        menge:
+          type: string
+          description: Quantity of the specific part of the medication.
+        einheit:
+          type: string
+          description: Unit corresponding to the specific part of the medication.
+        mengeUndEinheit:
+          type: string
+          description: Contains a free text to describe the quantity of the specific part of the medication including its unit.
+
+    bestandteilWirkstoffverordnung:
+      type: object
+      required:
+        - type
+        - wirkstoffnummer
+        - wirkstoffname
+        - wirkstaerke
+        - wirkstaerkeneinheit
+      description: Medication, which is defined by its ingredients.
+      properties:
+        type:
+          type: string
+          const: bestandteilWirkstofverordnung
+        wirkstoffnummer:
+          type: string
+          description: ASK-Number (Arzneimittelkatalog-Nummer).
+        wirkstoffname:
+          type: string
+          description: Name of the ingredient.
+        wirkstaerke:
+          type: string
+          description: Contains the strength of the ingredient.
+        wirkstaerkeneinheit:
+          type: string
+          description: Unit of strength of the ingredient.
+
+    correlationId:
+      description: CorrelationId
+      $ref: '#/components/schemas/messageId'
+
+    correlationIdTrait:
+      type: object
+      required:
+        - correlationId
+      properties:
+        correlationId:
+          $ref: '#/components/schemas/correlationId'
+
+    correlationIdOptionalTrait:
+      type: object
+      properties:
+        correlationId:
+          $ref: '#/components/schemas/correlationId'
+
+    errorBaseType:
+      type: object
+      description: Base type for error messages
+      required:
+        - errorCode
+        - errorMessage
+      properties:
+        errorCode:
+          $ref: '#/components/schemas/genericErrorResultType'
+          description: Error code describing the error in more detail
+        errorMessage:
+          type: string
+          description: Error message describing the error in more detail
+
+    genericError:
+      type: object
+      description: Base type for error messages
+      allOf:
+        - $ref: '#/components/schemas/errorBaseType'
+      required:
+        - type
+      properties:
+        type:
+          type: string
+          const: genericError
+
+    genericErrorResultType:
+      type: string
+      enum:
+        - INVALID_MESSAGE_DATA
+        - TI_UNAVAILABLE
+        - TI_SERVICE_ERROR
+        - CARD_EXPIRED
+        - CARD_REVOKED
+        - CARD_INVALID
+        - CARD_ERROR
+        - UNKNOWN_ERROR
+
+    index:
+      type: integer
+      minimum: 0
+      description: Unique index of the selected medication corresponding to the index
+          within availablePrescriptionList, whereas the index is starting at 0.
+
+    medicationSummary:
+      type: object
+      required:
+        - index
+        - medication
+      description: Element containing a medication with an additional index to enable referencing, 
+        whereas the medication element may either be medicationPZN, medicationIngredient, medicationCompounding,
+        medicationFreeText
+      properties:
+        type:
+          type: string
+          const: medicationSummary
+        index:
+          type: integer
+          minimum: 0
+          description: Unique index of the individual medication within availablePrescriptionList, 
+            whereas the index is starting at 0.
+        medication:
+          title: medicationType
+          type: array
+          oneOf:
+            - $ref: '#/components/schemas/medicationPZN'
+            - $ref: '#/components/schemas/medicationIngredient'
+            - $ref: '#/components/schemas/medicationCompounding'
+            - $ref: '#/components/schemas/medicationFreeText'
+
+    medicationPZN:
+      type: object
+      required:
+        - type
+        - kategorie
+        - impfstoff
+        - pzn
+        - handelsname
+        - darreichungsform
+      description: Prescription of standardised medication, which is identified by PZN.
+      properties:
+        type:
+          type: string
+          const: medicationPZN
+        kategorie:
+          type: string
+          description: Category of prescription. Is "00" for regular prescriptions.
+        impfstoff:
+          type: boolean
+          description: Indicates whether the prescription is a vaccine or not. Default is "false".
+        normgroesse:
+          type: string
+          description: Contains the norm size of the prescription.
+        pzn:
+          type: string
+          description: Is the identifier of the standardised prescription (Pharmazentralnummer, PZN).
+        handelsname:
+          type: string
+          description: Is the name of the standardised prescription.
+        darreichungsform:
+          type: string
+          description: Contains the encoded value how to apply the prescription.
+        packungsgroesseNachMenge:
+          type: string
+          description: Size of the package.
+        einheit:
+          type: string
+          description: Unit corresponding to the package size.
+        packungsgroesseNachNBezeichnung:
+          type: string
+          description: Normal size of the package (e.g. N1).
+
+    medicationIngredient:
+      type: object
+      required:
+        - type
+        - kategorie
+        - impfstoff
+        - darreichungsform
+        - listeBestandteilWirkstoffverordnung
+      description: Prescription of medication, which is defined by its ingredients.
+      properties:
+        type:
+          type: string
+          const: medicationIngredient
+        kategorie:
+          type: string
+          description: Category of prescription. Is "00" for regular prescriptions.
+        impfstoff:
+          type: boolean
+          description: Indicates whether the prescription is a vaccine or not. Default is "false".
+        normgroesse:
+          type: string
+          description: Contains the norm size of the prescription.
+        darreichungsform:
+          type: string
+          description: Contains the description how to apply the prescription.
+        packungsgroesseNachMenge:
+          type: string
+          description: Size of the package.
+        einheit:
+          type: string
+          description: Unit corresponding to the package size.
+        packungsgroesseNachNBezeichnung:
+          type: string
+          description: Normal size of the package (e.g. N1).
+        listeBestandteilWirkstoffverordnung:
+          type: array
+          description: List of ingredients
+          items:
+            - $ref: '#/components/schemas/bestandteilWirkstoffverordnung'
+
+    medicationCompounding:
+      type: object
+      required:
+        - type
+        - kategorie
+        - impfstoff
+        - herstellungsanweisung
+        - rezepturname
+        - darreichungsform
+        - gesamtmenge
+        - listeBestandteilRezepturverordnung
+      description: Prescription of medication, which is defined by a specific recipe.
+      properties:
+        type:
+          type: string
+          const: medicationCompounding
+        kategorie:
+          type: string
+          description: Category of prescription. Is "00" for regular prescriptions.
+        impfstoff:
+          type: boolean
+          description: Indicates whether the prescription is a vaccine or not. Default is "false".
+        herstellungsanweisung:
+          type: string
+          description: Contains instructions for the preparation of the recipe.
+        verpackung:
+          type: string
+          description: Describes the packaging of the medication.
+        rezepturname:
+          type: string
+          description: Contains the name of the recipe.
+        darreichungsform:
+          type: string
+          description: Contains the description how to apply the overall prescription.
+        gesamtmenge:
+          type: string
+          description: Contains the total quantity of the prescription.
+        einheit:
+          type: string
+          description: Unit corresponding to the total quantity of the prescription.
+        listeBestandteilRezepturverordnung:
+          type: array
+          description: List of ingredients
+          items:
+            - $ref: '#/components/schemas/bestandteilWirkstoffverordnung'
+
+    medicationFreeText:
+      type: object
+      required:
+        - type
+        - kategorie
+        - impfstoff
+        - freitextverordnung
+        - darreichungsform
+      description: Prescription of a  medication, which is described by a free text.
+      properties:
+        type:
+          type: string
+          const: medicationFreeText
+        kategorie:
+          type: string
+          description: Category of prescription. Is "00" for regular prescriptions.
+        impfstoff:
+          type: boolean
+          description: Indicates whether the prescription is a vaccine or not. Default is "false".
+        freitextverordnung:
+          type: string
+          description: Contains a free text, which describes the prescribed medication.
+        darreichungsform:
+          type: string
+          description: Contains the description how to apply the prescribed medication.
+
+    messageId:
+      type: string
+      description: Message identifier
+
+    messageIdTrait:
+      type: object
+      required:
+        - messageId
+      properties:
+        messageId:
+          $ref: '#/components/schemas/messageId'
+
+    selectedPrescriptionList:
+      type: object
+      required:
+        - type
+        - ICCSN
+        - medicationIndexList
+        - supplyOptionsType
+      properties:
+        type:
+          type: string
+          const: selectedPrescriptionList
+        ICCSN:
+          $ref: '#/components/schemas/ICCSN'
+        medicationIndexList:
+          type: array
+          items:
+            - $ref: '#/components/schemas/index'
+        supplyOptionsType:
+          description: Allows the user to choose between different delivery options,
+            such as onPremise, shipment and delivery.
+          $ref: '#/components/schemas/supplyOptionsType'
+        name:
+          type: string
+          maxLength: 100
+        address:
+          type: array
+          maxLength: 4
+          items:
+            type: string
+            maxlength: 500
+        hint:
+          type: string
+          maxlength: 500
+        phone:
+          type: string
+          maxlength: 32
+
+    confirmPrescriptionList:
+      type: object
+      required:
+        - type
+      properties:
+        type:
+          type: string
+          const: confirmPrescriptionList
+
+    supplyOptionsType:
+      type: string
+      enum:
+        - onPremise
+        - shipment
+        - delivery
+
+    webSocketId:
+      type: string
+      description: Identifier for the established web socket connection
