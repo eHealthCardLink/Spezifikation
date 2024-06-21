@@ -30,6 +30,8 @@ channels:
         $ref: '#/components/messages/availablePrescriptionListMessage'
       selectedPrescriptionListMessage:
         $ref: '#/components/messages/selectedPrescriptionListMessage'
+      confirmPrescriptionListMessage:
+        $ref: '#/components/messages/confirmPrescriptionListMessage'
       genericErrorMessage:
         $ref: '#/components/messages/genericErrorMessage'
     bindings:
@@ -69,6 +71,14 @@ operations:
       $ref: '#/channels/prescriptionExchange'
     messages:
       - $ref: '#/channels/prescriptionExchange/messages/selectedPrescriptionListMessage'
+  confirmPrescriptionListMessage:
+    action: receive
+    title: Send confirmation of selected prescriptions
+    summary: Send confirmation of prescriptions selected by the user for dispensation and delivery
+    channel:
+      $ref: '#/channels/prescriptionExchange'
+    messages:
+      - $ref: '#/channels/prescriptionExchange/messages/confirmPrescriptionListMessage'
   sendGenericErrorMessage:
     action: send
     title: Generic Error
@@ -207,6 +217,26 @@ components:
               hint: Bitte beim Nachbarn (Heinz Müller (2. OG)) abgeben und bei Belieferung anrufen.
               phone: +49 89 123 456789
             messageId: e9a148b9-e70a-498e-af0e-358c8226cae8
+
+    confirmPrescriptionListMessage:
+      name: confirmPrescriptionListMessage
+      title: Receive confirmation for selecting prescriptions
+      summary: Return confirmation of prescription selection by user from the Pharmacy System to the Pharmacy App via the eHealth-CardLink service
+      contentType: application/json
+      payload:
+        title: confirmPrescriptionList
+        type: object
+        allOf:
+          - $ref: '#/components/schemas/confirmPrescriptionList'
+          - $ref: '#/components/schemas/messageIdTrait'
+          - $ref: '#/components/schemas/correlationIdTrait'
+      examples:
+        - name: confirmPrescriptionList
+          summary: confirmPrescriptionList message
+          payload:
+            type: confirmPrescriptionList
+            messageId: 48482e8c-fb65-4931-a737-60008521bf50
+            correlationId: e9a148b9-e70a-498e-af0e-358c8226cae8
 
     genericErrorMessage:
       name: error
@@ -646,6 +676,15 @@ components:
         phone:
           type: string
           maxlength: 32
+
+    confirmPrescriptionList:
+      type: object
+      required:
+        - type
+      properties:
+        type:
+          type: string
+          const: confirmPrescriptionList
 
     supplyOptionsType:
       type: string
