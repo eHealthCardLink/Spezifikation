@@ -1,4 +1,46 @@
+<img align="right" width="80" height="80" src="https://github.com/eHealthCardLink/Spezifikation/blob/main/img/IOP-Logo.png"/><br/>
+
 # Anhang A - Einlösen von E-Rezepten
+
+<details>
+  <summary><b>Inhaltsverzeichnis</b></summary>  
+  Über dieses Dokument</br>
+  Versionierung
+  <ol>
+    <li><b>A.1 Ablauf beim Einlösen von E-Rezepten</b></li>
+      <ul>1.1 Zielsetzung</ul>
+      <ul>1.2 Methodik</ul>
+    <li><b>A.2 Nachrichten jenseits der gematik-Spezifikationen</b></li>
+      <ul>A.2.1 MedicationSummary</ul> 
+        <ul>A.2.1.1 KBV_PR_ERP_Medication_PZN</ul>
+        <ul>A.2.1.2 KBV_PR_ERP_Medication_Ingredient</ul>
+        <ul>A.2.1.3 KBV_PR_ERP_Medication_Compounding</ul>
+        <ul>A.2.1.4 KBV_PR_ERP_Medication_FreeText</ul>
+        <ul>2.2.5 Phase 4 - Das Fachmodul VSDM startet die Onlineprüfung der eGK</ul>
+        <ul>2.2.6 Phase 5 - Das Fachmodul VSDM im Konnektor führt Onlineprüfung der eGK durch</ul>
+        <ul>2.2.7 Phase 6 - Das Fachmodul VSDM im Konnektor erstellt den Prüfungsnachweis</ul>
+        <ul>2.2.8 Phase 7 - Der Konnektor liefert den Prüfungsnachweis in ReadVSDResponse zurück</ul>
+      <ul>A.2.2 availablePrescriptionList</ul>
+      <ul>A.2.3 selectedPrescriptionList</ul>
+  </ol>
+</details>
+
+## Über dieses Dokument
+
+Dieses Dokument wurde in der [eHealth-CardLink-Taskforce](https://github.com/eHealthCardLink) entwickelt und spezifiziert
+die Abläufe beim **Einlösen von elektronischen Verordnungen**. 
+Diese Spezifikation ergänzt die [Basisspezifikation] für den eHealth-CardLink-Ablauf und die 
+Spezifikation [gemSpec_eHealth-CardLink](https://gemspec.gematik.de/downloads/gemSpec/gemSpec_eHealth-CardLink/gemSpec_eHealth-CardLink_V1.0.0.pdf).
+
+Die Spezifikationen in diesem Dokument werden durch die folgende [asyncapi](https://www.asyncapi.com/)-Spezifikationen ergänzt:
+
+* [eHealth-CardLink Prescription Communication Interface](https://github.com/eHealthCardLink/Spezifikation/blob/main/prescription-communication.yaml) der eHealth-CardLink-Taskforce, die auch als [html](https://ehealthcardlink.github.io/Spezifikation/) verfügbar ist. 
+
+## Versionierung
+
+| Version | Datum | Beschreibung der wesentlichen Änderungen | 
+| --- | --- |  --- |
+| `1.0.0 (RC)` | 22.06.2024 | Initiale Version | 
 
 ## A.1 Ablauf beim Einlösen von E-Rezepten
 
@@ -70,7 +112,7 @@ In diesem Profil werden die Rezeptierdaten einer Verordnung aus den Preis- und P
 | `Einheit` | string | Dieses Feld enthält die Einheit (z.B. Stück) und tritt nur in Verbindung mit „Packungsgröße nach abgeteilter Menge“ auf (z.B. 100 Stück). | 
 | `PackungsgroesseNachNBezeichnung` | string | Dieses Feld enthält die Normgröße der therapiegerechten Packung (z.B. N1). |
 
-#### A.2.1.3 [KBV_PR_ERP_Medication_Ingredient](https://simplifier.net/erezept/kbvprerpmedicationingredient)
+#### A.2.1.2 [KBV_PR_ERP_Medication_Ingredient](https://simplifier.net/erezept/kbvprerpmedicationingredient)
 
 In diesem Profil werden die Rezeptierdaten einer **Wirkstoffverordnung** abgebildet. 
 
@@ -94,7 +136,7 @@ Das Element `BestandteilWirkstoffverordnung` enthält die folgenden Elemente:
 | `Wirkstaerke` | string | Dieses Feld enthält eine Angabe der Wirkstärke. Diese ermittelt sich durch die Angabe von Wirkstoffmenge / Bezugsgrößenmenge. Die zugehörige Einheit ist im Feld "Wirkstärkeneinheit" anzugeben. | 
 | `Wirkstaerkeneinheit` | string | Dieses Feld enthält die Einheit der Wirkstärke (bspw. mg/ml). | 
 
-#### A.2.1.4 [KBV_PR_ERP_Medication_Compounding](https://simplifier.net/eRezept/KBVPRERPMedicationCompounding/~overview)
+#### A.2.1.3 [KBV_PR_ERP_Medication_Compounding](https://simplifier.net/eRezept/KBVPRERPMedicationCompounding/~overview)
 
 In diesem Profil werden die Rezeptierdaten einer **Rezepturverordnung** abgebildet.
 
@@ -121,7 +163,7 @@ Das Element `BestandteilRezepturverordnung` enthält die folgenden Elemente:
 | `Einheit` | string | Dieses Feld enthält die Einheit des Bestandteils z.B. mg. |
 | `MengeUndEinheit` | string | Dieses Feld enthält eine freitextliche Angabe zur Menge und Einheit des Bestandteils und kann insbesondere für klassische lateinische Angaben z.B. „ad 100,0“ oder „quantum satis“ genutzt werden. |
 
-#### A.2.1.1 [KBV_PR_ERP_Medication_FreeText](https://simplifier.net/eRezept/KBVPRERPMedicationFreeText/)
+#### A.2.1.4 [KBV_PR_ERP_Medication_FreeText](https://simplifier.net/eRezept/KBVPRERPMedicationFreeText/)
 
 In diesem Profil werden die Rezeptierdaten einer **freitextlichen Verordnung** abgebildet. 
 
@@ -132,7 +174,7 @@ In diesem Profil werden die Rezeptierdaten einer **freitextlichen Verordnung** a
 | `Freitextverordnung` | string | Dieses Feld enthält den Text einer Freitextverordnung. | 
 | `Darreichungsform` | string | siehe oben |
 
-### A.2.2 AvailablePrescriptionList 
+### A.2.2 availablePrescriptionList 
 
-### A.2.3 SelectedPrescriptionList
+### A.2.3 selectedPrescriptionList
 
