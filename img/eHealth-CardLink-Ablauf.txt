@@ -1,0 +1,76 @@
+title ++**Ablauf mit eHealth-CardLink gemäß gemSpec_eHealth-CardLink (v1.0.0)**++
+
+actor Nutzer
+participant eGK
+participant App
+participant VZD
+participant "eHealth-CardLink" as CL
+participant "Konnektor" as Kon
+participant "Primärsystem" as PS
+participant "FD_VSDM" as FD_VSDM
+participant "FD_x" as FD_x
+
+entryspacing 0.7
+
+note over Nutzer, FD_x#lightgreen:**Phase 0** - Vorbereitende Schritte und SMS-TAN-Verfahren
+Kon <-> CL: 0.1 Pairing zwischen Konnektor und eHealth-CardlLink
+PS -> Kon: 0.2 **Subscribe**(CARD/INSERTED)
+Kon -> PS: 0.3 **SubscribeResponse**(SubscriptionID)
+
+Nutzer -> App: 0.4 Installation und Konfiguration der App
+App <-> App: 0.5 Zugriff auf Telefonstatus erlauben (optional)
+ref over Nutzer, App: 0.6 Mobilfunknummer (MSN) ermitteln oder erfassen
+App <-> VZD: 0.7 LEI konfigurieren (optional)
+App -> CL: 0.8 Websocket-Verbindung aufbauen
+App <<#red:4-- CL: 0.9 Gib <color:#red>**sessionStatus**</color> mit webSocketId zurück
+App -#red:4> CL:  0.10 TAN anfordern (<color:#red>**requestSMSCode**</color>)
+CL <-> CL: 0.11 TAN-Erzeugung, Speicherung MSN und TAN
+App <<#red:4-- CL: 0.12 <color:#red>**requestSMSCodeResponse</color>
+CL -> Nutzer: 0.13 TAN per SMS senden
+Nutzer -> App: 0.14 TAN erfassen
+App -#red:4> CL:  0.15 TAN übermitteln (<color:#red>**confirmSMSCode**</color>)
+CL -> CL: 0.16 TAN validieren
+App <<#red:4-- CL: 0.17 TAN-Validierung bestätigen (<color:#red>**confirmSMSCodeResponse</color>)
+note over Nutzer, FD_x#lightgreen:: **Phase 1** - eGK mit App kontaktieren und Daten auslesen
+Nutzer -> App: 1.1 eGK und CAN  bereitstellen
+App <-> eGK: 1.2 PACE mit CAN
+App <-> eGK: 1.3 eGK-Daten auslesen
+note over Nutzer, FD_x#lightgreen:: **Phase 2** - Übermittlung der für den Prüfablauf relevanten Daten
+App -> CL: 2.1 eGK-Daten übermitteln (**registerEGK**)
+CL -> CL: 2.2 Verknüpfung ICCSN der eGK mit MSN prüfen
+App <<#red:4-- CL: 2.3  <color:#red>**ICCSNReassignment**</color> melden, sofern nötig
+CL -> Nutzer: 2.4 Nutzer mit vorheriger MSN per SMS über neue Verknüpfung informieren, sofern nötig
+CL -> CL: 2.5 Protokollierung
+CL -> Kon: 2.6 Signalisiere CARD/INSERTED
+Kon -> PS: 2.7 **Event**(CARD/INSERTED)
+PS -> Kon: 2.8 **GetCards**(cardType=eGK)
+Kon -> CL: 2.9 SICCT-cmdAPDUs für GetCards
+CL --> Kon: 2.10 SICCT-resAPDUs für GetCards
+Kon --> PS: 2.11 **GetCardsResponse** inkl. ICCSN zurückliefern
+note over Nutzer, FD_x#lightgreen:: **Phase 3** - Das Primärsystem ruft **ReadVSD** am Konnektor auf
+PS -> Kon: 3.1 **ReadVSD** am Konnektor aufrufen
+Kon <-> CL: 3.2 SICCT-APDUs **vor** INTERNAL AUTHENTICATE
+Kon -> CL: 3.3 SICCT-APDU **für** INTERNAL_AUTHENTICATE
+CL -> App: 3.4 sendAPDU(INTERNAL_AUTHENTICATE)
+App -> eGK: 3.5 INTERNAL_AUTHENTICATE
+eGK -> eGK: 3.6 Erzeuge Signatur für Challenge
+eGK --> App: 3.7 signature || 90 00
+App --> CL: 3.8 sendAPDUResponse(signature)
+CL --> Kon: 3.9 SICCT-Response-APDU(signature)
+Kon <-> Kon: 3.10 Signaturvalidierung
+note over Nutzer, FD_x#lightgreen:: **Phase 4** - Das Fachmodul VSDM führt Onlineprüfung der eGK durch
+Kon -> FD_VSDM: 4. Online-Gültigkeitsprüfung
+note over Nutzer, FD_x#lightgreen:: **Phase 5** - Das Fachmodul VSDM im Konnektor führt Onlineprüfung der eGK durch
+FD_VSDM --> Kon: 5. Bereitstellung der Prüfziffer
+note over Nutzer, FD_x#lightgreen:: **Phase 6** - Das Fachmodul VSDM im Konnektor erstellt den Prüfungsnachweis
+Kon -> Kon: 6. Erstellung Prüfungsnachweis aus Prüfziffer
+note over Nutzer, FD_x#lightgreen:: **Phase 7** -  Der Konnektor liefert den Prüfungsnachweis in **ReadVSDResponse** zurück
+Kon --> PS: 7.1 **ReadVSDResponse** mit Prüfungsnachweis 
+PS -> CL: 7.2 Etabliere Websocket-Verbindung (ICCSN)
+CL -#red:4> PS:  7.3 gib <color:#red>**sessionStatus**</color> mit webSocketId zurück
+CL -#red:4> App: 7.4 <color:#red>**RegisterEGKFinish**</color>  
+FD_x <-> Nutzer: Anwendungsfallspezifische Abläufe
+
+
+
+
