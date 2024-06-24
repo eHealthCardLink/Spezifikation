@@ -32,13 +32,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Generating HTML from my AsyncAPI card document
-        uses: asyncapi/github-action-for-generator
+        uses: asyncapi/github-action-for-cli@v3.1
         with:
           template: "@asyncapi/html-template@2.3.9"
           filepath: card-communication.yaml
           output: ghpage/card-communication
       - name: Generating HTML from my AsyncAPI prescription document
-        uses: asyncapi/github-action-for-generator
+        uses: asyncapi/github-action-for-cli@v3.1
         with:
           template: "@asyncapi/html-template@2.3.9"
           filepath: prescription-communication.yaml
