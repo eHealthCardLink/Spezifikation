@@ -31,13 +31,24 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - name: Generating HTML from my AsyncAPI card document
+        uses: asyncapi/github-action-for-generator
+        with:
+          template: @asyncapi/html-template@2.3.9
+          filepath: card-communication.yaml
+          output: ghpage/card-communication
+      - name: Generating HTML from my AsyncAPI prescription document
+        uses: asyncapi/github-action-for-generator
+        with:
+          template: @asyncapi/html-template@2.3.9
+          filepath: prescription-communication.yaml
+          output: ghpage/prescription-communication
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          # Upload entire repository
-          path: './prescription-communication'
+          path: './ghpage'
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
