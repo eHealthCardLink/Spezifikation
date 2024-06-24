@@ -1,0 +1,720 @@
+asyncapi: 3.0.0
+info:
+  title: eHealth-CardLink Card Communication Interface
+  version: 1.0.0
+  description: >
+    This API defines an interface between a client (i.e. application which has
+    access to a smartcard of type eHC (electronic Health Card = eGK
+    = elektronische Gesundheitskarte) on one side and a server (i.e. application
+    of type eHealth-CardLink) on the other side.
+  contact:
+    name: eHealth-CardLink-Taskforce
+    url: https://github.com/eHealthCardLink
+  license:
+    name: Apache 2.0
+    url: 'https://www.apache.org/licenses/LICENSE-2.0'
+
+servers:
+  production:
+    host: to.be.configured
+    protocol: wss
+    description: Websocket Server
+
+channels:
+  cardExchange:
+    address: /
+    messages:
+      sessionStatusMessage:
+        $ref: '#/components/messages/sessionStatusMessage'
+      requestSMSCodeMessage:
+        $ref: '#/components/messages/requestSMSCodeMessage'
+      requestSMSCodeResponseMessage:
+        $ref: '#/components/messages/requestSMSCodeResponseMessage'
+      confirmSMSCodeMessage:
+        $ref: '#/components/messages/confirmSMSCodeMessage'
+      confirmSMSCodeResponseMessage:
+        $ref: '#/components/messages/confirmSMSCodeResponseMessage'
+      ICCSNReassignmentMessage:
+        $ref: '#/components/messages/ICCSNReassignmentMessage'
+      registerEGKMessage:
+        $ref: '#/components/messages/registerEGKMessage'
+      registerEGKFinishMessage:
+        $ref: '#/components/messages/registerEGKFinishMessage'
+      sendAPDUMessage:
+        $ref: '#/components/messages/sendAPDUMessage'
+      sendAPDUResponseMessage:
+        $ref: '#/components/messages/sendAPDUResponseMessage'
+      tasklistErrorMessage:
+        $ref: '#/components/messages/tasklistErrorMessage'
+      genericErrorMessage:
+        $ref: '#/components/messages/genericErrorMessage'
+    bindings:
+      ws:
+        query:
+          type: object
+          properties:
+            token:
+              type: string
+              description: webSocketId
+            version:
+              type: string
+              description: Version of the API required by the client
+
+operations:
+  sendSessionStatusMessage:
+    action: send
+    title: Session Information
+    summary: Send Session Information for the opened connection to the client (app)
+    channel:
+      $ref: '#/channels/cardExchange'
+    messages:
+      - $ref: '#/channels/cardExchange/messages/sessionStatusMessage'
+  receiveRequestSMSCodeMessage:
+    action: receive
+    title: Receive request SMS Code
+    summary: Receive request SMS Code for the opened connection from the client (app)
+    channel:
+      $ref: '#/channels/cardExchange'
+    messages:
+      - $ref: '#/channels/cardExchange/messages/requestSMSCodeMessage'
+  sendRequestSMSCodeResponseMessage:
+    action: send
+    title: Send request SMS Code Response
+    summary: Send request SMS Code Response for the opened connection to the client (app)
+    channel:
+      $ref: '#/channels/cardExchange'
+    messages:
+      - $ref: '#/channels/cardExchange/messages/requestSMSCodeResponseMessage'
+  receiveConfirmSMSCodeMessage:
+    action: receive
+    title: Receive confirm SMS Code
+    summary: Receive confirm SMS Code for the opened connection from the client (app)
+    channel:
+      $ref: '#/channels/cardExchange'
+    messages:
+      - $ref: '#/channels/cardExchange/messages/confirmSMSCodeMessage'
+  sendConfirmSMSCodeResponseMessage:
+    action: send
+    title: Send confirm SMS Code Response
+    summary: Send confirm SMS Code Response for the opened connection to the client (app)
+    channel:
+      $ref: '#/channels/cardExchange'
+    messages:
+      - $ref: '#/channels/cardExchange/messages/confirmSMSCodeResponseMessage'
+  sendICCSNReassignmentMessage:
+    action: send
+    title: Send ICCSN Reassignment
+    summary: Send ICCSN Reassignment for the opened connection to the client (app)
+    channel:
+      $ref: '#/channels/cardExchange'
+    messages:
+      - $ref: '#/channels/cardExchange/messages/ICCSNReassignmentMessage'
+  receiveRegisterEGKMessage:
+    action: receive
+    title: Receive eGK message
+    summary: Receive eGK message from client (app)
+    channel:
+      $ref: '#/channels/cardExchange'
+    messages:
+      - $ref: '#/channels/cardExchange/messages/registerEGKMessage'
+  sendRegisterEGKFinishMessage:
+    action: send
+    title: Send eGK finished message
+    summary: Send eGK finished message to client (app)
+    channel:
+      $ref: '#/channels/cardExchange'
+    messages:
+      - $ref: '#/channels/cardExchange/messages/registerEGKFinishMessage'
+  sendSendAPDUMessage:
+    action: send
+    title: Send APDU message
+    summary: Send APDU to app (INTERNAL AUTHENTICATE)
+    channel:
+      $ref: '#/channels/cardExchange'
+    messages:
+      - $ref: '#/channels/cardExchange/messages/sendAPDUMessage'
+  receiveSendAPDUResponseMessage:
+    action: receive
+    title: Receive APDU response from app
+    summary: INTERNAL AUTHENTICATE response
+    channel:
+      $ref: '#/channels/cardExchange'
+    messages:
+      - $ref: '#/channels/cardExchange/messages/sendAPDUResponseMessage'
+  sendTasklistErrorMessage:
+    action: send
+    title: Error message to app
+    summary: Error in the course of card plugging or ReadVSD
+    channel:
+      $ref: '#/channels/cardExchange'
+    messages:
+      - $ref: '#/channels/cardExchange/messages/tasklistErrorMessage'
+  sendGenericErrorMessage:
+    action: send
+    title: Generic Error
+    summary: eH-CL encountered an error
+    channel:
+      $ref: '#/channels/cardExchange'
+    messages:
+      - $ref: '#/channels/cardExchange/messages/genericErrorMessage'
+
+components:
+  messages:
+    sessionStatusMessage:
+      name: sessionStatusMessage
+      title: Session Status Message
+      summary: Status about the (re-)established session
+      contentType: application/json
+      payload:
+        title: sessionStatusMessage
+        type: object
+        allOf:
+          - $ref: '#/components/schemas/sessionStatus'
+          - $ref: '#/components/schemas/messageIdTrait'
+      examples:
+        - name: sessionStatus
+          summary: sessionStatus message
+          payload:
+            messageId: 44a4e8f5-6aeb-4380-9a8d-b355b7f62b52
+            type: sessionStatus
+            webSocketId: dac7e9b3-2446-4b3c-9b67-dd8cfabffb4d
+            phoneRegistered: false
+
+    requestSMSCodeMessage:
+      name: requestSMSCodeMessage
+      title: Request SMS Code Message
+      summary: Request SMS code validation for a given phone number
+      contentType: application/json
+      payload:
+        title: requestSMSCodeMessage
+        type: object
+        allOf:
+          - $ref: '#/components/schemas/requestSMSCode'
+          - $ref: '#/components/schemas/messageIdTrait'
+      examples:
+        - name: requestSMSCode
+          summary: requestSMSCode message
+          payload:
+            messageId: e9a148b9-e70a-498e-af0e-358c8226cae8
+            type: requestSMSCode
+            phoneNumber: +49 (175) 142 126 92
+    requestSMSCodeResponseMessage:
+      name: requestSMSCodeResponseMessage
+      title: Request SMS Code Response Message
+      summary: Response for requesting an SMS code validation for a given phone number
+      contentType: application/json
+      payload:
+        title: requestSMSCodeResponseMessage
+        type: object
+        allOf:
+          - $ref: '#/components/schemas/requestSMSCodeResponse'
+          - $ref: '#/components/schemas/messageIdTrait'
+          - $ref: '#/components/schemas/correlationIdTrait'
+      examples:
+        - name: requestSMSCodeResponse success
+          summary: requestSMSCodeResponse message
+          payload:
+            messageId: 3257f31c-89c7-4d96-9e0f-11c7d79e0b6e
+            correlationId: e9a148b9-e70a-498e-af0e-358c8226cae8
+            type: requestSMSCodeResponse
+            resultCode: SUCCESS
+        - name: requestSMSCodeResponse error
+          summary: requestSMSCodeResponse message
+          payload:
+            messageId: 3257f31c-89c7-4d96-9e0f-11c7d79e0b6e
+            correlationId: e9a148b9-e70a-498e-af0e-358c8226cae8
+            type: requestSMSCodeResponse
+            resultCode: NUMBER_FROM_WRONG_COUNTRY
+            errorMessage: The provided number is not from Germany
+
+    confirmSMSCodeMessage:
+      name: confirmSMSCodeMessage
+      title: Confirm SMS Code Message
+      summary: Confirm SMS code validation for a given phone number
+      contentType: application/json
+      payload:
+        title: confirmSMSCodeMessage
+        type: object
+        allOf:
+          - $ref: '#/components/schemas/confirmSMSCode'
+          - $ref: '#/components/schemas/messageIdTrait'
+      examples:
+        - name: confirmSMSCode
+          summary: confirmSMSCode message
+          payload:
+            messageId: b82c6017-430c-48e0-a002-a92fb0e18b14
+            type: confirmSMSCode
+            smsCode: 123456
+    confirmSMSCodeResponseMessage:
+      name: confirmSMSCodeResponseMessage
+      title: Confirm SMS Code Response Message
+      summary: Response for confirming an SMS code for a given phone number
+      contentType: application/json
+      payload:
+        title: confirmSMSCodeResponseMessage
+        type: object
+        allOf:
+          - $ref: '#/components/schemas/confirmSMSCodeResponse'
+          - $ref: '#/components/schemas/messageIdTrait'
+          - $ref: '#/components/schemas/correlationIdTrait'
+      examples:
+        - name: confirmSMSCodeResponse success
+          summary: confirmSMSCodeResponse message
+          payload:
+            messageId: c8163bf7-9f67-4b62-97e5-83129bda4422
+            correlationId: b82c6017-430c-48e0-a002-a92fb0e18b14
+            type: confirmSMSCodeResponse
+            resultCode: SUCCESS
+        - name: confirmSMSCodeResponse error
+          summary: confirmSMSCodeResponse message
+          payload:
+            messageId: c8163bf7-9f67-4b62-97e5-83129bda4422
+            correlationId: b82c6017-430c-48e0-a002-a92fb0e18b14
+            type: confirmSMSCodeResponse
+            resultCode: TAN_RETRY_LIMIT_EXCEEDED
+            errorMessage: The SMS code has been entered wrong too many times
+
+    ICCSNReassignmentMessage:
+      name: ICCSNReassignmentMessage
+      title: Notify user af reassigned ICCSN
+      summary: >
+        Notification for the user that the previously paired Phone Number is used with a new eGK.
+        This message is correlated to the registerEGK message.
+      contentType: application/json
+      payload:
+        title: ICCSNReassignmentMessage
+        type: object
+        allOf:
+          - $ref: '#/components/schemas/ICCSNReassignment'
+          - $ref: '#/components/schemas/messageIdTrait'
+          - $ref: '#/components/schemas/correlationIdTrait'
+      examples:
+        - name: ICCSNReassignment
+          summary: ICCSNReassignment message
+          payload:
+            messageId: 559ebb3e-f215-4836-8a65-6f83e531d568
+            correlationId: f1f7bdb6-7562-4152-b636-9f75ca5fb7b1
+            type: ICCSNReassignment
+
+    registerEGKMessage:
+      name: send
+      title: send
+      summary: Card data
+      contentType: application/json
+      payload:
+        title: registerEGKMessage
+        type: object
+        allOf:
+          - $ref: '#/components/schemas/registerEGK'
+          - $ref: '#/components/schemas/messageIdTrait'
+          - $ref: '#/components/schemas/cardSessionTrait'
+      examples:
+        - name: registerEGK
+          summary: registerEGK message
+          payload:
+            messageId: f1f7bdb6-7562-4152-b636-9f75ca5fb7b1
+            cardSessionId: 3509584a-04e7-4756-bab0-0da4a84d0c12
+            type: registerEGK
+            gdo: WgqAJ2iBGZmZloNp
+            atr: 4BECAggJAgMAgAICAggJAgIICV9SDIBmBURFRytEc5Yh4NADBAQB0hBERUlGWDUyRjRHREpNAQAA0xBERUcrRFMzN09TR0syAQAA1BBERUcrRFMzN0dLVjAzAQAA1QMEBAHWEERFRytEQ0IyQ1RHMDEBAADXEERFRytEUERQU19fX18BBgA=
+            cardVersion: 7yvAAwIAAMEDBAUBwhBERUcrRFMzN0dLVjAzAQAAxAMBAADFAwIAAMcDAQAA
+            x509AuthRSA: MIIE8zCCA9ugAwIBAgIDLJx\/MA0GCSqGSIb3DQEBCwUAMIGsMQswCQYDVQQGEwJERTEzMDEGA1UECgwqQXRvcyBJbmZvcm1hdGlvbiBUZWNobm9sb2d5IEdtYkggTk9ULVZBTElEMUUwQwYDVQQLDDxFbGVrdHJvbmlzY2hlIEdlc3VuZGhlaXRza2FydGUtQ0EgZGVyIFRlbGVtYXRpa2luZnJhc3RydWt0dXIxITAfBgNVBAMMGEFUT1MuRUdLLUNBMjA2IFRFU1QtT05MWTAeFw0yMzA0MjAxMTM3NDBaFw0yODA0MjAxMTM3NDBaMIGRMQswCQYDVQQGEwJERTEfMB0GA1UECgwWQU9LIEJhZGVuLVfDvHJ0dGVtYmVyZzESMBAGA1UECwwJMTA4MDE4MDA3MRMwEQYDVQQLDApUMDQ5OTA0NzI3MQ8wDQYDVQQEDAZEZXBqcGkxDzANBgNVBCoMBkthZ3V4aTEWMBQGA1UEAwwNRGVwanBpIEthZ3V4aTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAJW2sUoHHvBAwkInDOuVTVyd8LDCGANsODfgW+k9ZognXZbzzYlYOxBp2\/MAwCFvL084J2ISdRo3aADMssKe\/nhGj16e+86PNNNIHgyD+7MC13BSCc9Bavce6RNy3pTwtkz9MMv01M65gshHww7P5bfrHgA75B4mQQ9ajXUAlBoMBju6aNAeRcfrriXJMxZVbuLaAayVYXIugRcP3E5iIPXNFh573LeYFfB1ZENkT\/hPHt+16hGrQyu3zC8Kd7jEbiJP\/xO2rUWmt77uGMMs2rbFfhAHmV\/hDOM4gCBPX9AAPNmIA2TDM2JW4WUNdA+xFYlrmYlE4ak0XT2sX9YDYBsCAwEAAaOCATUwggExMB0GA1UdDgQWBBSdKMTFoCOE\/Rl6KuDss6TatyM4wDAOBgNVHQ8BAf8EBAMCB4AwDAYDVR0TAQH\/BAIwADBRBgNVHSAESjBIMAkGByqCFABMBEYwOwYIKoIUAEwEgSMwLzAtBggrBgEFBQcCARYhaHR0cDovL3d3dy5nZW1hdGlrLmRlL2dvL3BvbGljaWVzMDcGCCsGAQUFBwEBBCswKTAnBggrBgEFBQcwAYYbaHR0cDovL29jc3AuZWdrLXRlc3QtdHNwLmRlMB8GA1UdIwQYMBaAFLAkydaZxJA2LjQV1dzKPM7xauP\/MBMGA1UdJQQMMAoGCCsGAQUFBwMCMDAGBSskCAMDBCcwJTAjMCEwHzAdMBAMDlZlcnNpY2hlcnRlLy1yMAkGByqCFABMBDEwDQYJKoZIhvcNAQELBQADggEBAC5lsm+8lGg8l7ff0pHNmFiUjioipYHqL1XIxric8YYJV9AOIjLo+QSsGBKnoXM1OCQBZ2SsZDHq10w3djTvoC+HGybqGEuVpImeQEfpG2ZNfLeHgipxc67f1zr1D4gshcJEmb3HbL+a3IQWYW5cTuvllc1COS9\/DgxGqr8xtKI6+Za1k9fvKnSJeQqx0MvvPn+f4peyezWgBaYpakwsihf8qdcQtBdv\/I3cJcYzAwi3A4NxmZmNKe2iNVAwJhxf4MARsAYUgs4bt4W3GhXGyvpuEQoKIJos+6ldKUofuqpcD\/94lVTDH+3fyyk1gSvvxwWal2XFWaTbIy0NrB7NcK0=
+            x509AuthECC: MIIDaDCCAw6gAwIBAgIDL9AHMAoGCCqGSM49BAMCMIGsMQswCQYDVQQGEwJERTEzMDEGA1UECgwqQXRvcyBJbmZvcm1hdGlvbiBUZWNobm9sb2d5IEdtYkggTk9ULVZBTElEMUUwQwYDVQQLDDxFbGVrdHJvbmlzY2hlIEdlc3VuZGhlaXRza2FydGUtQ0EgZGVyIFRlbGVtYXRpa2luZnJhc3RydWt0dXIxITAfBgNVBAMMGEFUT1MuRUdLLUNBMjA1IFRFU1QtT05MWTAeFw0yMzA0MjAxMTM4MDNaFw0yODA0MjAxMTM4MDNaMIGRMQswCQYDVQQGEwJERTEfMB0GA1UECgwWQU9LIEJhZGVuLVfDvHJ0dGVtYmVyZzESMBAGA1UECwwJMTA4MDE4MDA3MRMwEQYDVQQLDApUMDQ5OTA0NzI3MQ8wDQYDVQQEDAZEZXBqcGkxDzANBgNVBCoMBkthZ3V4aTEWMBQGA1UEAwwNRGVwanBpIEthZ3V4aTBaMBQGByqGSM49AgEGCSskAwMCCAEBBwNCAARG\/zHjer2JVpNi8fGLw1TY8UV0jC5OIy3EbPSKYzEY4wj1wu1Uxmz0qhAvuCTTm9dHOakL52PtwiV4\/FB0\/TuOo4IBNTCCATEwHQYDVR0OBBYEFJSkc+7NAvhG3r3+nyGfd7G4MfDeMA4GA1UdDwEB\/wQEAwIHgDAMBgNVHRMBAf8EAjAAMFEGA1UdIARKMEgwCQYHKoIUAEwERjA7BggqghQATASBIzAvMC0GCCsGAQUFBwIBFiFodHRwOi8vd3d3LmdlbWF0aWsuZGUvZ28vcG9saWNpZXMwNwYIKwYBBQUHAQEEKzApMCcGCCsGAQUFBzABhhtodHRwOi8vb2NzcC5lZ2stdGVzdC10c3AuZGUwHwYDVR0jBBgwFoAURqP5XidowY\/nZ0xQaiQfG21t9lwwEwYDVR0lBAwwCgYIKwYBBQUHAwIwMAYFKyQIAwMEJzAlMCMwITAfMB0wEAwOVmVyc2ljaGVydGUvLXIwCQYHKoIUAEwEMTAKBggqhkjOPQQDAgNIADBFAiEAhYTKDwLokoIlbKQy9thUIDv\/CrY5iDHISeTy8sA5FYwCIDxpbggG3wO7wY\/E2\/ZP9af3jP2YroCBqQUATqsnaFef
+            cvcAuth: fyGB2n9OgZNfKQFwQghERUFUWBYCIX9JSwYGKyQDBQMBhkEEIX4kJxFM3ncGzbBV+TZfdzUHlS\/\/OAYnrLLNtHgGKo4SbohQIub0eJ6484BhkT0akp68+388VX97n01Gqu+7Sl8gDAAJgCdogRmZmZaDaX9MEwYIKoIUAEwEgRhTBwAAAAAAAABfJQYCAwAEAgBfJAYCCAAEAgBfN0CK7Ifm998wVduqvBm03qgkdorMRtkxS\/E91Qg5a6Xy\/IccOE5Er12C4FLS8BF+7cpj2aV5PzJm1B0uW7XRK\/Xj
+            cvcCA: fyGB2H9OgZFfKQFwQghERUdYWIYCIH9JTQYIKoZIzj0EAwKGQQRj3tNdi\/J0Zsxh+SkGS5Duab\/mFnzcJuXWoCV7bXO8N6kx5iq1XxHnvSp7hIzi0Eo97jpFpBkl8dVnURuAfEK3XyAIREVBVFgWAiF\/TBMGCCqCFABMBIEYUweAAAAAAAAAXyUGAgEAAgEHXyQGAgkAAgEGXzdAe4\/gFwTxqg8I9W4qgjVp\/98bF2Djo4Z\/\/wdaRx14lYhu2YFdlH+pZpbrphKeRELUBfjtIdE53Z2w1dIP2G6KUw==
+    registerEGKFinishMessage:
+      name: registerEGKFinishMessage
+      title: Register eGK Finish Message
+      summary: Finish message for eGK registration
+      contentType: application/json
+      payload:
+        title: registerEGKFinishMessage
+        type: object
+        allOf:
+          - $ref: '#/components/schemas/registerEGKFinish'
+          - $ref: '#/components/schemas/messageIdTrait'
+          - $ref: '#/components/schemas/correlationIdTrait'
+          - $ref: '#/components/schemas/cardSessionTrait'
+      examples:
+        - name: registerEGKFinish
+          summary: registerEGKFinish message
+          payload:
+            messageId: 47f9fd9e-a893-4245-a15b-54fcaf08b157
+            correlationId: f1f7bdb6-7562-4152-b636-9f75ca5fb7b1
+            cardSessionId: 3509584a-04e7-4756-bab0-0da4a84d0c12
+            type: registerEGKFinish
+            removeCard: true
+
+    sendAPDUMessage:
+      name: receive
+      title: receive
+      summary: Token to be signed
+      contentType: application/json
+      payload:
+        title: sendAPDUMessage
+        type: object
+        allOf:
+          - $ref: '#/components/schemas/sendAPDU'
+          - $ref: '#/components/schemas/messageIdTrait'
+          - $ref: '#/components/schemas/cardSessionTrait'
+      examples:
+        - name: sendAPDU
+          summary: sendAPDU message
+          payload:
+            messageId: ecc801d7-63d4-4f35-8ece-7b0f6309d2f0
+            cardSessionId: 3509584a-04e7-4756-bab0-0da4a84d0c12
+            type: sendAPDU
+            apdu: AIgAABiAJ2iBGZmZloNpD7bD27Eh0y1kmUtD3tkA
+
+    sendAPDUResponseMessage:
+      name: send
+      title: send
+      summary: APDU from card to processing component
+      contentType: application/json
+      payload:
+        title: sendAPDUResponseMessage
+        type: object
+        allOf:
+          - $ref: '#/components/schemas/sendAPDUResponse'
+          - $ref: '#/components/schemas/messageIdTrait'
+          - $ref: '#/components/schemas/correlationIdTrait'
+          - $ref: '#/components/schemas/cardSessionTrait'
+      examples:
+        - name: sendAPDUResponse
+          summary: sendAPDUResponse message
+          payload:
+            messageId: 02774740-35dc-460a-b7dc-b5d076b382c3
+            correlationId: ecc801d7-63d4-4f35-8ece-7b0f6309d2f0
+            cardSessionId: 3509584a-04e7-4756-bab0-0da4a84d0c12
+            type: sendAPDUResponse
+            responseApdu: kbNAK4xv4nyvwEO4fwgmZmnFnwGSb2+WDftJq2Sus0lwx5rQUQ9tq0Q1qKwlyjxpaAL0CSJ1gWRVQkfVzoYxxZAA
+
+    tasklistErrorMessage:
+      name: receive
+      title: receive
+      summary: Error retrieving PN
+      contentType: application/json
+      payload:
+        title: tasklistErrorMessage
+        type: object
+        allOf:
+          - $ref: '#/components/schemas/tasklistError'
+          - $ref: '#/components/schemas/messageIdTrait'
+          - $ref: '#/components/schemas/correlationIdTrait'
+          - $ref: '#/components/schemas/cardSessionTrait'
+      examples:
+        - name: tasklistErrorMessage
+          summary: tasklist Error message example
+          payload:
+            messageId: 54200292-c442-4b1a-a1c1-83cfb596b72c
+            correlationId: f1f7bdb6-7562-4152-b636-9f75ca5fb7b1
+            cardSessionId: 3509584a-04e7-4756-bab0-0da4a84d0c12
+            type: tasklistError
+            status: 500
+            tiStatus: 500
+            errorMessage: ReadVSD Error
+
+    genericErrorMessage:
+      name: error
+      title: error
+      contentType: application/json
+      payload:
+        title: genericErrorMessage
+        type: object
+        allOf:
+          - $ref: '#/components/schemas/genericError'
+          - $ref: '#/components/schemas/messageIdTrait'
+          - $ref: '#/components/schemas/correlationIdOptionalTrait'
+      examples:
+        - name: genericErrorMessage
+          summary: generic Error message example
+          payload:
+            messageId: 54200292-c442-4b1a-a1c1-83cfb596b72c
+            correlationId: f1f7bdb6-7562-4152-b636-9f75ca5fb7b1
+            type: genericError
+            errorCode: INVALID_MESSAGE_DATA
+            errorMessage: Received payload is missing field XYZ.
+
+  messageTraits:
+    commonHeaders:
+      headers:
+        type: object
+        properties:
+          replyTo:
+            type: string
+  correlationIds:
+    default:
+      description: Default Correlation ID
+      location: $message.payload#/correlationId
+
+  schemas:
+    webSocketId:
+      type: string
+      description: Identifier for the established web socket connection
+
+    cardSessionId:
+      type: string
+      description: Card session identifier
+    cardSessionTrait:
+      type: object
+      required:
+        - cardSessionId
+      properties:
+        cardSessionId:
+          $ref: '#/components/schemas/cardSessionId'
+
+    messageId:
+      type: string
+      description: Message identifier
+    messageIdTrait:
+      type: object
+      required:
+        - messageId
+      properties:
+        messageId:
+          $ref: '#/components/schemas/messageId'
+    correlationId:
+      description: CorrelationId
+      $ref: '#/components/schemas/messageId'
+    correlationIdTrait:
+      type: object
+      required:
+        - correlationId
+      properties:
+        correlationId:
+          $ref: '#/components/schemas/correlationId'
+    correlationIdOptionalTrait:
+      type: object
+      properties:
+        correlationId:
+          $ref: '#/components/schemas/correlationId'
+
+    genericError:
+      type: object
+      description: Base type for error messages
+      allOf:
+        - $ref: '#/components/schemas/errorBaseType'
+      required:
+        - type
+      properties:
+        type:
+          type: string
+          const: genericError
+    errorBaseType:
+      type: object
+      description: Base type for error messages
+      required:
+        - errorCode
+        - errorMessage
+      properties:
+        errorCode:
+          $ref: '#/components/schemas/genericErrorResultType'
+          description: Error code describing the error in more detail
+        errorMessage:
+          type: string
+          description: Error message describing the error in more detail
+    genericErrorResultType:
+      type: string
+      enum:
+        - INVALID_MESSAGE_DATA
+        - TI_UNAVAILABLE
+        - TI_SERVICE_ERROR
+        - CARD_EXPIRED
+        - CARD_REVOKED
+        - CARD_INVALID
+        - CARD_ERROR
+        - UNKNOWN_ERROR
+
+    sessionStatus:
+      type: object
+      description: Session Information object
+      required:
+        - type
+        - webSocketId
+      properties:
+        type:
+          type: string
+          const: sessionStatus
+        webSocketId:
+          $ref: '#/components/schemas/webSocketId'
+          description: The session ID chosen by the server for this WS channel
+        phoneRegistered:
+          type: boolean
+          default: false
+          description: Indicator whether the phone number of the user has been registered already in this session
+
+    requestSMSCode:
+      type: object
+      description: Request SMS Code Payload object
+      required:
+        - type
+        - phoneNumber
+      properties:
+        type:
+          type: string
+          const: requestSMSCode
+        phoneNumber:
+          type: string
+          description: The phone number where the SMS code should be sent to
+    requestSMSCodeResponse:
+      type: object
+      description: Request SMS Code Payload Response object
+      required:
+        - type
+        - resultCode
+      properties:
+        type:
+          type: string
+          const: requestSMSCodeResponse
+        resultCode:
+          $ref: '#/components/schemas/smsCodeResultType'
+          description: Result code for SMS Code responses
+        errorMessage:
+          type: string
+          description: Error message in case of an error
+    confirmSMSCode:
+      type: object
+      description: Confirm SMS Code Payload object
+      required:
+        - type
+        - smsCode
+      properties:
+        type:
+          type: string
+          const: confirmSMSCode
+        smsCode:
+          type: string
+          description: The SMS code to validate against the sent value
+    confirmSMSCodeResponse:
+      type: object
+      description: Confirm SMS Code Payload Response object
+      required:
+        - type
+        - resultCode
+      properties:
+        type:
+          type: string
+          const: confirmSMSCodeResponse
+        resultCode:
+          $ref: '#/components/schemas/smsCodeResultType'
+          description: Result code for SMS Code responses
+        errorMessage:
+          type: string
+          description: Error message in case of an error
+    smsCodeResultType:
+      type: string
+      enum:
+        - SUCCESS
+        - NUMBER_FROM_WRONG_COUNTRY
+        - TAN_EXPIRED
+        - TAN_INCORRECT
+        - TAN_RETRY_LIMIT_EXCEEDED
+        - UNKNOWN_ERROR
+
+    ICCSNReassignment:
+      type: object
+      description: ICCSN Reassignment object, indicating to the user, that the ICCSN-Phone association has changed.
+      required:
+        - type
+      properties:
+        type:
+          type: string
+          const: ICCSNReassignment
+
+    registerEGK:
+      type: object
+      required:
+        - type
+        - gdo
+        - cardVersion
+        - x509AuthECC
+        - cvcAuth
+        - cvcCA
+        - atr
+      description: Registration message type containing eGK data.
+      properties:
+        type:
+          type: string
+          const: registerEGK
+        gdo:
+          type: string
+          format: byte
+          description: Data from EF.GDO
+        cardVersion:
+          type: string
+          format: byte
+          description: Data from EF.Version2
+        x509AuthRSA:
+          type: string
+          format: byte
+          description: Data from EF.C.CH.AUT.R2048 - optional
+        x509AuthECC:
+          type: string
+          format: byte
+          description: Data from EF.C.CH.AUT.E256
+        cvcAuth:
+          type: string
+          format: byte
+          description: Data from EF.C.eGK.AUT_CVC.E256
+        cvcCA:
+          type: string
+          format: byte
+          description: Data from EF.C.CA_eGK.CS.E256
+        atr:
+          type: string
+          format: byte
+          description: Data from EF.ATR
+    registerEGKFinish:
+      type: object
+      description: Conclusion message type of the eGK registration.
+      required:
+        - type
+      properties:
+        type:
+          type: string
+          const: registerEGKFinish
+        removeCard:
+          type: boolean
+          default: true
+          description: Indicator whether the card should be removed from the card reader
+
+    sendAPDU:
+      type: object
+      required:
+        - type
+        - apdu
+      description: Type for sending an APDU to the card
+      properties:
+        type:
+          type: string
+          const: sendAPDU
+        apdu:
+          type: string
+          format: byte
+          description: APDU to be forwarded to the card
+
+    sendAPDUResponse:
+      type: object
+      required:
+        - type
+        - responseApdu
+      description: Type for receiving a Response APDU from the card
+      properties:
+        type:
+          type: string
+          const: sendAPDUResponse
+        responseApdu:
+          type: string
+          format: byte
+          description: Response APDU from card/app to bridge
+
+    tasklistError:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/errorBaseType'
+      required:
+        - type
+      properties:
+        type:
+          type: string
+          const: tasklistError
