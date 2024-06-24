@@ -34,13 +34,13 @@ jobs:
       - name: Generating HTML from my AsyncAPI card document
         uses: asyncapi/github-action-for-generator
         with:
-          template: @asyncapi/html-template@2.3.9
+          template: "@asyncapi/html-template@2.3.9"
           filepath: card-communication.yaml
           output: ghpage/card-communication
       - name: Generating HTML from my AsyncAPI prescription document
         uses: asyncapi/github-action-for-generator
         with:
-          template: @asyncapi/html-template@2.3.9
+          template: "@asyncapi/html-template@2.3.9"
           filepath: prescription-communication.yaml
           output: ghpage/prescription-communication
       - name: Setup Pages
