@@ -36,7 +36,7 @@ Dieses Dokument wurde in der [eHealth-CardLink-Taskforce](https://github.com/eHe
 Die Spezifikationen in diesem Dokument werden durch die folgenden [asyncapi](https://www.asyncapi.com/)-Spezifikationen ergänzt:
 
 * [eHealth-CardLink Card Communication Interface](https://github.com/gematik/api-ehcl/blob/main/ehcl/asyncapi.yaml) der gematik GmbH 
-* [eHealth-CardLink Card Communication Interface](https://github.com/eHealthCardLink/api-ehcl-proposal/blob/additional-messages-reworked/ehcl/asyncapi.yaml) der eHealth-CardLink-Taskforce
+* [eHealth-CardLink Card Communication Interface](https://github.com/eHealthCardLink/Spezifikation/blob/main/card-communication.yaml) der eHealth-CardLink-Taskforce ([html](https://ehealthcardlink.github.io/Spezifikation/card-communication/))
 
 > [!NOTE]  
 > Die gematik GmbH hat am **17.06.2024** zu verstehen gegeben, dass zeitnah eine Aktualisierung des API-Schemas erfolgen soll,
@@ -51,7 +51,7 @@ Die Spezifikationen in diesem Dokument werden durch die folgenden [asyncapi](htt
 
 | Version | Datum | Beschreibung der wesentlichen Änderungen | 
 | --- | --- |  --- |
-| `1.0.0 (RC)` | 22.06.2024 | Initiale Version | 
+| `1.0.0 (RC)` | 25.06.2024 | Initiale Version | 
 
 # 1. Einleitung
 
@@ -73,11 +73,11 @@ Die vorliegende Spezifikation ergänzt die eHealth-CardLink-Spezifkation [gemSpe
 ![eHealth-CardLink-detailbild](https://github.com/eHealthCardLink/Spezifikation/assets/166988235/fb2bb66b-5605-4cc9-b9b8-d2f1e6127d00)
 
 Darüber hinaus haben Detailbetrachtungen gezeigt, dass in der von der gematik bereitgestellten Schnittstellenspezifikation für das [card_interface](https://github.com/gematik/api-ehcl/blob/main/ehcl/asyncapi.yaml) essentielle Nachrichten (z.B. für Behandlung der SMS-TAN) leider bislang komplett fehlen.
-Diese notwendigen Ergänzungen der gematik-Spezifikation finden sich in Abschnitt 2.3.
+Diese notwendigen Ergänzungen der gematik-Spezifikation finden sich in [Abschnitt 2.3](#23-nachrichten-jenseits-der-gematik-spezifikation).
 
 ## 2.2 Grundlegende Abläufe beim eHealth-CardLink-Verfahren 
 
-Der grundlegende Ablauf beim eHealth-CardLink-Verfahren gemäß [gemSpec_eHealth-CardLink](https://gemspec.gematik.de/downloads/gemSpec/gemSpec_eHealth-CardLink/gemSpec_eHealth-CardLink_V1.0.0.pdf) ist im nachfolgenden Sequenzdiagramm dargestellt, wobei die rot markierten Nachrichten über das derzeit von der gematik GmbH spezifizierte [card_interface](https://github.com/gematik/api-ehcl/blob/main/ehcl/asyncapi.yaml) hinausgehen und in [Abschnitt 2.3](#zusaetzliche-nachrichten) näher erläutert sind.
+Der grundlegende Ablauf beim eHealth-CardLink-Verfahren gemäß [gemSpec_eHealth-CardLink](https://gemspec.gematik.de/downloads/gemSpec/gemSpec_eHealth-CardLink/gemSpec_eHealth-CardLink_V1.0.0.pdf) ist im nachfolgenden Sequenzdiagramm dargestellt, wobei die rot markierten Nachrichten über das derzeit von der gematik GmbH spezifizierte [card_interface](https://github.com/gematik/api-ehcl/blob/main/ehcl/asyncapi.yaml) hinausgehen und in [Abschnitt 2.3](#23-nachrichten-jenseits-der-gematik-spezifikation) näher erläutert sind.
 
 ![Grundlegender eHealth-CardLink-Ablauf](https://github.com/eHealthCardLink/Spezifikation/blob/main/img/eHealth-CardLink-Ablauf.svg)
 
@@ -178,9 +178,9 @@ Prüfungsnachweis an das PS.
 * `(7.1)` - Der Konnektor liefert in der **ReadVSDResponse**-Nachricht den Prüfungsnachweis zurück an das Primärsystem.
 * `(7.2)` - Um den eHealth-CardLink-Dienst und später die App auf möglicherweise folgende anwendungsspezifische Nachrichten vorzubereiten, etabliert das Primärsystem eine Websocket-Verbindung, die zur entsprechenden ICCSN bzw. eGK korrespondiert.
 * `(7.3)` - Der eHealth-CardLink-Dienst liefert die entsprechende webSocketId in der **sessionStatus**-Nachricht an das Primärsystem zurück.
-* `(7.4)` - Der eHealth-CardLink-Dienst schickt die Nachricht **RegisterEGKFinish** an die App, um zu signalisieren, dass im Erfolgsfall nun anwendungsspezifische Abläufe, wie in [Abschnitt 3.2](ergaenzungsmodule) aufgelistet folgen können.
+* `(7.4)` - Der eHealth-CardLink-Dienst schickt die Nachricht **RegisterEGKFinish** an die App, um zu signalisieren, dass im Erfolgsfall nun anwendungsspezifische Abläufe, wie in [Abschnitt 3.2](#32-existierende-und-geplante-anwendungsspezifische-erg%C3%A4nzungsmodule) aufgelistet folgen können.
 
-## 2.3 [Nachrichten jenseits der gematik-Spezifikation](#zusaetzliche-nachrichten) 
+## 2.3 Nachrichten jenseits der gematik-Spezifikation
 
 In der vorliegenden Spezifikation sind verschiedene (im obigen Sequenzdiagramm rot markierte) Nachrichten enthalten, die über die derzeitige 
 [gemSpec_eHealth-CardLink](https://gemspec.gematik.de/downloads/gemSpec/gemSpec_eHealth-CardLink/gemSpec_eHealth-CardLink_V1.0.0.pdf)
@@ -193,6 +193,8 @@ Spezifikation der gematik hinausgehen:
 * **ICCSNReassignment** - wird an die App gesendet, sofern die eGK vorher mit einer anderen Mobilfunknummr verknüpft war.
 * **RegisterEGKFinish** - signalisiert der App, dass der Basisablauf abgeschlossen ist und nun  anwendungsfallspezifische Abläufe folgen können.
 
+Die technischen Details und entsprechende Beispiele sind Gegenstand der ([YAML-Spezifikation](https://ehealthcardlink.github.io/Spezifikation/card-communication/)).
+
 # 3. Anwendungsfallspezifische Ergänzungsmodule
 
 ## 3.1 Generelle Anforderungen an das application_interface
@@ -201,11 +203,11 @@ Für das application_interface existieren folgende Anforderungen:
 * `TF_02` Für den Datenaustausch im application_interface zwischen App und eHealth-CardLink MUSS der bereits etablierte TLS-Kanal genutzt werden, über den auch der Datenaustausch beim card_interface erfolgt.
 * `TF_03` Für den Datenaustausch im application_interface zwischen AVS und eHealth-CardLink MUSS ein separater TLS-Kanal aufgebaut werden. 
 
-## 3.2 [Existierende und geplante anwendungsspezifische Ergänzungsmodule](#ergaenzungsmodule)
+## 3.2 Existierende und geplante anwendungsspezifische Ergänzungsmodule
 
 | Anhang | Version | Datum | Beschreibung des anwendungsspezifischen Ergänzungsmoduls | 
 | --- | --- |  --- | --- |
-| [`Anhang A`](https://github.com/eHealthCardLink/Spezifikation/blob/main/Anhang-A-E-Rezept-Einl%C3%B6sen.md) | 1.0.0 (RC) | 22.06.2024 | Einlösen von E-Rezepten in einer Apotheke | 
+| [`Anhang A`](https://github.com/eHealthCardLink/Spezifikation/blob/main/Anhang-A-E-Rezept-Einl%C3%B6sen.md) | 1.0.0 (RC) | 25.06.2024 | Einlösen von E-Rezepten in einer Apotheke | 
 | geplant |  |  | Anforderung eines Folgerezeptes | 
 | geplant |  |  | Entfernter Versicherungsnachweis | 
 | geplant |  |  | Ambulante Pflege | 
