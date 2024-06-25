@@ -132,7 +132,7 @@ CardLink-Dienst übermittelt.
 
 #### 2.2.4 Phase 3 - Das Primärsystem ruft ReadVSD am Konnektor auf
 
-Das Primärsystem (PS) ruft die Operation **ReadVSD** (siehe  [gemSpec_SST_PS_VSDM]https://fachportal.gematik.de/fachportal-import/files/gemSpec_SST_PS_VSDM_V1.5.0.pdf), Abschnitt 3.2) am Konnektor auf, wodurch zunächst eine einseitige Authentisierung der eGK durchgeführt wird.
+Das Primärsystem (PS) ruft die Operation **ReadVSD** (siehe  [gemSpec_SST_PS_VSDM](https://fachportal.gematik.de/fachportal-import/files/gemSpec_SST_PS_VSDM_V1.5.0.pdf), Abschnitt 3.2) am Konnektor auf, wodurch zunächst eine einseitige Authentisierung der eGK durchgeführt wird.
 
 * `(3.1)` - Das PS ruft **ReadVSD** am Konnektor auf.
 * `(3.2)` - Der Konnektor tauscht mit dem eHealth-CardLink-Dienst die entsprechenden APDUs über SICCT aus, um die notwendigen eGK-Daten zu ermitteln.
@@ -193,7 +193,7 @@ Spezifikation der gematik hinausgehen:
 * **ICCSNReassignment** - wird an die App gesendet, sofern die eGK vorher mit einer anderen Mobilfunknummr verknüpft war.
 * **RegisterEGKFinish** - signalisiert der App, dass der Basisablauf abgeschlossen ist und nun  anwendungsfallspezifische Abläufe folgen können.
 
-Die technischen Details und entsprechende Beispiele sind Gegenstand der ([YAML-Spezifikation](https://ehealthcardlink.github.io/Spezifikation/card-communication/)).
+Die technischen Details und entsprechende Beispiele sind Gegenstand der [YAML](https://ehealthcardlink.github.io/Spezifikation/card-communication/)-Spezifikation.
 
 # 3. Anwendungsfallspezifische Ergänzungsmodule
 
