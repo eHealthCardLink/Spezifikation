@@ -15,15 +15,15 @@
        <ul>A.1.4 - Phase 4 - Verbindliche Zuweisung der zu dispensierenden E-Rezepte an Apotheke</ul>
        <ul>A.1.5 - Phase 5 - Signaturvalidierung, Dispensierung der E-Rezepte und Abschluss der Transaktion</ul>
     <li><b>A.2 Nachrichten jenseits der gematik-Spezifikationen</b></li>
-      <ul>A.2.1 availablePrescriptionLists</ul>
-      <ul>A.2.1 availablePrescriptionLists</ul>
-      <ul>A.2.2 MedicationSummary</ul> 
-        <ul>A.2.1.1 KBV_PR_ERP_Medication_PZN</ul>
-        <ul>A.2.1.2 KBV_PR_ERP_Medication_Ingredient</ul>
-        <ul>A.2.1.3 KBV_PR_ERP_Medication_Compounding</ul>
-        <ul>A.2.1.4 KBV_PR_ERP_Medication_FreeText</ul>
-     
-      <ul>A.2.3 selectedPrescriptionList</ul>
+      <ul>A.2.1 - availablePrescriptionLists</ul>
+      <ul>A.2.2 - availablePrescriptionLists</ul>
+      <ul>A.2.3 - confirmPrescriptionListMessage</ul>
+      <ul>A.2.4 - medicationSummary</ul> 
+        <ul>A.2.4.1 - medicationPZN (KBV_PR_ERP_Medication_PZN)</ul>
+        <ul>A.2.4.2 - medicationIngredient (KBV_PR_ERP_Medication_Ingredient)</ul>
+        <ul>A.2.4.3 - medicationCompounding (KBV_PR_ERP_Medication_Compounding)</ul>
+        <ul>A.2.4.4 - medicationFreeText (KBV_PR_ERP_Medication_FreeText)</ul>
+      <ul>A.2.5 - selectedPrescriptionList</ul>
   </ol>
 </details>
 
@@ -102,7 +102,36 @@ Der grundlegende Ablauf für das Einlösen von E-Rezepten ist im nachfolgenden S
 * `(39)` - Das AVS führt eine geeignete Protokollierung durch.
 * `(40)` - Im letzten Schritt werden hier die im E-Rezept verordneten Medikamente an den Nutzer per Boten oder Paketversand geliefert bzw. in einer Vor-Ort-Apotheke übergeben.
 
-## A.2 Nachrichten jenseits der gematik-Spezifikationen
+## A.2 Nachrichten jenseits der gematik-Spezifikationen 
+
+Zur Realisierung des oben beschriebenen Ablaufs zum Einlösen von elektronischen Verordnungen
+sind eine Reihe von Nachrichten jenseits der einschlägigen gematik-Spezifikationen nötig.
+
+Im Einzelnen sind dies die nachfolgend und im [YAML-Schema](https://github.com/eHealthCardLink/Spezifikation/blob/main/prescription-communication.yaml) bzw. der zugehörigen [html-Dokumentation](https://ehealthcardlink.github.io/Spezifikation/prescription-communication/) beschriebenen Nachrichten:
+
+* A.2.1 - availablePrescriptionLists
+* A.2.2 - availablePrescriptionLists
+* A.2.3 - confirmPrescriptionListMessage
+* A.2.4 - medicationSummary
+  * A.2.4.1 - medicationPZN (KBV_PR_ERP_Medication_PZN)
+  * A.2.4.2 - medicationIngredient (KBV_PR_ERP_Medication_Ingredient)
+  * A.2.4.3 - medicationCompounding (KBV_PR_ERP_Medication_Compounding)
+  * A.2.4.4 - medicationFreeText (KBV_PR_ERP_Medication_FreeText)
+* A.2.5 - selectedPrescriptionList
+
+### A.2.1 - availablePrescriptionLists
+
+Die **availablePrescriptionLists**-Nachricht besteht aus einer Folge von **availablePrescriptionList**-Elementen.
+Diese sind in Abschnitt A.2.2 und in der [YAML-Dokumentation](https://ehealthcardlink.github.io/Spezifikation/prescription-communication/) 
+näher beschrieben.
+
+### A.2.2 - availablePrescriptionList
+
+Die **availablePrescriptionList**-Nachricht besteht aus einer Folge von **availablePrescriptionList**-Elementen.
+Diese sind in Abschnitt A.2.2 und in der [YAML-Dokumentation](https://ehealthcardlink.github.io/Spezifikation/prescription-communication/) 
+näher beschrieben.
+
+
 Für die Kommunikation zwischen AVS und App müssen unter Berücksichtigung der entsprechenden FHIR-Profile 
 
 * [KBV_PR_ERP_Medication_PZN](https://simplifier.net/eRezept/KBVPRERPMedicationPZN/~overview)
