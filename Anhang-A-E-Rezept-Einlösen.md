@@ -8,19 +8,21 @@
   Versionierung
   <ol>
     <li><b>A.1 Ablauf beim Einlösen von E-Rezepten</b></li>
-      <ul>1.1 Zielsetzung</ul>
-      <ul>1.2 Methodik</ul>
+       <ul>A.1.0 - CardLink-Basisablauf</ul>
+       <ul>A.1.1 - Phase 1 - Aufbau der Verbindung zum FD_eRp</ul>
+       <ul>A.1.2 - Phase 2 - Auslesen der verfügbaren E-Rezepte aus FD_eRp</ul>
+       <ul>A.1.3 - Phase 3 - Auslesen der verfügbaren E-Rezepte aus FD_eRp</ul>
+       <ul>A.1.4 - Phase 4 - Verbindliche Zuweisung der zu dispensierenden E-Rezepte an Apotheke</ul>
+       <ul>A.1.5 - Phase 5 - Signaturvalidierung, Dispensierung der E-Rezepte und Abschluss der Transaktion</ul>
     <li><b>A.2 Nachrichten jenseits der gematik-Spezifikationen</b></li>
-      <ul>A.2.1 MedicationSummary</ul> 
+      <ul>A.2.1 availablePrescriptionLists</ul>
+      <ul>A.2.1 availablePrescriptionLists</ul>
+      <ul>A.2.2 MedicationSummary</ul> 
         <ul>A.2.1.1 KBV_PR_ERP_Medication_PZN</ul>
         <ul>A.2.1.2 KBV_PR_ERP_Medication_Ingredient</ul>
         <ul>A.2.1.3 KBV_PR_ERP_Medication_Compounding</ul>
         <ul>A.2.1.4 KBV_PR_ERP_Medication_FreeText</ul>
-        <ul>2.2.5 Phase 4 - Das Fachmodul VSDM startet die Onlineprüfung der eGK</ul>
-        <ul>2.2.6 Phase 5 - Das Fachmodul VSDM im Konnektor führt Onlineprüfung der eGK durch</ul>
-        <ul>2.2.7 Phase 6 - Das Fachmodul VSDM im Konnektor erstellt den Prüfungsnachweis</ul>
-        <ul>2.2.8 Phase 7 - Der Konnektor liefert den Prüfungsnachweis in ReadVSDResponse zurück</ul>
-      <ul>A.2.2 availablePrescriptionList</ul>
+     
       <ul>A.2.3 selectedPrescriptionList</ul>
   </ol>
 </details>
@@ -67,6 +69,7 @@ Der grundlegende Ablauf für das Einlösen von E-Rezepten ist im nachfolgenden S
 * `(15)` - Jedes so erhaltene E-Rezept wird dekodiert und die E-Rezept-Informationen werden zur weiteren Verarbeitung extrahiert.
 
 ### A.1.3 - Phase 3 - Auslesen der verfügbaren E-Rezepte aus FD_eRp
+
 * `(16)` - Die App fordert die Liste der verfügbaren E-Rezepte beim eHealth-CardLink-Dienst an (**requestPrescriptionList**).
 * `(17)` - Der eHealth-CardLink-Dienst schickt die Nachricht (**requestPrescriptionList**) weiter zum AVS.
 * `(18)` - Die verfügbaren E-Rezept-Informationen werden in einer Liste (**availablePrescriptionLists**) zusammengefasst und über die in Schritt 7.1 etablierte Websocket-Verbindung an den eHealth-CardLink-Dienst übertragen.
@@ -77,12 +80,18 @@ Der grundlegende Ablauf für das Einlösen von E-Rezepten ist im nachfolgenden S
 * `(23)` - Sofern kein ApoShop existiert, werden hier die vom Nutzer ausgewählten E-Rezepte (**selectedPrescriptionList**) von der App an den eHealth-CardLink-Dienst übertragen.
 * `(24)` - Die Liste mit den ausgewählten E-Rezepten (**selectedPrescriptionList**) wird vom eHealth-CardLink-Dienst ans AVS übertragen.
 * `(25)` - Der Empfang der Nachricht wird vom AVS mit der Nachricht (**confirmPrescriptonList**) quittiert.
-* `(26)` - Die (**confirmPrescriptonList**) Nachricht wird an die App weitergeleitet und signalisiert dort, dass der Ablauf für die App beendet ist. 
+* `(26)` - Die (**confirmPrescriptonList**) Nachricht wird an die App weitergeleitet und signalisiert dort, dass der Ablauf für die App beendet ist.
+
+### A.1.4 - Phase 4 - Verbindliche Zuweisung der zu dispensierenden E-Rezepte an Apotheke
+
 * `(27)` - Sofern in Schritt (22) die Steuerung durch den ApoShop übernommen wurde, werden in diesem Schritt die zur Dispensierung vorgesehenen E-Rezepte in der (**selectedPrescriptionList**) Nachricht an das AVS geschickt.
 * `(28)` - Analog zu Schritt (25) wird hier der Empfang der Nachricht vom AVS mit der Nachricht (**confirmPrescriptonList**) quittiert.
 * `(29)` - In diesem Schritt wird das E-Rezept mit einer **$accept**-Nachricht verbindlich bei der Apotheke eingereicht.
 * `(30)` - Der FD_eRp liefert ein Bundle mit einer Task und einen PKCS#7-Container mit dem signierten E-Rezept zurück.
 * `(31)` - Das erhaltene Bundle wird dekodiert und das enthaltene secret wird gespeichert.
+
+### A.1.5 - Phase 5 - Signaturvalidierung, Dispensierung der E-Rezepte und Abschluss der Transaktion
+  
 * `(32)` - Sofern das AVS in einer verteilten Form realisiert ist und ein Teil in einem Rechenzentrum und ein anderer Teil in einer Vor-Ort-Apotheke betrieben wird, können hier weitere optionale Abläufe zur AVS-internen Kommunikation auftreten. 
 * `(33)` - Die qualifizierte elektronische Signatur, die die E-Rezept-Nutzdaten im PKCS#7-Container umschließt, wird unter Verwendung der **VerifyDocument**-Funktion des Konnektors validiert.
 * `(34)` - Der Konnektor liefert das Ergebnis der Signaturvalidierung mit **VerifyDocumentResponse** zurück.
