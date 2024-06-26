@@ -127,30 +127,23 @@ näher beschrieben.
 
 ### A.2.2 - availablePrescriptionList
 
-Die **availablePrescriptionList**-Nachricht besteht aus einer Folge von **availablePrescriptionList**-Elementen.
-Diese sind in Abschnitt A.2.2 und in der [YAML-Dokumentation](https://ehealthcardlink.github.io/Spezifikation/prescription-communication/) 
+Ein **availablePrescriptionList**-Element enthält die "Integrated Circuit Card Serial Number" (**ICCSN**) und eine Folge von **medicationSummary**-Elementen.
+Diese sind in Abschnitt A.2.3 und in der [YAML-Dokumentation](https://ehealthcardlink.github.io/Spezifikation/prescription-communication/) 
 näher beschrieben.
 
+### A.2.3 medicationSummary
+Das **medicationSummary**-Element enthält die Rezeptierdaten einer elektronischen Verordnung in den verschiedenen vorgesehenen Ausprägungen:
 
-Für die Kommunikation zwischen AVS und App müssen unter Berücksichtigung der entsprechenden FHIR-Profile 
-
-* [KBV_PR_ERP_Medication_PZN](https://simplifier.net/eRezept/KBVPRERPMedicationPZN/~overview)
-* [KBV_PR_ERP_Medication_Ingredient](https://simplifier.net/erezept/kbvprerpmedicationingredient)
-* [KBV_PR_ERP_Medication_Compounding](https://simplifier.net/eRezept/KBVPRERPMedicationCompounding/~overview)
-* [KBV_PR_ERP_Medication_FreeText](https://simplifier.net/eRezept/KBVPRERPMedicationFreeText/~overview)
+* A.2.3.1 medicationPZN ([KBV_PR_ERP_Medication_PZN](https://simplifier.net/eRezept/KBVPRERPMedicationPZN/~overview))
+* A.2.3.2 medicationIngredient ([KBV_PR_ERP_Medication_Ingredient](https://simplifier.net/erezept/kbvprerpmedicationingredient))
+* A.2.3.3 medicationCompounding ([KBV_PR_ERP_Medication_Compounding](https://simplifier.net/eRezept/KBVPRERPMedicationCompounding/~overview))
+* A.2.3.4 medicationFreeText ([KBV_PR_ERP_Medication_FreeText](https://simplifier.net/eRezept/KBVPRERPMedicationFreeText/~overview))
    
-der Ressource [Medication](https://build.fhir.org/medication.html) und der zugehörigen "Technischen Anlage zur elektronischen Arzneimittelverordnung (E16A)" [[KBV_ITA_VGEX_TECHNISCHE_ANLAGE_ERP]](https://update.kbv.de/ita-update/DigitaleMuster/ERP/KBV_ITA_VGEX_Technische_Anlage_ERP.pdf) der Kassenärztlichen Bundesvereinigung folgende Datenstrukturen und Nachrichten definiert werden:
+Hierbei handelt es sich um entsprechende Profilierungen der Ressource [Medication](https://build.fhir.org/medication.html) gemäß der zugehörigen "Technischen Anlage zur elektronischen Arzneimittelverordnung (E16A)" [[KBV_ITA_VGEX_TECHNISCHE_ANLAGE_ERP]](https://update.kbv.de/ita-update/DigitaleMuster/ERP/KBV_ITA_VGEX_Technische_Anlage_ERP.pdf) der Kassenärztlichen Bundesvereinigung (KBV). 
 
-* MedicationSummary
-* AvailablePrescriptionList 
-* SelectedPrescriptionList
+Technische Details der **medicationSummary**-Datenstruktur sind in der [YAML-Dokumentation](https://ehealthcardlink.github.io/Spezifikation/prescription-communication/) näher beschrieben.
 
-### A.2.1 MedicationSummary
-Die MedicationSummary-Datenstruktur enthält die Rezeptierdaten  einer elektronischen Verordnung in den verschiedenen oben genannten Ausprägungen. 
-
-Choice!
-
-#### A.2.1.1 [KBV_PR_ERP_Medication_PZN](https://simplifier.net/eRezept/KBVPRERPMedicationPZN/~overview)
+#### A.2.3.1 medicationPZN ([KBV_PR_ERP_Medication_PZN](https://simplifier.net/eRezept/KBVPRERPMedicationPZN/~overview))
 
 In diesem Profil werden die Rezeptierdaten einer Verordnung aus den Preis- und Produktverzeichnissen nach § 131 SGB V abgebildet. 
 
@@ -166,7 +159,7 @@ In diesem Profil werden die Rezeptierdaten einer Verordnung aus den Preis- und P
 | `Einheit` | string | Dieses Feld enthält die Einheit (z.B. Stück) und tritt nur in Verbindung mit „Packungsgröße nach abgeteilter Menge“ auf (z.B. 100 Stück). | 
 | `PackungsgroesseNachNBezeichnung` | string | Dieses Feld enthält die Normgröße der therapiegerechten Packung (z.B. N1). |
 
-#### A.2.1.2 [KBV_PR_ERP_Medication_Ingredient](https://simplifier.net/erezept/kbvprerpmedicationingredient)
+#### A.2.3.2 medicationIngredient ([KBV_PR_ERP_Medication_Ingredient](https://simplifier.net/erezept/kbvprerpmedicationingredient))
 
 In diesem Profil werden die Rezeptierdaten einer **Wirkstoffverordnung** abgebildet. 
 
@@ -190,7 +183,7 @@ Das Element `BestandteilWirkstoffverordnung` enthält die folgenden Elemente:
 | `Wirkstaerke` | string | Dieses Feld enthält eine Angabe der Wirkstärke. Diese ermittelt sich durch die Angabe von Wirkstoffmenge / Bezugsgrößenmenge. Die zugehörige Einheit ist im Feld "Wirkstärkeneinheit" anzugeben. | 
 | `Wirkstaerkeneinheit` | string | Dieses Feld enthält die Einheit der Wirkstärke (bspw. mg/ml). | 
 
-#### A.2.1.3 [KBV_PR_ERP_Medication_Compounding](https://simplifier.net/eRezept/KBVPRERPMedicationCompounding/~overview)
+#### A.2.3.3 medicationCompounding ([KBV_PR_ERP_Medication_Compounding](https://simplifier.net/eRezept/KBVPRERPMedicationCompounding/~overview))
 
 In diesem Profil werden die Rezeptierdaten einer **Rezepturverordnung** abgebildet.
 
@@ -217,7 +210,7 @@ Das Element `BestandteilRezepturverordnung` enthält die folgenden Elemente:
 | `Einheit` | string | Dieses Feld enthält die Einheit des Bestandteils z.B. mg. |
 | `MengeUndEinheit` | string | Dieses Feld enthält eine freitextliche Angabe zur Menge und Einheit des Bestandteils und kann insbesondere für klassische lateinische Angaben z.B. „ad 100,0“ oder „quantum satis“ genutzt werden. |
 
-#### A.2.1.4 [KBV_PR_ERP_Medication_FreeText](https://simplifier.net/eRezept/KBVPRERPMedicationFreeText/)
+#### A.2.3.4 medicationFreeText ([KBV_PR_ERP_Medication_FreeText](https://simplifier.net/eRezept/KBVPRERPMedicationFreeText/))
 
 In diesem Profil werden die Rezeptierdaten einer **freitextlichen Verordnung** abgebildet. 
 
@@ -228,7 +221,7 @@ In diesem Profil werden die Rezeptierdaten einer **freitextlichen Verordnung** a
 | `Freitextverordnung` | string | Dieses Feld enthält den Text einer Freitextverordnung. | 
 | `Darreichungsform` | string | siehe oben |
 
-### A.2.2 availablePrescriptionList 
+### A.2.4 selectedPrescriptionList
 
-### A.2.3 selectedPrescriptionList
+Die **selectedPrescriptionList**-Nachricht spezifiziert, welche elektronischen Verordnungen genau dispensiert werden sollen. 
 
