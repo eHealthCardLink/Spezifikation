@@ -86,7 +86,7 @@ Die Nummerierung der Phasen  orientiert sich an den sieben in [gemSpec_eHealth-C
 #### 2.2.1 Phase 0 - Vorbereitende Schritte und SMS-TAN-Verfahren
 
 * `(0.1)` - Damit der eHealth-CardLink-Dienst später mit dem Konnektor kommunizieren kann, muss zunächst ein Pairing stattfinden. Detials hierzu finden sich in [gemSpec_Kon](https://fachportal.gematik.de/fachportal-import/files/gemSpec_Kon_V5.21.0.pdf) (Abschnitt 4.1.4.3.3).
-* `(0.2)` - Damit das Primärsystem später über eine verfügbare eGK informiert werden kann, muss es sich mittels **Subscribe** am Event-Service des Konnektors registrieren. Detials hierzu finden sich in [gemSpec_Kon](https://fachportal.gematik.de/fachportal-import/files/gemSpec_Kon_V5.21.0.pdf) (Abschnitt 4.1.6.5.4).
+* `(0.2)` - Damit das Primärsystem später über eine verfügbare eGK informiert werden kann, muss es sich mittels **Subscribe** am Event-Service des Konnektors registrieren. Details hierzu finden sich in [gemSpec_Kon](https://fachportal.gematik.de/fachportal-import/files/gemSpec_Kon_V5.21.0.pdf) (Abschnitt 4.1.6.5.4).
 * `(0.3)` - Der Konnektor schickt **SubscribeResponse** an das Primärsystem zurück.
 * `(0.4)` - Bevor das eHealth-CardLink-Verfahren genutzt werden kann, muss die App installiert und ggf. konfiguriert werden. 
 * `(0.5)` - Der Nutzer bzw. die Nutzerin kann den Zugriff auf den Telefonstatus erlauben. Sofern er den Zugriff ablehnt, muss er später seine Mobilfunknummer von Hand erfassen.
