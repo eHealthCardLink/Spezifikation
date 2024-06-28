@@ -16,14 +16,21 @@
        <ul>A.1.5 - Phase 5 - Signaturvalidierung, Dispensierung der E-Rezepte und Abschluss der Transaktion</ul>
     <li><b>A.2 Nachrichten jenseits der gematik-Spezifikationen</b></li>
       <ul>A.2.1 - availablePrescriptionLists</ul>
-      <ul>A.2.2 - availablePrescriptionLists</ul>
-      <ul>A.2.3 - confirmPrescriptionListMessage</ul>
-      <ul>A.2.4 - medicationSummary</ul> 
+      <ul>A.2.2 - availablePrescriptionList</ul>
+      <ul>A.2.3 - confirmSelection</ul>
+      <ul>A.2.4 - medication</ul> 
         <ul>A.2.4.1 - medicationPZN (KBV_PR_ERP_Medication_PZN)</ul>
         <ul>A.2.4.2 - medicationIngredient (KBV_PR_ERP_Medication_Ingredient)</ul>
         <ul>A.2.4.3 - medicationCompounding (KBV_PR_ERP_Medication_Compounding)</ul>
         <ul>A.2.4.4 - medicationFreeText (KBV_PR_ERP_Medication_FreeText)</ul>
-      <ul>A.2.5 - selectedPrescriptionList</ul>
+      <ul>A2.4.5 - practiceSupply</ul>
+      <ul>A.2.6 - prescription</ul>
+        <ul>A2.6.1 - coverage</ul>
+        <ul>A2.6.2 - organisation</ul>
+        <ul>A2.6.3 - patient</ul>
+        <ul>A2.6.4 - practitioner</ul>
+        <ul>A2.6.5 - practitionerRole</ul>
+      <ul>A.2.7 - selectedPrescriptionList</ul>
   </ol>
 </details>
 
@@ -111,13 +118,20 @@ Im Einzelnen sind dies die nachfolgend und im [YAML-Schema](https://github.com/e
 
 * A.2.1 - availablePrescriptionLists
 * A.2.2 - availablePrescriptionLists
-* A.2.3 - confirmPrescriptionListMessage
-* A.2.4 - medicationSummary
+* A.2.3 - confirmSelection
+* A.2.4 - medication
   * A.2.4.1 - medicationPZN (KBV_PR_ERP_Medication_PZN)
   * A.2.4.2 - medicationIngredient (KBV_PR_ERP_Medication_Ingredient)
   * A.2.4.3 - medicationCompounding (KBV_PR_ERP_Medication_Compounding)
   * A.2.4.4 - medicationFreeText (KBV_PR_ERP_Medication_FreeText)
-* A.2.5 - selectedPrescriptionList
+* A2.5 - practiceSupply
+* A.2.6 - prescription
+  * A2.6.1 - coverage
+  * A2.6.2 - organisation
+  * A2.6.3 - patient
+  * A2.6.4 - practitioner
+  * A2.6.5 - practitionerRole
+* A.2.7 - selectedPrescriptionList
 
 ### A.2.1 - availablePrescriptionLists
 
@@ -127,23 +141,29 @@ näher beschrieben.
 
 ### A.2.2 - availablePrescriptionList
 
-Ein **availablePrescriptionList**-Element enthält die "Integrated Circuit Card Serial Number" (**ICCSN**) und eine Folge von **medicationSummary**-Elementen.
+Ein **availablePrescriptionList**-Element enthält die "Integrated Circuit Card Serial Number" (**ICCSN**) und eine Folge von **medication**-Elementen.
 Diese sind in Abschnitt A.2.3 und in der [YAML-Dokumentation](https://ehealthcardlink.github.io/Spezifikation/prescription-communication/) 
 näher beschrieben.
 
-### A.2.3 medicationSummary
-Das **medicationSummary**-Element enthält die Rezeptierdaten einer elektronischen Verordnung in den verschiedenen vorgesehenen Ausprägungen:
+### A.2.3 - confirmSelection
 
-* A.2.3.1 medicationPZN ([KBV_PR_ERP_Medication_PZN](https://simplifier.net/eRezept/KBVPRERPMedicationPZN/~overview))
-* A.2.3.2 medicationIngredient ([KBV_PR_ERP_Medication_Ingredient](https://simplifier.net/erezept/kbvprerpmedicationingredient))
-* A.2.3.3 medicationCompounding ([KBV_PR_ERP_Medication_Compounding](https://simplifier.net/eRezept/KBVPRERPMedicationCompounding/~overview))
-* A.2.3.4 medicationFreeText ([KBV_PR_ERP_Medication_FreeText](https://simplifier.net/eRezept/KBVPRERPMedicationFreeText/~overview))
+Die **confirmSelection**-Nachricht dient der Bestätigung des Erhalts der vorher übermittelten **selectedPrescriptionList**-Nachricht.
+Die technischen Details sind in der [YAML-Dokumentation](https://ehealthcardlink.github.io/Spezifikation/prescription-communication/) 
+näher beschrieben.
+
+### A.2.4 medication
+Das **medication**-Element enthält die Rezeptierdaten einer elektronischen Verordnung in den verschiedenen vorgesehenen Ausprägungen:
+
+* A.2.4.1 medicationPZN ([KBV_PR_ERP_Medication_PZN](https://simplifier.net/eRezept/KBVPRERPMedicationPZN/~overview))
+* A.2.4.2 medicationIngredient ([KBV_PR_ERP_Medication_Ingredient](https://simplifier.net/erezept/kbvprerpmedicationingredient))
+* A.2.4.3 medicationCompounding ([KBV_PR_ERP_Medication_Compounding](https://simplifier.net/eRezept/KBVPRERPMedicationCompounding/~overview))
+* A.2.4.4 medicationFreeText ([KBV_PR_ERP_Medication_FreeText](https://simplifier.net/eRezept/KBVPRERPMedicationFreeText/~overview))
    
 Hierbei handelt es sich um entsprechende Profilierungen der Ressource [Medication](https://build.fhir.org/medication.html) gemäß der zugehörigen "Technischen Anlage zur elektronischen Arzneimittelverordnung (E16A)" [[KBV_ITA_VGEX_TECHNISCHE_ANLAGE_ERP]](https://update.kbv.de/ita-update/DigitaleMuster/ERP/KBV_ITA_VGEX_Technische_Anlage_ERP.pdf) der Kassenärztlichen Bundesvereinigung (KBV). 
 
-Technische Details der **medicationSummary**-Datenstruktur sind in der [YAML-Dokumentation](https://ehealthcardlink.github.io/Spezifikation/prescription-communication/) näher beschrieben.
+Technische Details der **medication**-Datenstruktur sind in der [YAML-Dokumentation](https://ehealthcardlink.github.io/Spezifikation/prescription-communication/) näher beschrieben.
 
-#### A.2.3.1 medicationPZN ([KBV_PR_ERP_Medication_PZN](https://simplifier.net/eRezept/KBVPRERPMedicationPZN/~overview))
+#### A.2.4.1 medicationPZN ([KBV_PR_ERP_Medication_PZN](https://simplifier.net/eRezept/KBVPRERPMedicationPZN/~overview))
 
 In diesem Profil werden die Rezeptierdaten einer Verordnung aus den Preis- und Produktverzeichnissen nach § 131 SGB V abgebildet. 
 
@@ -159,7 +179,7 @@ In diesem Profil werden die Rezeptierdaten einer Verordnung aus den Preis- und P
 | `Einheit` | string | Dieses Feld enthält die Einheit (z.B. Stück) und tritt nur in Verbindung mit „Packungsgröße nach abgeteilter Menge“ auf (z.B. 100 Stück). | 
 | `PackungsgroesseNachNBezeichnung` | string | Dieses Feld enthält die Normgröße der therapiegerechten Packung (z.B. N1). |
 
-#### A.2.3.2 medicationIngredient ([KBV_PR_ERP_Medication_Ingredient](https://simplifier.net/erezept/kbvprerpmedicationingredient))
+#### A.2.4.2 medicationIngredient ([KBV_PR_ERP_Medication_Ingredient](https://simplifier.net/erezept/kbvprerpmedicationingredient))
 
 In diesem Profil werden die Rezeptierdaten einer **Wirkstoffverordnung** abgebildet. 
 
@@ -183,7 +203,7 @@ Das Element `BestandteilWirkstoffverordnung` enthält die folgenden Elemente:
 | `Wirkstaerke` | string | Dieses Feld enthält eine Angabe der Wirkstärke. Diese ermittelt sich durch die Angabe von Wirkstoffmenge / Bezugsgrößenmenge. Die zugehörige Einheit ist im Feld "Wirkstärkeneinheit" anzugeben. | 
 | `Wirkstaerkeneinheit` | string | Dieses Feld enthält die Einheit der Wirkstärke (bspw. mg/ml). | 
 
-#### A.2.3.3 medicationCompounding ([KBV_PR_ERP_Medication_Compounding](https://simplifier.net/eRezept/KBVPRERPMedicationCompounding/~overview))
+#### A.2.4.3 medicationCompounding ([KBV_PR_ERP_Medication_Compounding](https://simplifier.net/eRezept/KBVPRERPMedicationCompounding/~overview))
 
 In diesem Profil werden die Rezeptierdaten einer **Rezepturverordnung** abgebildet.
 
@@ -210,7 +230,7 @@ Das Element `BestandteilRezepturverordnung` enthält die folgenden Elemente:
 | `Einheit` | string | Dieses Feld enthält die Einheit des Bestandteils z.B. mg. |
 | `MengeUndEinheit` | string | Dieses Feld enthält eine freitextliche Angabe zur Menge und Einheit des Bestandteils und kann insbesondere für klassische lateinische Angaben z.B. „ad 100,0“ oder „quantum satis“ genutzt werden. |
 
-#### A.2.3.4 medicationFreeText ([KBV_PR_ERP_Medication_FreeText](https://simplifier.net/eRezept/KBVPRERPMedicationFreeText/))
+#### A.2.4.4 medicationFreeText ([KBV_PR_ERP_Medication_FreeText](https://simplifier.net/eRezept/KBVPRERPMedicationFreeText/))
 
 In diesem Profil werden die Rezeptierdaten einer **freitextlichen Verordnung** abgebildet. 
 
@@ -221,7 +241,47 @@ In diesem Profil werden die Rezeptierdaten einer **freitextlichen Verordnung** a
 | `Freitextverordnung` | string | Dieses Feld enthält den Text einer Freitextverordnung. | 
 | `Darreichungsform` | string | siehe oben |
 
-### A.2.4 selectedPrescriptionList
+### A2.5 - practiceSupply
+
+Das **practiceSupply**-Element dient der Verschreibung von Sprechstundenbedarf gemäß [KBV_PR_ERP_PRACTICESUPPLY](https://simplifier.net/erezept/kbvprerppracticesupply). 
+   
+Technische Details der **practiceSupply**-Datenstruktur sind in der [YAML-Dokumentation](https://ehealthcardlink.github.io/Spezifikation/prescription-communication/) näher beschrieben.
+
+### A.2.6 - prescription
+
+Das **prescription**-Element bildet die fachlich und medizinisch relevanten Bestandteile einer Arzneimittelverordnung ab.
+
+Es ist in [KBV_PR_ERP_Prescription](https://simplifier.net/erezept/kbvprerpprescription) und der "Technischen Anlage zur elektronischen Arzneimittelverordnung (E16A)" [[KBV_ITA_VGEX_TECHNISCHE_ANLAGE_ERP]](https://update.kbv.de/ita-update/DigitaleMuster/ERP/KBV_ITA_VGEX_Technische_Anlage_ERP.pdf) (P36-26) spezifiziert und nachfolgend näher erläutert:
+
+| Element | Datentyp | Beschreibung | 
+| --- | --- |  --- |
+| `Ausstellungsdatum` |  | 80 | 
+| `Noctu` | boolean | 82 |
+| `BVG` | boolean | 85 |
+| `Zuzahlungsstatus` | string | 77 |
+| `AutIdem` | boolean | 102 |
+| `Abgabehinweis` | string | 105 |
+| `Anzahl` | integer | 113 |
+| `Dosierung` | Dosierung |  |
+| `Unfallinformationen` | Unfallinformationen |  |
+| `Mehrfachverordnung` | Mehrfachverordnung |  |
+| `Medication` | medication |  |
+| `Coverage` | coverage |  |
+| `Patient` | patient |  |
+| `Practitioner` | practitioner |  |
+
+Technische Details der **prescription**-Datenstruktur sind in der [YAML-Dokumentation](https://ehealthcardlink.github.io/Spezifikation/prescription-communication/) näher beschrieben. 
+
+  #### A2.6.1 - coverage
+  #### A2.6.2 - organisation
+  #### A2.6.3 - patient
+  #### A2.6.4 - practitioner
+  #### A2.6.5 - practitionerRole
+
+
+
+### A.2.7 selectedPrescriptionList
 
 Die **selectedPrescriptionList**-Nachricht spezifiziert, welche elektronischen Verordnungen genau dispensiert werden sollen. 
 
+Technische Details der **selectedPrescriptionList**-Datenstruktur sind in der [YAML-Dokumentation](https://ehealthcardlink.github.io/Spezifikation/prescription-communication/) näher beschrieben.
