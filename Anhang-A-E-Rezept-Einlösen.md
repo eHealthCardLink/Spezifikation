@@ -292,8 +292,8 @@ Es ist in [KBV_PR_FOR_Coverage](https://simplifier.net/packages/kbv.ita.for/1.1.
 | `IK-Krankenkasse` | string | Dieses Feld enthält das Institutionskennzeichen (IK) der zuständigen Krankenkasse z.B. laut elektronischer Ge-sundheitskarte (eGK). | 
 | `IK-Kostentraeger` | string | Dieses Feld enthält das Institutionskennzeichen (IK) des Kostenträgers und wird verwendet, wenn der Kostenträger nicht die zuständige Krankenkasse ist, bspw. eine Berufsgenossenschaft (BG) oder eine Unfallkasse (UK). | 
 | `Kostentraeger` | string | Name des Kostenträgers | 
-| `WOP` | string | Dieses Feld enthält das Wohnortkennzeichen entsprechend des Wohnortprinzips (WOP) für Honorar-vereinbarungen (BMVÄ Anlage 21). XXX| 
-| `Versichertenstatus` | string | Dieser Block enthält Angaben zum Versichertenstatus. | 
+| `WOP` | string | Dieses Feld enthält das Wohnortkennzeichen entsprechend des Wohnortprinzips (WOP) für Honorarvereinbarungen (BMV-Ä Anlage 21). Die vorgesehenen Werte sind der Schlüsseltabelle [S_ITA_WOP](https://applications.kbv.de/S_ITA_WOP.xhtml) zu entnehmen.| 
+| `Versichertenstatus` | string | Dieses Element enthält Angaben zum Versichertenstatus. Gemäß [Leitfaden Basis DE (STU3)](https://ig.fhir.de/basisprofile-de/0.2.30/Versichertenstatus2.html) sind folgende Werte vorgesehen: "1"	(Mitglieder), "3"	(Familienangehörige), "5" (Rentner). | 
 | `BesonderePersonengruppe` | string | Dieses Feld enthält die be-sondere Personengruppe, zu der der Versicherte ge-hört (§ 264 SGB V). | 
 | `DMP-KZ` | string | Dieses Feld enthält das Disease-Management-Programm (DMP), in dem der Versicherte eingeschrieben ist (§ 284 Abs. 1 Satz 1 Nr. 14 SGB V). | 
 | `Versicherungsschutz-Ende` | date | In diesem Feld kann das Datum des Endes des Versicherungsschutzes angegeben werden, wenn die Datumsangabe auf der Versichertenkarte gespeichert ist und ausgelesen wurde. | 
