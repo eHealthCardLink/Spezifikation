@@ -41,7 +41,7 @@ die Abläufe beim **Einlösen von elektronischen Verordnungen**.
 Diese Spezifikation ergänzt die [Basisspezifikation](https://github.com/eHealthCardLink/Spezifikation/blob/main/Spezifikation.md) für den eHealth-CardLink-Ablauf, der wiederum auf der entsprechenden 
 Spezifikation [gemSpec_eHealth-CardLink](https://gemspec.gematik.de/downloads/gemSpec/gemSpec_eHealth-CardLink/gemSpec_eHealth-CardLink_V1.0.0.pdf) der gematik GmbH aufbaut.
 
-Die Spezifikationen in diesem Dokument werden durch die folgende [asyncapi](https://www.asyncapi.com/)-Spezifikationen ergänzt:
+Die Spezifikationen in diesem Dokument wird durch die folgende [asyncapi](https://www.asyncapi.com/)-Spezifikation ergänzt:
 
 * [eHealth-CardLink Prescription Communication Interface](https://github.com/eHealthCardLink/Spezifikation/blob/main/prescription-communication.yaml) der eHealth-CardLink-Taskforce, die auch als [html](https://ehealthcardlink.github.io/Spezifikation/prescription-communication/) verfügbar ist. 
 
@@ -286,6 +286,8 @@ Das **coverage**-Element bildet die fachlich und medizinisch relevanten Bestandt
 
 Es ist in [KBV_PR_FOR_COVERAGE](https://simplifier.net/packages/kbv.ita.for/1.1.0/files/720092) und "Technisches Handbuch Digitale Vordrucke" [KBV_ITA_VGEX_TECHNISCHES_HANDBUCH_DIMUS](https://update.kbv.de/ita-update/DigitaleMuster/KBV_ITA_VGEX_Technisches_Handbuch_DiMus.pdf) (P4-04) spezifiziert und nachfolgend näher erläutert.
 
+Technische Details der **coverage**-Datenstruktur sind in der [YAML-Dokumentation](https://ehealthcardlink.github.io/Spezifikation/prescription-communication/) näher beschrieben.
+
 | Element | Datentyp | Beschreibung | 
 | --- | --- |  --- |
 | `Kostentraegertyp` | string | Dieses Feld gibt den Kostenträgertyp an. Gemäß [KBV_VS_FOR_Payor_type](https://simplifier.net/for/kbvvsforpayortype) und [KBV_CS_FOR_Payor_Type_KBV](https://simplifier.net/for/kbvcsforpayortypekbv) sind die folgenden  Werte vorgesehen: "GKV"	(gesetzliche Krankenversicherung), "PKV"	(private Krankenversicherung), "BG"	(Berufsgenossenschaft), "SEL"	(Selbstzahler), "SKT" (Sonstige Kostenträger), "UK" (Unfallkassen).| 
@@ -308,9 +310,11 @@ Das **patient**-Element bildet die Daten des Patienten ab.
 
 Es ist in [KBV_PR_FOR_PATIENT](https://fhir.kbv.de/StructureDefinition/KBV_PR_FOR_Patient) und "Technisches Handbuch Digitale Vordrucke" [KBV_ITA_VGEX_TECHNISCHES_HANDBUCH_DIMUS](https://update.kbv.de/ita-update/DigitaleMuster/KBV_ITA_VGEX_Technisches_Handbuch_DiMus.pdf) (P4-05) spezifiziert und nachfolgend näher erläutert.
 
+Technische Details der **patient**-Datenstruktur sind in der [YAML-Dokumentation](https://ehealthcardlink.github.io/Spezifikation/prescription-communication/) näher beschrieben.
+
 | Element | Datentyp | Beschreibung | 
 | --- | --- |  --- |
-| `Identifikator` | string | Dieses Feld enthält den Identifikator der Person, z.B. die Krankenversicherungs-nummer der GKV oder PKV. | 
+| `Identifikator` | string | Dieses Feld enthält den Identifikator der Person, z.B. die Krankenversicherungsnummer der GKV oder PKV. | 
 | `GKV-VersichertenID` | string | Dieses Feld enthält die VersichertenID der gesetzlichen Krankenversicherung (unveränderlicher Teil der einheitlichen Krankenversicherungsnummer der GKV gemäß § 290 SGB V). | 
 | `PKV-VersichertenID` | string | Dieses Feld enthält die VersichertenID der privaten Krankenversicherung (unveränderlicher Teil der einheitlichen Krankenversichertennummer gemäß § 290 SGB V). | 
 | `KVK-Versichertennummer` | string | Dieses Feld enthält die Versichertennummer der Krankenversichertenkarte. | 
@@ -344,6 +348,29 @@ Das Element **postfachadresse** (34) ist folgendermaßen strukturiert.
 
   
   #### A2.6.4 - practitioner
+
+Das **practitioner**-Element bildet die Daten des verordnenden Leistungserbringer (z.B. Arzt) ab. 
+
+Es ist in [KBV_PR_FOR_Practitioner](https://simplifier.net/for/kbvprforpractitioner) und "Technisches Handbuch Digitale Vordrucke" [KBV_ITA_VGEX_TECHNISCHES_HANDBUCH_DIMUS](https://update.kbv.de/ita-update/DigitaleMuster/KBV_ITA_VGEX_Technisches_Handbuch_DiMus.pdf) (P4-01) spezifiziert und nachfolgend näher erläutert.
+
+Technische Details der **practitioner**-Datenstruktur sind in der [YAML-Dokumentation](https://ehealthcardlink.github.io/Spezifikation/prescription-communication/) näher beschrieben.
+
+| Element | Datentyp | Beschreibung | 
+| --- | --- |  --- |
+| `Typ` | string | 41 | 
+| `Berufsbezeichnung` | string | 49 | 
+| `ASV-FGN` | string | 147 | 
+| `Identifikator` | string | 42 | 
+| `Arztnummer` | string | 42a | 
+| `Zaharztnummer` | string | 42b | 
+| `Telematik-ID` | string | 42c | 
+| `Vorname` | string | 44 | 
+| `Name` | string | 45 | 
+| `Titel` | string | 46 | 
+| `Namenszusatz` | string | 47 | 
+| `Vorsatzwort` | string | 48 | 
+
+  
   #### A2.6.5 - practitionerRole
 
 
