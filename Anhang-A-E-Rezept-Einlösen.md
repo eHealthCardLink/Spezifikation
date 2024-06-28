@@ -284,7 +284,7 @@ Technische Details der **prescription**-Datenstruktur sind in der [YAML-Dokument
 
 Das **coverage**-Element bildet die fachlich und medizinisch relevanten Bestandteile einer Arzneimittelverordnung ab.
 
-Es ist in [KBV_PR_FOR_Coverage](https://simplifier.net/packages/kbv.ita.for/1.1.0/files/720092) und "Technisches Handbuch Digitale Vordrucke" [KBV_ITA_VGEX_TECHNISCHES_HANDBUCH_DIMUS](https://update.kbv.de/ita-update/DigitaleMuster/KBV_ITA_VGEX_Technisches_Handbuch_DiMus.pdf) (P4-04) spezifiziert und nachfolgend näher erläutert.
+Es ist in [KBV_PR_FOR_COVERAGE](https://simplifier.net/packages/kbv.ita.for/1.1.0/files/720092) und "Technisches Handbuch Digitale Vordrucke" [KBV_ITA_VGEX_TECHNISCHES_HANDBUCH_DIMUS](https://update.kbv.de/ita-update/DigitaleMuster/KBV_ITA_VGEX_Technisches_Handbuch_DiMus.pdf) (P4-04) spezifiziert und nachfolgend näher erläutert.
 
 | Element | Datentyp | Beschreibung | 
 | --- | --- |  --- |
@@ -294,13 +294,55 @@ Es ist in [KBV_PR_FOR_Coverage](https://simplifier.net/packages/kbv.ita.for/1.1.
 | `Kostentraeger` | string | Name des Kostenträgers | 
 | `WOP` | string | Dieses Feld enthält das Wohnortkennzeichen entsprechend des Wohnortprinzips (WOP) für Honorarvereinbarungen (BMV-Ä Anlage 21). Die vorgesehenen Werte sind der Schlüsseltabelle [S_ITA_WOP](https://applications.kbv.de/S_ITA_WOP.xhtml) zu entnehmen.| 
 | `Versichertenstatus` | string | Dieses Element enthält Angaben zum Versichertenstatus. Gemäß [Leitfaden Basis DE (STU3)](https://ig.fhir.de/basisprofile-de/0.2.30/Versichertenstatus2.html) sind folgende Werte vorgesehen: "1"	(Mitglieder), "3"	(Familienangehörige), "5" (Rentner). | 
-| `BesonderePersonengruppe` | string | Dieses Feld enthält die be-sondere Personengruppe, zu der der Versicherte ge-hört (§ 264 SGB V). | 
-| `DMP-KZ` | string | Dieses Feld enthält das Disease-Management-Programm (DMP), in dem der Versicherte eingeschrieben ist (§ 284 Abs. 1 Satz 1 Nr. 14 SGB V). | 
+| `BesonderePersonengruppe` | string | Dieses Feld enthält die besondere Personengruppe, zu der der Versicherte gehört (§ 264 SGB V). Die entsprechenden Werte sind der Schlüsseltabelle [S_KBV_PERSONENGRUPPE](https://applications.kbv.de/S_KBV_PERSONENGRUPPE.xhtml) zu entnehmen. | 
+| `DMP-KZ` | string | Dieses Feld enthält das Disease-Management-Programm (DMP), in dem der Versicherte eingeschrieben ist (§ 284 Abs. 1 Satz 1 Nr. 14 SGB V). Die vorgesehenen Werte sind der Schlüsseltabelle [S_KBV_DMP](https://applications.kbv.de/S_KBV_DMP_V1.06.xhtml) zu entnehmen. | 
 | `Versicherungsschutz-Ende` | date | In diesem Feld kann das Datum des Endes des Versicherungsschutzes angegeben werden, wenn die Datumsangabe auf der Versichertenkarte gespeichert ist und ausgelesen wurde. | 
-
   
   #### A2.6.2 - organisation
+
+
+  
   #### A2.6.3 - patient
+
+Das **patient**-Element bildet die Daten des Patienten ab. 
+
+Es ist in [KBV_PR_FOR_PATIENT](https://fhir.kbv.de/StructureDefinition/KBV_PR_FOR_Patient) und "Technisches Handbuch Digitale Vordrucke" [KBV_ITA_VGEX_TECHNISCHES_HANDBUCH_DIMUS](https://update.kbv.de/ita-update/DigitaleMuster/KBV_ITA_VGEX_Technisches_Handbuch_DiMus.pdf) (P4-05) spezifiziert und nachfolgend näher erläutert.
+
+| Element | Datentyp | Beschreibung | 
+| --- | --- |  --- |
+| `Identifikator` | string | Dieses Feld enthält den Identifikator der Person, z.B. die Krankenversicherungs-nummer der GKV oder PKV. | 
+| `GKV-VersichertenID` | string | Dieses Feld enthält die VersichertenID der gesetzlichen Krankenversicherung (unveränderlicher Teil der einheitlichen Krankenversicherungsnummer der GKV gemäß § 290 SGB V). | 
+| `PKV-VersichertenID` | string | Dieses Feld enthält die VersichertenID der privaten Krankenversicherung (unveränderlicher Teil der einheitlichen Krankenversichertennummer gemäß § 290 SGB V). | 
+| `KVK-Versichertennummer` | string | Dieses Feld enthält die Versichertennummer der Krankenversichertenkarte. | 
+| `Vorname` | string | Dieses Feld enthält den Vor-namen des Versicherten; mehrere Vornamen sind durch Blank oder Bindestrich getrennt.| 
+| `Name` | string | Dieses Feld enthält den Nachnamen des Versicher-ten. | 
+| `Titel` | string | Dieses Feld enthält den akademischen Grad des Versicherten, z.B. „Dr. med.“, „Dr.rer.nat.“. | 
+| `Namenszusatz` | string | Dieses Feld enthält den Namenszusatz als Bestandteil des Nachnamens des Versicherten, z.B. „Freiherr“, „Gräfin“; mehrere Namenszusätze sind durch Blank getrennt. | 
+| `Vorsatzwort` | string | Dieses Feld enthält das Vorsatzwort als Bestandteil des Nachnamens des Versicherten, z.B. „von“, „von der“, „zu“ ; mehrere Vorsatzwörter sind durch Blank ge-trennt. | 
+| `Geburtsdatum` | date | Dieses Feld gibt das Geburtsdatum des Versicherten an. | 
+| `Adresse` | strassenaddresse oder postfachadresse | Entweder Straßenadresse oder Postfachaddresse. | 
+
+Das Element **strassenadresse** ist folgendermaßen strukturiert.
+
+| Element | Datentyp | Beschreibung | 
+| --- | --- |  --- |
+| `Land` | string | Dieses Feld enthält den Wohnsitzländercode (entsprechend Gemeinsames Rundschreiben DEÜV Anlage 08). | 
+| `PLZ` | string | In diesem Feld kann die Postleitzahl angegeben werden. | 
+| `Ort` | string | In diesem Feld kann der Ortsnamen angegeben werden. Mehrere Namensbestandteile sind durch Blank/Sonderzeichen getrennt. | 
+| `Strasse` | string | In diesem Feld kann der Straßennamen angegeben werden. | 
+| `Hausnummer` | string | In diesem Feld kann die Hausnummer angegeben werden. | 
+| `Zusatz` | string | In diesem Feld kann der Anschriftenzusatz angegeben werden, z.B. Hinterhaus. | 
+
+Das Element **postfachadresse** (34) ist folgendermaßen strukturiert.
+
+| Element | Datentyp | Beschreibung | 
+| --- | --- |  --- |
+| `Land` | string | siehe oben | 
+| `PLZ` | string | siehe oben | 
+| `Ort` | string | siehe oben | 
+| `Postfach` | string | In diesem Feld kann das Postfach angegeben werden. | 
+
+  
   #### A2.6.4 - practitioner
   #### A2.6.5 - practitionerRole
 
