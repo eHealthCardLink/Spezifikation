@@ -318,13 +318,19 @@ Technische Details der **patient**-Datenstruktur sind in der [YAML-Dokumentation
 | `GKV-VersichertenID` | string | Dieses Feld enthält die VersichertenID der gesetzlichen Krankenversicherung (unveränderlicher Teil der einheitlichen Krankenversicherungsnummer der GKV gemäß § 290 SGB V). | 
 | `PKV-VersichertenID` | string | Dieses Feld enthält die VersichertenID der privaten Krankenversicherung (unveränderlicher Teil der einheitlichen Krankenversichertennummer gemäß § 290 SGB V). | 
 | `KVK-Versichertennummer` | string | Dieses Feld enthält die Versichertennummer der Krankenversichertenkarte. | 
-| `Vorname` | string | Dieses Feld enthält den Vor-namen des Versicherten; mehrere Vornamen sind durch Blank oder Bindestrich getrennt.| 
-| `Name` | string | Dieses Feld enthält den Nachnamen des Versicher-ten. | 
-| `Titel` | string | Dieses Feld enthält den akademischen Grad des Versicherten, z.B. „Dr. med.“, „Dr.rer.nat.“. | 
-| `Namenszusatz` | string | Dieses Feld enthält den Namenszusatz als Bestandteil des Nachnamens des Versicherten, z.B. „Freiherr“, „Gräfin“; mehrere Namenszusätze sind durch Blank getrennt. | 
-| `Vorsatzwort` | string | Dieses Feld enthält das Vorsatzwort als Bestandteil des Nachnamens des Versicherten, z.B. „von“, „von der“, „zu“ ; mehrere Vorsatzwörter sind durch Blank ge-trennt. | 
+| `Person` | person | Dieses Element enthält die Informationen zur betreffenden Person. | 
 | `Geburtsdatum` | date | Dieses Feld gibt das Geburtsdatum des Versicherten an. | 
 | `Adresse` | strassenaddresse oder postfachadresse | Entweder Straßenadresse oder Postfachaddresse. | 
+
+Das Element **person** ist folgendermaßen strukturiert.
+
+| Element | Datentyp | Beschreibung | 
+| --- | --- |  --- |
+| `Vorname` | string | Dieses Feld enthält den Vornamen der Person; mehrere Vornamen sind durch Blank oder Bindestrich getrennt.| 
+| `Name` | string | Dieses Feld enthält den Nachnamen des Person. | 
+| `Titel` | string | Dieses Feld enthält den akademischen Grad der Person, z.B. „Dr. med.“, „Dr.rer.nat.“. | 
+| `Namenszusatz` | string | Dieses Feld enthält den Namenszusatz als Bestandteil des Nachnamens der Person, z.B. „Freiherr“, „Gräfin“; mehrere Namenszusätze sind durch Blank getrennt. | 
+| `Vorsatzwort` | string | Dieses Feld enthält das Vorsatzwort als Bestandteil des Nachnamens der Person, z.B. „von“, „von der“, „zu“ ; mehrere Vorsatzwörter sind durch Blank getrennt. | 
 
 Das Element **strassenadresse** ist folgendermaßen strukturiert.
 
@@ -357,19 +363,14 @@ Technische Details der **practitioner**-Datenstruktur sind in der [YAML-Dokument
 
 | Element | Datentyp | Beschreibung | 
 | --- | --- |  --- |
-| `Typ` | string | 41 | 
-| `Berufsbezeichnung` | string | 49 | 
-| `ASV-FGN` | string | 147 | 
-| `Identifikator` | string | 42 | 
-| `Arztnummer` | string | 42a | 
-| `Zaharztnummer` | string | 42b | 
-| `Telematik-ID` | string | 42c | 
-| `Vorname` | string | 44 | 
-| `Name` | string | 45 | 
-| `Titel` | string | 46 | 
-| `Namenszusatz` | string | 47 | 
-| `Vorsatzwort` | string | 48 | 
-
+| `Typ` | string | Dieses Feld enthält einen Typ zur Kennzeichnung der verschreibenden Person, z.B. Arzt, Arzt in Weiterbildung. Die vorgesehenen Werte sind der Schlüsseltabelle [KBV_CS_FOR_Qualification_Type](https://simplifier.net/for/kbvcsforqualificationtype) zu entnehmen. | 
+| `Berufsbezeichnung` | string | Dieses Feld enthält eine Freitextangabe zur Berufsbezeichnung, z. B. Facharzt für Allgemeinmedizin, Prak-tischer Arzt. | 
+| `ASV-FGN` | string | Dieses Feld enthält die ASV-Fachgruppennummer (ASV-FGN) gemäß der Vereinbarung über ambulante spezialärztliche Versorgung (ASV) (ASV-AV) § 9 Absatz 5. Diese ist gemäß der ASV-AV von Krankenhausärzten an Stelle der Arztnummer anzugeben. | 
+| `Arztnummer` | string | Dieses Feld enthält als Identifikator der Person eine Arztnummer (Lebenslange Arztnummer LANR). | 
+| `Zahnarztnummer` | string | Dieses Feld enthält als Identifikator der Person, eine Zahnarztnummer (ZANR). | 
+| `Telematik-ID` | string | Dieses Feld enthält als Identifikator der Person eine Telematik-ID. | 
+| `Person` | person | siehe oben  | 
+| `VerantwortlichePerson` | string | 51 | 
   
   #### A2.6.5 - practitionerRole
 
