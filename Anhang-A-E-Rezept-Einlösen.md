@@ -8,7 +8,7 @@
   Versionierung
   <ol>
     <li><b>A.1 Ablauf beim Einlösen von E-Rezepten</b></li>
-       <ul>A.1.0 - CardLink-Basisablauf</ul>
+       <ul>A.1.0 - eHealth-CardLink-Basisablauf</ul>
        <ul>A.1.1 - Phase 1 - Aufbau der Verbindung zum FD_eRp</ul>
        <ul>A.1.2 - Phase 2 - Auslesen der verfügbaren E-Rezepte aus FD_eRp</ul>
        <ul>A.1.3 - Phase 3 - Auslesen der verfügbaren E-Rezepte aus FD_eRp</ul>
@@ -57,7 +57,7 @@ Der grundlegende Ablauf für das Einlösen von E-Rezepten ist im nachfolgenden S
 
 ![Ablauf zum Einlösen von E-Rezepten in einer Apotheke](https://github.com/eHealthCardLink/Spezifikation/blob/main/img/E-Rezept-Einl%C3%B6sen-Ablauf-mit-ApoShop.svg)
 
-### A.1.0 - CardLink-Basisablauf
+### A.1.0 - eHealth-CardLink-Basisablauf
 
 * `(0)-(7)` - Bevor E-Rezepte in einer Apotheke mit dem eHealth-CardLink-Verfahren eingelöst werden können, müssen die notwendigen Schritte im [Basisablauf](https://github.com/eHealthCardLink/Spezifikation/blob/main/Spezifikation.md) durchgeführt werden.
 
@@ -251,28 +251,54 @@ Technische Details der **practiceSupply**-Datenstruktur sind in der [YAML-Dokume
 
 Das **prescription**-Element bildet die fachlich und medizinisch relevanten Bestandteile einer Arzneimittelverordnung ab.
 
-Es ist in [KBV_PR_ERP_Prescription](https://simplifier.net/erezept/kbvprerpprescription) und der "Technischen Anlage zur elektronischen Arzneimittelverordnung (E16A)" [[KBV_ITA_VGEX_TECHNISCHE_ANLAGE_ERP]](https://update.kbv.de/ita-update/DigitaleMuster/ERP/KBV_ITA_VGEX_Technische_Anlage_ERP.pdf) (P36-26) spezifiziert und nachfolgend näher erläutert:
+Es ist in [KBV_PR_ERP_Prescription](https://simplifier.net/erezept/kbvprerpprescription) und der "Technischen Anlage zur elektronischen Arzneimittelverordnung (E16A)" [[KBV_ITA_VGEX_TECHNISCHE_ANLAGE_ERP]](https://update.kbv.de/ita-update/DigitaleMuster/ERP/KBV_ITA_VGEX_Technische_Anlage_ERP.pdf) (P36-26) spezifiziert und nachfolgend näher erläutert. 
+
+Technische Details der **prescription**-Datenstruktur sind in der [YAML-Dokumentation](https://ehealthcardlink.github.io/Spezifikation/prescription-communication/) näher beschrieben.
 
 | Element | Datentyp | Beschreibung | 
 | --- | --- |  --- |
-| `Ausstellungsdatum` |  | 80 | 
-| `Noctu` | boolean | 82 |
-| `BVG` | boolean | 85 |
-| `Zuzahlungsstatus` | string | 77 |
-| `AutIdem` | boolean | 102 |
-| `Abgabehinweis` | string | 105 |
-| `Anzahl` | integer | 113 |
-| `Dosierung` | Dosierung |  |
-| `Unfallinformationen` | Unfallinformationen |  |
-| `Mehrfachverordnung` | Mehrfachverordnung |  |
-| `Medication` | medication |  |
-| `Coverage` | coverage |  |
-| `Patient` | patient |  |
-| `Practitioner` | practitioner |  |
+| `Ausstellungsdatum` | date | Dieses Feld enthält das Ausstellungsdatum der Verordnung. | 
+| `Noctu` | boolean | Dieses Feld enthält die Kennzeichnung, ob diese Verordnung auch während der allgemeinen Ladenschlusszeiten beliefert werden soll, verbunden mit der Erhebung der Noctu-Gebühr (Notdienstgebühr) zu Lasten der Krankenkasse gemäß Arzneimittelpreisverordnung. |
+| `BVG` | boolean | Dieses Feld enthält die Kennzeichnung, ob diese Verordnung für Anspruchsberechtigte nach dem Bundesentschädigungsgesetz (BEG) oder für Anspruchsberechtigte nach dem Bundesversorgungsgesetz (BVG) erfolgt. |
+| `Zuzahlungsstatus` | string | In diesem Feld wird der Zuzahlungsstatus für die Verordnung angegeben. Gemäß [KBV_CS_FOR_StatusCoPayment](https://simplifier.net/packages/kbv.ita.for/1.1.0/files/720086) sind folgende Möglichkeiten vorgesehen: 0 (von Zuzahlungspflicht nicht befreit / gebührenpflichtig), 1	(von Zuzahlungspflicht befreit / gebührenfrei), 2 (künstliche Befruchtung (Regelung nach § 27a SGB V))|
+| `AutIdem` | boolean | Dieses Feld enthält die Angabe, ob das Arzneimittel austauschbar ist oder nicht. Wenn ein Austausch in der Apotheke zulässig ist, wird dieses Feld auf true gesetzt. |
+| `Abgabehinweis` | string | Dieses Feld enthält über die Dosierung hinausgehende / sonstige Abgabehinweise an die Apotheke. |
+| `Anzahl` | integer | Dieses Feld enthält die Anzahl der verordneten Packungen. |
+| `Dosierung` | boolean | Dieses Feld enthält ein Kennzeichen zur Dosierung und beschreibt, ob eine Dosieranweisung übermittelt oder ein Medikationsplan mitgegeben wird. |
+| `Dosieranweisung` | string | Dieses Feld enthält eine Dosieranweisung. |
+| `Gebrauchsanweisung` | string | Dieses Feld enthält die Gebrauchsanweisung der Rezeptur. |
+| `Unfallkennzeichen` | string | Dieses Feld enthält die Information, in welchem Zusammenhang die Verordnung ausgestellt wurde, z.B. Unfall. Die möglichen Werte sind in [KBV_VS_ERP_Accident_Type](https://simplifier.net/erezept/kbvvserpaccidenttype) spezifiziert. Hierbei sind folgende Fälle vorgesehen: 1	(Unfall), 2	(Arbeitsunfall (Berufsgenossenschaft/Unfallkasse)), 4	(Berufskrankheit (Berufsgenossenschaft/Unfallkasse)) |
+| `Unfalltag` | date | Tag des Unfalls |
+| `Unfallbetrieb` | string | Unfallbetrieb |
+| `Mehrfachverordnung` | boolean | Dieses Feld enthält die Kennzeichnung, ob es sich bei der Verordnung um eine Mehrfachverordnung (MFV) handelt. |
+| `MFV-ID` | string | Dieses Feld enthält eine eineindeutige ID, welche über alle Teilverordnungen einer Mehrfachverordnung identisch ist. |
+| `MFV-Zaehler` | integer | Dieses Feld enthält die Angabe, um die wievielte Teilverordnung einer Mehrfachverordnung (Serie) es sich handelt. Beispiel: "2" in "2 von 4" |
+| `MFV-Nenner` | integer | Dieses Feld enthält die Angabe der Länge dieser Serie, d.h. die Gesamtanzahl der Teilverordnungen der Mehrfachverordnung. Beispiel: "4" in "2 von 4" |
+| `MFV-Beginn` | date | Dieses Feld enthält das Datum, ab dem die Teilverordnung der Mehrfachverordnung eingelöst werden kann. |
+| `MFV-Ende` | date | Dieses Feld enthält das Datum des letzten Einlösetages der Teilverordnung der Mehrfachverordnung. Von der ausstellenden Person kann eine von der Arzneimittelverschreibungsverordnung (AMVV) abweichende Einlösefrist angegeben werden. |
+| `Coverage` | coverage | siehe Abschnitt A.2.6.1 |
+| `Patient` | patient | siehe Abschnitt A.2.6.3 |
+| `Practitioner` | practitioner | siehe Abschnitt A.2.6.4 | 
 
-Technische Details der **prescription**-Datenstruktur sind in der [YAML-Dokumentation](https://ehealthcardlink.github.io/Spezifikation/prescription-communication/) näher beschrieben. 
+#### A2.6.1 - coverage
 
-  #### A2.6.1 - coverage
+Das **coverage**-Element bildet die fachlich und medizinisch relevanten Bestandteile einer Arzneimittelverordnung ab.
+
+Es ist in [KBV_PR_FOR_Coverage](https://simplifier.net/packages/kbv.ita.for/1.1.0/files/720092) und "Technisches Handbuch Digitale Vordrucke" [KBV_ITA_VGEX_TECHNISCHES_HANDBUCH_DIMUS](https://update.kbv.de/ita-update/DigitaleMuster/KBV_ITA_VGEX_Technisches_Handbuch_DiMus.pdf) (P4-04) spezifiziert und nachfolgend näher erläutert.
+
+| Element | Datentyp | Beschreibung | 
+| --- | --- |  --- |
+| `Kostentraegertyp` | string | Dieses Feld gibt den Kostenträgertyp an. Gemäß [KBV_VS_FOR_Payor_type](https://simplifier.net/for/kbvvsforpayortype) und [KBV_CS_FOR_Payor_Type_KBV](https://simplifier.net/for/kbvcsforpayortypekbv) sind die folgenden  Werte vorgesehen: "GKV"	(gesetzliche Krankenversicherung), "PKV"	(private Krankenversicherung), "BG"	(Berufsgenossenschaft), "SEL"	(Selbstzahler), "SKT" (Sonstige Kostenträger), "UK" (Unfallkassen).| 
+| `IK-Krankenkasse` | string | Dieses Feld enthält das Institutionskennzeichen (IK) der zuständigen Krankenkasse z.B. laut elektronischer Ge-sundheitskarte (eGK). | 
+| `IK-Kostentraeger` | string | Dieses Feld enthält das Institutionskennzeichen (IK) des Kostenträgers und wird verwendet, wenn der Kostenträger nicht die zuständige Krankenkasse ist, bspw. eine Berufsgenossenschaft (BG) oder eine Unfallkasse (UK). | 
+| `Kostentraeger` | string | Name des Kostenträgers | 
+| `WOP` | string | Dieses Feld enthält das Wohnortkennzeichen entsprechend des Wohnortprinzips (WOP) für Honorar-vereinbarungen (BMVÄ Anlage 21). XXX| 
+| `Versichertenstatus` | string | Dieser Block enthält Angaben zum Versichertenstatus. | 
+| `BesonderePersonengruppe` | string | Dieses Feld enthält die be-sondere Personengruppe, zu der der Versicherte ge-hört (§ 264 SGB V). | 
+| `DMP-KZ` | string | Dieses Feld enthält das Disease-Management-Programm (DMP), in dem der Versicherte eingeschrieben ist (§ 284 Abs. 1 Satz 1 Nr. 14 SGB V). | 
+| `Versicherungsschutz-Ende` | date | In diesem Feld kann das Datum des Endes des Versicherungsschutzes angegeben werden, wenn die Datumsangabe auf der Versichertenkarte gespeichert ist und ausgelesen wurde. | 
+
+  
   #### A2.6.2 - organisation
   #### A2.6.3 - patient
   #### A2.6.4 - practitioner
