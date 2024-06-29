@@ -251,7 +251,7 @@ Technische Details der **practiceSupply**-Datenstruktur sind in der [YAML-Dokume
 
 Das **prescription**-Element bildet die fachlich und medizinisch relevanten Bestandteile einer Arzneimittelverordnung ab.
 
-Es ist in [KBV_PR_ERP_Prescription](https://simplifier.net/erezept/kbvprerpprescription) und der "Technischen Anlage zur elektronischen Arzneimittelverordnung (E16A)" [[KBV_ITA_VGEX_TECHNISCHE_ANLAGE_ERP]](https://update.kbv.de/ita-update/DigitaleMuster/ERP/KBV_ITA_VGEX_Technische_Anlage_ERP.pdf) (P36-26) spezifiziert und nachfolgend näher erläutert. 
+Es ist in [KBV_PR_ERP_Prescription](https://simplifier.net/erezept/kbvprerpprescription) und der "Technischen Anlage zur elektronischen Arzneimittelverordnung (E16A)" [[KBV_ITA_VGEX_TECHNISCHE_ANLAGE_ERP]](https://update.kbv.de/ita-update/DigitaleMuster/ERP/KBV_ITA_VGEX_Technische_Anlage_ERP.pdf) (**P36-26**) spezifiziert und nachfolgend näher erläutert. 
 
 Technische Details der **prescription**-Datenstruktur sind in der [YAML-Dokumentation](https://ehealthcardlink.github.io/Spezifikation/prescription-communication/) näher beschrieben.
 
@@ -284,7 +284,7 @@ Technische Details der **prescription**-Datenstruktur sind in der [YAML-Dokument
 
 Das **coverage**-Element bildet die fachlich und medizinisch relevanten Bestandteile einer Arzneimittelverordnung ab.
 
-Es ist in [KBV_PR_FOR_COVERAGE](https://simplifier.net/packages/kbv.ita.for/1.1.0/files/720092) und "Technisches Handbuch Digitale Vordrucke" [KBV_ITA_VGEX_TECHNISCHES_HANDBUCH_DIMUS](https://update.kbv.de/ita-update/DigitaleMuster/KBV_ITA_VGEX_Technisches_Handbuch_DiMus.pdf) (P4-04) spezifiziert und nachfolgend näher erläutert.
+Es ist in [KBV_PR_FOR_COVERAGE](https://simplifier.net/packages/kbv.ita.for/1.1.0/files/720092) und "Technisches Handbuch Digitale Vordrucke" [KBV_ITA_VGEX_TECHNISCHES_HANDBUCH_DIMUS](https://update.kbv.de/ita-update/DigitaleMuster/KBV_ITA_VGEX_Technisches_Handbuch_DiMus.pdf) (**P4-04**) spezifiziert und nachfolgend näher erläutert.
 
 Technische Details der **coverage**-Datenstruktur sind in der [YAML-Dokumentation](https://ehealthcardlink.github.io/Spezifikation/prescription-communication/) näher beschrieben.
 
@@ -300,15 +300,32 @@ Technische Details der **coverage**-Datenstruktur sind in der [YAML-Dokumentatio
 | `DMP-KZ` | string | Dieses Feld enthält das Disease-Management-Programm (DMP), in dem der Versicherte eingeschrieben ist (§ 284 Abs. 1 Satz 1 Nr. 14 SGB V). Die vorgesehenen Werte sind der Schlüsseltabelle [S_KBV_DMP](https://applications.kbv.de/S_KBV_DMP_V1.06.xhtml) zu entnehmen. | 
 | `Versicherungsschutz-Ende` | date | In diesem Feld kann das Datum des Endes des Versicherungsschutzes angegeben werden, wenn die Datumsangabe auf der Versichertenkarte gespeichert ist und ausgelesen wurde. | 
   
-  #### A2.6.2 - organisation
+#### A2.6.2 - organization
+
+Das **organization**-Element bildet die Daten des Patienten ab. 
+
+Es ist in [KBV_PR_FOR_ORGANIZATION](http://hl7.org/fhir/R4/organization.html) und "Technisches Handbuch Digitale Vordrucke" [KBV_ITA_VGEX_TECHNISCHES_HANDBUCH_DIMUS](https://update.kbv.de/ita-update/DigitaleMuster/KBV_ITA_VGEX_Technisches_Handbuch_DiMus.pdf) (**P4-03**) spezifiziert und nachfolgend näher erläutert.
+
+Technische Details der **organization**-Datenstruktur sind in der [YAML-Dokumentation](https://ehealthcardlink.github.io/Spezifikation/prescription-communication/) näher beschrieben.
+
+| Element | Datentyp | Beschreibung | 
+| --- | --- |  --- |
+| `Identifikator` | string | 61 | 
+| `BSNR` | string | 61a | 
+| `IK-Nummer` | string | 61b | 
+| `KZV-AN` | string | 61c | 
+| `Standortnummer` | string | 61d | 
+| `Telematik-ID` | string | 61 | 
+| `Name` | string | 62 | 
+
 
 
   
-  #### A2.6.3 - patient
+#### A2.6.3 - patient
 
 Das **patient**-Element bildet die Daten des Patienten ab. 
 
-Es ist in [KBV_PR_FOR_PATIENT](https://fhir.kbv.de/StructureDefinition/KBV_PR_FOR_Patient) und "Technisches Handbuch Digitale Vordrucke" [KBV_ITA_VGEX_TECHNISCHES_HANDBUCH_DIMUS](https://update.kbv.de/ita-update/DigitaleMuster/KBV_ITA_VGEX_Technisches_Handbuch_DiMus.pdf) (P4-05) spezifiziert und nachfolgend näher erläutert.
+Es ist in [KBV_PR_FOR_PATIENT](https://fhir.kbv.de/StructureDefinition/KBV_PR_FOR_Patient) und "Technisches Handbuch Digitale Vordrucke" [KBV_ITA_VGEX_TECHNISCHES_HANDBUCH_DIMUS](https://update.kbv.de/ita-update/DigitaleMuster/KBV_ITA_VGEX_Technisches_Handbuch_DiMus.pdf) (**P4-05**) spezifiziert und nachfolgend näher erläutert.
 
 Technische Details der **patient**-Datenstruktur sind in der [YAML-Dokumentation](https://ehealthcardlink.github.io/Spezifikation/prescription-communication/) näher beschrieben.
 
@@ -322,16 +339,6 @@ Technische Details der **patient**-Datenstruktur sind in der [YAML-Dokumentation
 | `Geburtsdatum` | date | Dieses Feld gibt das Geburtsdatum des Versicherten an. | 
 | `Adresse` | strassenaddresse oder postfachadresse | Entweder Straßenadresse oder Postfachaddresse. | 
 
-Das Element **person** ist folgendermaßen strukturiert.
-
-| Element | Datentyp | Beschreibung | 
-| --- | --- |  --- |
-| `Vorname` | string | Dieses Feld enthält den Vornamen der Person; mehrere Vornamen sind durch Blank oder Bindestrich getrennt.| 
-| `Name` | string | Dieses Feld enthält den Nachnamen des Person. | 
-| `Titel` | string | Dieses Feld enthält den akademischen Grad der Person, z.B. „Dr. med.“, „Dr.rer.nat.“. | 
-| `Namenszusatz` | string | Dieses Feld enthält den Namenszusatz als Bestandteil des Nachnamens der Person, z.B. „Freiherr“, „Gräfin“; mehrere Namenszusätze sind durch Blank getrennt. | 
-| `Vorsatzwort` | string | Dieses Feld enthält das Vorsatzwort als Bestandteil des Nachnamens der Person, z.B. „von“, „von der“, „zu“ ; mehrere Vorsatzwörter sind durch Blank getrennt. | 
-
 Das Element **strassenadresse** ist folgendermaßen strukturiert.
 
 | Element | Datentyp | Beschreibung | 
@@ -343,7 +350,7 @@ Das Element **strassenadresse** ist folgendermaßen strukturiert.
 | `Hausnummer` | string | In diesem Feld kann die Hausnummer angegeben werden. | 
 | `Zusatz` | string | In diesem Feld kann der Anschriftenzusatz angegeben werden, z.B. Hinterhaus. | 
 
-Das Element **postfachadresse** (34) ist folgendermaßen strukturiert.
+Das Element **postfachadresse** ist folgendermaßen strukturiert.
 
 | Element | Datentyp | Beschreibung | 
 | --- | --- |  --- |
@@ -352,29 +359,48 @@ Das Element **postfachadresse** (34) ist folgendermaßen strukturiert.
 | `Ort` | string | siehe oben | 
 | `Postfach` | string | In diesem Feld kann das Postfach angegeben werden. | 
 
-  
-  #### A2.6.4 - practitioner
+#### A2.6.x - person
+
+Das Element **person** wird in der Spezifikation der Elemente **patient** (Abschnitt A.2.6.x) und **practitioner** (Abschnitt A.2.6.x) genutzt und ist folgendermaßen strukturiert.
+
+| Element | Datentyp | Beschreibung | 
+| --- | --- |  --- |
+| `Vorname` | string | Dieses Feld enthält den Vornamen der Person; mehrere Vornamen sind durch Blank oder Bindestrich getrennt.| 
+| `Name` | string | Dieses Feld enthält den Nachnamen des Person. | 
+| `Titel` | string | Dieses Feld enthält den akademischen Grad der Person, z.B. „Dr. med.“, „Dr.rer.nat.“. | 
+| `Namenszusatz` | string | Dieses Feld enthält den Namenszusatz als Bestandteil des Nachnamens der Person, z.B. „Freiherr“, „Gräfin“; mehrere Namenszusätze sind durch Blank getrennt. | 
+| `Vorsatzwort` | string | Dieses Feld enthält das Vorsatzwort als Bestandteil des Nachnamens der Person, z.B. „von“, „von der“, „zu“ ; mehrere Vorsatzwörter sind durch Blank getrennt. | 
+
+#### A2.6.4 - practitioner
 
 Das **practitioner**-Element bildet die Daten des verordnenden Leistungserbringer (z.B. Arzt) ab. 
 
-Es ist in [KBV_PR_FOR_Practitioner](https://simplifier.net/for/kbvprforpractitioner) und "Technisches Handbuch Digitale Vordrucke" [KBV_ITA_VGEX_TECHNISCHES_HANDBUCH_DIMUS](https://update.kbv.de/ita-update/DigitaleMuster/KBV_ITA_VGEX_Technisches_Handbuch_DiMus.pdf) (P4-01) spezifiziert und nachfolgend näher erläutert.
+Es ist in [KBV_PR_FOR_Practitioner](https://simplifier.net/for/kbvprforpractitioner) und "Technisches Handbuch Digitale Vordrucke" [KBV_ITA_VGEX_TECHNISCHES_HANDBUCH_DIMUS](https://update.kbv.de/ita-update/DigitaleMuster/KBV_ITA_VGEX_Technisches_Handbuch_DiMus.pdf) (**P4-01**) spezifiziert und nachfolgend näher erläutert.
 
 Technische Details der **practitioner**-Datenstruktur sind in der [YAML-Dokumentation](https://ehealthcardlink.github.io/Spezifikation/prescription-communication/) näher beschrieben.
 
 | Element | Datentyp | Beschreibung | 
 | --- | --- |  --- |
 | `Typ` | string | Dieses Feld enthält einen Typ zur Kennzeichnung der verschreibenden Person, z.B. Arzt, Arzt in Weiterbildung. Die vorgesehenen Werte sind der Schlüsseltabelle [KBV_CS_FOR_Qualification_Type](https://simplifier.net/for/kbvcsforqualificationtype) zu entnehmen. | 
-| `Berufsbezeichnung` | string | Dieses Feld enthält eine Freitextangabe zur Berufsbezeichnung, z. B. Facharzt für Allgemeinmedizin, Prak-tischer Arzt. | 
+| `Berufsbezeichnung` | string | Dieses Feld enthält eine Freitextangabe zur Berufsbezeichnung, z. B. Facharzt für Allgemeinmedizin, Praktischer Arzt, Hebamme. | 
 | `ASV-FGN` | string | Dieses Feld enthält die ASV-Fachgruppennummer (ASV-FGN) gemäß der Vereinbarung über ambulante spezialärztliche Versorgung (ASV) (ASV-AV) § 9 Absatz 5. Diese ist gemäß der ASV-AV von Krankenhausärzten an Stelle der Arztnummer anzugeben. | 
 | `Arztnummer` | string | Dieses Feld enthält als Identifikator der Person eine Arztnummer (Lebenslange Arztnummer LANR). | 
 | `Zahnarztnummer` | string | Dieses Feld enthält als Identifikator der Person, eine Zahnarztnummer (ZANR). | 
 | `Telematik-ID` | string | Dieses Feld enthält als Identifikator der Person eine Telematik-ID. | 
-| `Person` | person | siehe oben  | 
-| `VerantwortlichePerson` | string | 51 | 
-  
-  #### A2.6.5 - practitionerRole
+| `Person` | person | siehe Abschnitt A.2.6.x  | 
+| `VerantwortlichePerson` | practitioner | Dieses Element ist optional.   | 
 
+#### A2.6.5 - practitionerRole
 
+Das optionale **practitionerRole**-Element kann verwendet werden, um anzugeben, ob der verordnende Arzt eine weitere Rolle innehat. 
+
+Es ist in [KBV_PR_FOR_PRACTITIONERROLE](http://hl7.org/fhir/R4/practitionerrole.html) und "Technisches Handbuch Digitale Vordrucke" [KBV_ITA_VGEX_TECHNISCHES_HANDBUCH_DIMUS](https://update.kbv.de/ita-update/DigitaleMuster/KBV_ITA_VGEX_Technisches_Handbuch_DiMus.pdf) (**P4-02**) spezifiziert und nachfolgend näher erläutert.
+
+Technische Details der **practitionerRole**-Datenstruktur sind in der [YAML-Dokumentation](https://ehealthcardlink.github.io/Spezifikation/prescription-communication/) näher beschrieben.
+
+| Element | Datentyp | Beschreibung | 
+| --- | --- |  --- |
+| `ASV-TN` | string | Dieses Feld muss im Rahmen einer ambulanten spezialfachärztlichen Versorgung (ASV) genutzt werden. Jedes ASV-Team erhält von der ASV-Servicestelle eine ASV-Teamnummer (ASV-TN). Mit ihr kennzeichnen ASV-Ärzte die Leistungen oder Verordnungen, die sie in der ASV durchführen. Die Teamnummer umfasst neun Ziffern und ist wie eine Betriebsstättennummer (BSNR) aufgebaut. Sie wird vergeben, sobald die Ärzte eine ASV-Berechtigung haben – zusätzlich zur BSNR und zur lebenslangen Arztnummer. | 
 
 ### A.2.7 selectedPrescriptionList
 
