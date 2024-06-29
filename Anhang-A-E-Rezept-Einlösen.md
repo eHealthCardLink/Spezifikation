@@ -114,56 +114,103 @@ Der grundlegende Ablauf für das Einlösen von E-Rezepten ist im nachfolgenden S
 Zur Realisierung des oben beschriebenen Ablaufs zum Einlösen von elektronischen Verordnungen
 sind eine Reihe von Nachrichten jenseits der einschlägigen gematik-Spezifikationen nötig.
 
-Im Einzelnen sind dies die nachfolgend und im [YAML-Schema](https://github.com/eHealthCardLink/Spezifikation/blob/main/prescription-communication.yaml) bzw. der zugehörigen [html-Dokumentation](https://ehealthcardlink.github.io/Spezifikation/prescription-communication/) beschriebenen Nachrichten:
+Im Einzelnen sind dies die nachfolgend und im [YAML-Schema](https://github.com/eHealthCardLink/Spezifikation/blob/main/prescription-communication.yaml) bzw. der zugehörigen [html-Dokumentation](https://ehealthcardlink.github.io/Spezifikation/prescription-communication/) beschriebenen Nachrichten in der Reihenfolge ihres Auftretens im oben spezifizierten Ablauf:
 
-* A.2.1 - availablePrescriptionLists
+* A.2.1 - requestPrescriptionList
 * A.2.2 - availablePrescriptionLists
-* A.2.3 - confirmSelection
-* A.2.4 - medication
-  * A.2.4.1 - medicationPZN (KBV_PR_ERP_Medication_PZN)
-  * A.2.4.2 - medicationIngredient (KBV_PR_ERP_Medication_Ingredient)
-  * A.2.4.3 - medicationCompounding (KBV_PR_ERP_Medication_Compounding)
-  * A.2.4.4 - medicationFreeText (KBV_PR_ERP_Medication_FreeText)
-* A2.5 - practiceSupply
-* A.2.6 - prescription
-  * A2.6.1 - coverage
-  * A2.6.2 - organisation
-  * A2.6.3 - patient
-  * A2.6.4 - practitioner
-  * A2.6.5 - practitionerRole
-* A.2.7 - selectedPrescriptionList
+* A.2.3 - selectedPrescriptionList
+* A.2.4 - confirmSelection
+  
+### A.2.1 - requestPrescriptionList
 
-### A.2.1 - availablePrescriptionLists
+Mit der **requestPrescriptionList**-Nachricht kann die App verfügbaren Verordnungen für ausgewählte oder alle verbundenen eGKs anfordern. Sofern eine oder mehrere **ICCSN**-Elemente (Integrated Circuit Card Serial Number) angegeben werden, werden die verfügbaren Verordnungen für genau die hierdurch eindeutig identifizierten eGKs angefordert. Wird kein **ICCSN**-Element angegeben, so werden die verfügbaren Verordnungen für alle verbundenen eGKs angefordert. 
 
-Die **availablePrescriptionLists**-Nachricht besteht aus einer Folge von **availablePrescriptionList**-Elementen.
-Diese sind in Abschnitt A.2.2 und in der [YAML-Dokumentation](https://ehealthcardlink.github.io/Spezifikation/prescription-communication/) 
-näher beschrieben.
-
-### A.2.2 - availablePrescriptionList
-
-Ein **availablePrescriptionList**-Element enthält die "Integrated Circuit Card Serial Number" (**ICCSN**) und eine Folge von **medication**-Elementen.
-Diese sind in Abschnitt A.2.3 und in der [YAML-Dokumentation](https://ehealthcardlink.github.io/Spezifikation/prescription-communication/) 
-näher beschrieben.
-
-### A.2.3 - confirmSelection
-
-Die **confirmSelection**-Nachricht dient der Bestätigung des Erhalts der vorher übermittelten **selectedPrescriptionList**-Nachricht.
 Die technischen Details sind in der [YAML-Dokumentation](https://ehealthcardlink.github.io/Spezifikation/prescription-communication/) 
 näher beschrieben.
 
-### A.2.4 medication
+### A.2.2 - availablePrescriptionLists
+
+Die **availablePrescriptionLists**-Nachricht besteht aus einer Folge von **availablePrescriptionList**-Elementen. 
+
+Ein **availablePrescriptionList**-Element enthält ein **ICCSN**-Element und eine Folge von **prescriptionBundle**-Elementen (siehe Abschnitt ).
+
+Die technischen Details sind in der [YAML-Dokumentation](https://ehealthcardlink.github.io/Spezifikation/prescription-communication/) 
+näher beschrieben.
+
+### A.2.3 selectedPrescriptionList
+
+Die **selectedPrescriptionList**-Nachricht spezifiziert, welche elektronischen Verordnungen genau dispensiert werden sollen und wie die verordneten Medikamente zugestellt werden sollen. 
+
+Die **selectedPrescriptionList**-Nachricht umfasst die folgenden Elemente:
+
+| Element | Datentyp | Beschreibung | 
+| --- | --- |  --- |
+| `ICCSN` | string | Die ICCSN identifiziert die eGK für die elektronische Verordnungen eingelöst werden sollen. | 
+| `PrescriptionIndexList` | prescriptionIndexList | Dieses Element spezifiziert, welche der verfügbaren elektronischen Verordnungen eingelöst werden sollen. |
+| `SupplyOptions` | supplyOptions | Mit diesem Element kann die gewünschte Bereitstellungsart (Abholung, Botenversand, Paketversand) der verordneten Medikamente spezifiziert werden. |
+
+Die technischen Details der **selectedPrescriptionList**-Nachricht sind in der [YAML-Dokumentation](https://ehealthcardlink.github.io/Spezifikation/prescription-communication/) näher beschrieben.
+
+### A.2.4 - confirmSelection
+
+Die **confirmSelection**-Nachricht dient der Bestätigung des Erhalts der vorher übermittelten **selectedPrescriptionList**-Nachricht.
+
+Die technischen Details sind in der [YAML-Dokumentation](https://ehealthcardlink.github.io/Spezifikation/prescription-communication/) 
+näher beschrieben.
+
+## A.3 In den Nachrichten genutzte Datenelemente
+
+* A.3.1 - coverage
+* A.3.2 - medication
+  * A.3.2.1 - medicationPZN (KBV_PR_ERP_Medication_PZN)
+  * A.3.2.2 - medicationIngredient (KBV_PR_ERP_Medication_Ingredient)
+  * A.3.2.3 - medicationCompounding (KBV_PR_ERP_Medication_Compounding)
+  * A.3.2.4 - medicationFreeText (KBV_PR_ERP_Medication_FreeText)
+* A.3.3 - organization
+* A.3.4 - patient
+* A.3.5 - person
+* A.3.6 - practiceSupply
+* A.3.7 - practitioner
+* A.3.8 - practitionerRole
+* A.3.9 - prescription
+* A.3.10 - prescriptionBundle
+* A.3.11 - prescriptionIndexList
+* A.3.12 - supplyOptions
+
+#### A.3.1 - coverage
+
+Das **coverage**-Element bildet die Informationen zum Krankenversicherungsverhältnis des Patienten ab.
+
+Es ist in [KBV_PR_FOR_COVERAGE](https://simplifier.net/packages/kbv.ita.for/1.1.0/files/720092) und "Technisches Handbuch Digitale Vordrucke" [KBV_ITA_VGEX_TECHNISCHES_HANDBUCH_DIMUS](https://update.kbv.de/ita-update/DigitaleMuster/KBV_ITA_VGEX_Technisches_Handbuch_DiMus.pdf) (**P4-04**) spezifiziert und nachfolgend näher erläutert.
+
+Technische Details der **coverage**-Datenstruktur sind in der [YAML-Dokumentation](https://ehealthcardlink.github.io/Spezifikation/prescription-communication/) näher beschrieben.
+
+| Element | Datentyp | Beschreibung | 
+| --- | --- |  --- |
+| `Kostentraegertyp` | string | Dieses Feld gibt den Kostenträgertyp an. Gemäß [KBV_VS_FOR_Payor_type](https://simplifier.net/for/kbvvsforpayortype) und [KBV_CS_FOR_Payor_Type_KBV](https://simplifier.net/for/kbvcsforpayortypekbv) sind die folgenden  Werte vorgesehen: "GKV"	(gesetzliche Krankenversicherung), "PKV"	(private Krankenversicherung), "BG"	(Berufsgenossenschaft), "SEL"	(Selbstzahler), "SKT" (Sonstige Kostenträger), "UK" (Unfallkassen).| 
+| `IK-Krankenkasse` | string | Dieses Feld enthält das Institutionskennzeichen (IK) der zuständigen Krankenkasse z.B. laut elektronischer Ge-sundheitskarte (eGK). | 
+| `IK-Kostentraeger` | string | Dieses Feld enthält das Institutionskennzeichen (IK) des Kostenträgers und wird verwendet, wenn der Kostenträger nicht die zuständige Krankenkasse ist, bspw. eine Berufsgenossenschaft (BG) oder eine Unfallkasse (UK). | 
+| `Kostentraeger` | string | Name des Kostenträgers | 
+| `WOP` | string | Dieses Feld enthält das Wohnortkennzeichen entsprechend des Wohnortprinzips (WOP) für Honorarvereinbarungen (BMV-Ä Anlage 21). Die vorgesehenen Werte sind der Schlüsseltabelle [S_ITA_WOP](https://applications.kbv.de/S_ITA_WOP.xhtml) zu entnehmen.| 
+| `Versichertenstatus` | string | Dieses Element enthält Angaben zum Versichertenstatus. Gemäß [Leitfaden Basis DE (STU3)](https://ig.fhir.de/basisprofile-de/0.2.30/Versichertenstatus2.html) sind folgende Werte vorgesehen: "1"	(Mitglieder), "3"	(Familienangehörige), "5" (Rentner). | 
+| `BesonderePersonengruppe` | string | Dieses Feld enthält die besondere Personengruppe, zu der der Versicherte gehört (§ 264 SGB V). Die entsprechenden Werte sind der Schlüsseltabelle [S_KBV_PERSONENGRUPPE](https://applications.kbv.de/S_KBV_PERSONENGRUPPE.xhtml) zu entnehmen. | 
+| `DMP-KZ` | string | Dieses Feld enthält das Disease-Management-Programm (DMP), in dem der Versicherte eingeschrieben ist (§ 284 Abs. 1 Satz 1 Nr. 14 SGB V). Die vorgesehenen Werte sind der Schlüsseltabelle [S_KBV_DMP](https://applications.kbv.de/S_KBV_DMP_V1.06.xhtml) zu entnehmen. | 
+| `Versicherungsschutz-Ende` | date | In diesem Feld kann das Datum des Endes des Versicherungsschutzes angegeben werden, wenn die Datumsangabe auf der Versichertenkarte gespeichert ist und ausgelesen wurde. | 
+
+### A.3.2 medication
+
 Das **medication**-Element enthält die Rezeptierdaten einer elektronischen Verordnung in den verschiedenen vorgesehenen Ausprägungen:
 
-* A.2.4.1 medicationPZN ([KBV_PR_ERP_Medication_PZN](https://simplifier.net/eRezept/KBVPRERPMedicationPZN/~overview))
-* A.2.4.2 medicationIngredient ([KBV_PR_ERP_Medication_Ingredient](https://simplifier.net/erezept/kbvprerpmedicationingredient))
-* A.2.4.3 medicationCompounding ([KBV_PR_ERP_Medication_Compounding](https://simplifier.net/eRezept/KBVPRERPMedicationCompounding/~overview))
-* A.2.4.4 medicationFreeText ([KBV_PR_ERP_Medication_FreeText](https://simplifier.net/eRezept/KBVPRERPMedicationFreeText/~overview))
+* A.3.2.1 medicationPZN ([KBV_PR_ERP_Medication_PZN](https://simplifier.net/eRezept/KBVPRERPMedicationPZN/~overview))
+* A.3.2.2 medicationIngredient ([KBV_PR_ERP_Medication_Ingredient](https://simplifier.net/erezept/kbvprerpmedicationingredient))
+* A.3.2.3 medicationCompounding ([KBV_PR_ERP_Medication_Compounding](https://simplifier.net/eRezept/KBVPRERPMedicationCompounding/~overview))
+* A.3.2.4 medicationFreeText ([KBV_PR_ERP_Medication_FreeText](https://simplifier.net/eRezept/KBVPRERPMedicationFreeText/~overview))
    
 Hierbei handelt es sich um entsprechende Profilierungen der Ressource [Medication](https://build.fhir.org/medication.html) gemäß der zugehörigen "Technischen Anlage zur elektronischen Arzneimittelverordnung (E16A)" [[KBV_ITA_VGEX_TECHNISCHE_ANLAGE_ERP]](https://update.kbv.de/ita-update/DigitaleMuster/ERP/KBV_ITA_VGEX_Technische_Anlage_ERP.pdf) der Kassenärztlichen Bundesvereinigung (KBV). 
 
 Technische Details der **medication**-Datenstruktur sind in der [YAML-Dokumentation](https://ehealthcardlink.github.io/Spezifikation/prescription-communication/) näher beschrieben.
 
-#### A.2.4.1 medicationPZN ([KBV_PR_ERP_Medication_PZN](https://simplifier.net/eRezept/KBVPRERPMedicationPZN/~overview))
+#### A.3.2.1 medicationPZN ([KBV_PR_ERP_Medication_PZN](https://simplifier.net/eRezept/KBVPRERPMedicationPZN/~overview))
 
 In diesem Profil werden die Rezeptierdaten einer Verordnung aus den Preis- und Produktverzeichnissen nach § 131 SGB V abgebildet. 
 
@@ -179,7 +226,7 @@ In diesem Profil werden die Rezeptierdaten einer Verordnung aus den Preis- und P
 | `Einheit` | string | Dieses Feld enthält die Einheit (z.B. Stück) und tritt nur in Verbindung mit „Packungsgröße nach abgeteilter Menge“ auf (z.B. 100 Stück). | 
 | `PackungsgroesseNachNBezeichnung` | string | Dieses Feld enthält die Normgröße der therapiegerechten Packung (z.B. N1). |
 
-#### A.2.4.2 medicationIngredient ([KBV_PR_ERP_Medication_Ingredient](https://simplifier.net/erezept/kbvprerpmedicationingredient))
+#### A.3.2.2 medicationIngredient ([KBV_PR_ERP_Medication_Ingredient](https://simplifier.net/erezept/kbvprerpmedicationingredient))
 
 In diesem Profil werden die Rezeptierdaten einer **Wirkstoffverordnung** abgebildet. 
 
@@ -203,7 +250,7 @@ Das Element `BestandteilWirkstoffverordnung` enthält die folgenden Elemente:
 | `Wirkstaerke` | string | Dieses Feld enthält eine Angabe der Wirkstärke. Diese ermittelt sich durch die Angabe von Wirkstoffmenge / Bezugsgrößenmenge. Die zugehörige Einheit ist im Feld "Wirkstärkeneinheit" anzugeben. | 
 | `Wirkstaerkeneinheit` | string | Dieses Feld enthält die Einheit der Wirkstärke (bspw. mg/ml). | 
 
-#### A.2.4.3 medicationCompounding ([KBV_PR_ERP_Medication_Compounding](https://simplifier.net/eRezept/KBVPRERPMedicationCompounding/~overview))
+#### A.3.2.3 medicationCompounding ([KBV_PR_ERP_Medication_Compounding](https://simplifier.net/eRezept/KBVPRERPMedicationCompounding/~overview))
 
 In diesem Profil werden die Rezeptierdaten einer **Rezepturverordnung** abgebildet.
 
@@ -230,7 +277,7 @@ Das Element `BestandteilRezepturverordnung` enthält die folgenden Elemente:
 | `Einheit` | string | Dieses Feld enthält die Einheit des Bestandteils z.B. mg. |
 | `MengeUndEinheit` | string | Dieses Feld enthält eine freitextliche Angabe zur Menge und Einheit des Bestandteils und kann insbesondere für klassische lateinische Angaben z.B. „ad 100,0“ oder „quantum satis“ genutzt werden. |
 
-#### A.2.4.4 medicationFreeText ([KBV_PR_ERP_Medication_FreeText](https://simplifier.net/eRezept/KBVPRERPMedicationFreeText/))
+#### A.3.2.4 medicationFreeText ([KBV_PR_ERP_Medication_FreeText](https://simplifier.net/eRezept/KBVPRERPMedicationFreeText/))
 
 In diesem Profil werden die Rezeptierdaten einer **freitextlichen Verordnung** abgebildet. 
 
@@ -241,13 +288,120 @@ In diesem Profil werden die Rezeptierdaten einer **freitextlichen Verordnung** a
 | `Freitextverordnung` | string | Dieses Feld enthält den Text einer Freitextverordnung. | 
 | `Darreichungsform` | string | siehe oben |
 
-### A2.5 - practiceSupply
+#### A.3.3 - organization
+
+Das **organization**-Element enthält die Daten einer Organisation. 
+
+Es ist in [KBV_PR_FOR_ORGANIZATION](http://hl7.org/fhir/R4/organization.html) und "Technisches Handbuch Digitale Vordrucke" [KBV_ITA_VGEX_TECHNISCHES_HANDBUCH_DIMUS](https://update.kbv.de/ita-update/DigitaleMuster/KBV_ITA_VGEX_Technisches_Handbuch_DiMus.pdf) (**P4-03**) spezifiziert und nachfolgend näher erläutert.
+
+Technische Details der **organization**-Datenstruktur sind in der [YAML-Dokumentation](https://ehealthcardlink.github.io/Spezifikation/prescription-communication/) näher beschrieben.
+
+| Element | Datentyp | Beschreibung | 
+| --- | --- |  --- |
+| `BSNR` | string | Dieses Feld enthält eine Betriebsstättennummer (BSNR) zur Identifikation einer Einrichtung. Im vertragsärztlichen Bereich ist das Feld eine Voraussetzung für die Abrechnung zwischen Leistungserbringern und Kostenträgern. Für Krankenhäuser ist die BSNR anzugeben. Im Rahmen von Krankenhausbehandlungen kann dieses Feld den Ort der Ausstellung abbilden. | 
+| `IK-Nummer` | string | Dieses Feld enthält ein Institutionskennzeichen (IK), welches von der ARGE·IK vergeben wird und ein eindeutiges Merkmal zur Abrechnung mit den Trägern der Sozialversicherung ist. | 
+| `KZV-AN` | string | Dieses Feld enthält eine Abrechnungsnummer der Kassenzahnärztlichen Vereinigung (KZV). | 
+| `Standortnummer` | string | Dieses Feld enthält eine Standortnummer eines Krankenhauses. | 
+| `Telematik-ID` | string | Dieses Feld enthält eine Telematik-ID der Einrichtung. | 
+| `Name` | string | Dieses Feld enthält die Bezeichnung der Einrichtung (Praxis / Krankenhaus). | 
+| `Adresse` | strassenadresse | Siehe Abschnitt A.2.6.3. | 
+| `Telefon` | string | Dieses Feld enthält die Telefonnummer. | 
+| `Fax` | string | Dieses Feld enthält die Faxnummer. | 
+| `E-Mail` | string | Dieses Feld enthält die E-Mail - Adresse der Einrichtung. Bei grenzüberschreitender Einlösung einer Arzneimittelverordnung ist diese zwingend anzugeben. | 
+
+
+#### A.3.4 - patient
+
+Das **patient**-Element bildet die Daten des Patienten ab. 
+
+Es ist in [KBV_PR_FOR_PATIENT](https://fhir.kbv.de/StructureDefinition/KBV_PR_FOR_Patient) und "Technisches Handbuch Digitale Vordrucke" [KBV_ITA_VGEX_TECHNISCHES_HANDBUCH_DIMUS](https://update.kbv.de/ita-update/DigitaleMuster/KBV_ITA_VGEX_Technisches_Handbuch_DiMus.pdf) (**P4-05**) spezifiziert und nachfolgend näher erläutert.
+
+Technische Details der **patient**-Datenstruktur sind in der [YAML-Dokumentation](https://ehealthcardlink.github.io/Spezifikation/prescription-communication/) näher beschrieben.
+
+| Element | Datentyp | Beschreibung | 
+| --- | --- |  --- |
+| `Identifikator` | string | Dieses Feld enthält den Identifikator der Person, z.B. die Krankenversicherungsnummer der GKV oder PKV. | 
+| `GKV-VersichertenID` | string | Dieses Feld enthält die VersichertenID der gesetzlichen Krankenversicherung (unveränderlicher Teil der einheitlichen Krankenversicherungsnummer der GKV gemäß § 290 SGB V). | 
+| `PKV-VersichertenID` | string | Dieses Feld enthält die VersichertenID der privaten Krankenversicherung (unveränderlicher Teil der einheitlichen Krankenversichertennummer gemäß § 290 SGB V). | 
+| `KVK-Versichertennummer` | string | Dieses Feld enthält die Versichertennummer der Krankenversichertenkarte. | 
+| `Person` | person | Dieses Element enthält die Informationen zur betreffenden Person. | 
+| `Geburtsdatum` | date | Dieses Feld gibt das Geburtsdatum des Versicherten an. | 
+| `Adresse` | strassenaddresse oder postfachadresse | Entweder Straßenadresse oder Postfachaddresse. | 
+
+Das Element **strassenadresse** ist folgendermaßen strukturiert.
+
+| Element | Datentyp | Beschreibung | 
+| --- | --- |  --- |
+| `Land` | string | Dieses Feld enthält den Wohnsitzländercode (entsprechend [Gemeinsames Rundschreiben DEÜV](https://www.gkv-datenaustausch.de/arbeitgeber/deuev/gemeinsame_rundschreiben/gemeinsame_rundschreiben.jsp) [Anlage 08](https://www.gkv-datenaustausch.de/media/dokumente/arbeitgeber/deuev/rundschreiben_anlagen/03_Gem_RS_Anlage_8_Vers._8.00.pdf).| 
+| `PLZ` | string | In diesem Feld kann die Postleitzahl angegeben werden. | 
+| `Ort` | string | In diesem Feld kann der Ortsnamen angegeben werden. Mehrere Namensbestandteile sind durch Blank/Sonderzeichen getrennt. | 
+| `Strasse` | string | In diesem Feld kann der Straßennamen angegeben werden. | 
+| `Hausnummer` | string | In diesem Feld kann die Hausnummer angegeben werden. | 
+| `Zusatz` | string | In diesem Feld kann der Anschriftenzusatz angegeben werden, z.B. Hinterhaus. | 
+
+Das Element **postfachadresse** ist folgendermaßen strukturiert.
+
+| Element | Datentyp | Beschreibung | 
+| --- | --- |  --- |
+| `Land` | string | siehe oben | 
+| `PLZ` | string | siehe oben | 
+| `Ort` | string | siehe oben | 
+| `Postfach` | string | In diesem Feld kann das Postfach angegeben werden. | 
+
+#### A.3.5 - person
+
+Das Element **person** wird in der Spezifikation der Elemente **patient** (Abschnitt A.2.6.x) und **practitioner** (Abschnitt A.2.6.x) genutzt und ist folgendermaßen strukturiert.
+
+| Element | Datentyp | Beschreibung | 
+| --- | --- |  --- |
+| `Vorname` | string | Dieses Feld enthält den Vornamen der Person; mehrere Vornamen sind durch Blank oder Bindestrich getrennt.| 
+| `Name` | string | Dieses Feld enthält den Nachnamen des Person. | 
+| `Titel` | string | Dieses Feld enthält den akademischen Grad der Person, z.B. „Dr. med.“, „Dr.rer.nat.“. | 
+| `Namenszusatz` | string | Dieses Feld enthält den Namenszusatz als Bestandteil des Nachnamens der Person, z.B. „Freiherr“, „Gräfin“; mehrere Namenszusätze sind durch Blank getrennt. | 
+| `Vorsatzwort` | string | Dieses Feld enthält das Vorsatzwort als Bestandteil des Nachnamens der Person, z.B. „von“, „von der“, „zu“ ; mehrere Vorsatzwörter sind durch Blank getrennt. | 
+
+
+### A.3.6 - practiceSupply
 
 Das **practiceSupply**-Element dient der Verschreibung von Sprechstundenbedarf gemäß [KBV_PR_ERP_PRACTICESUPPLY](https://simplifier.net/erezept/kbvprerppracticesupply). 
+
+<TODO>
    
 Technische Details der **practiceSupply**-Datenstruktur sind in der [YAML-Dokumentation](https://ehealthcardlink.github.io/Spezifikation/prescription-communication/) näher beschrieben.
 
-### A.2.6 - prescription
+#### A.3.7 - practitioner
+
+Das **practitioner**-Element bildet die Daten des verordnenden Leistungserbringer (z.B. Arzt) ab. 
+
+Es ist in [KBV_PR_FOR_Practitioner](https://simplifier.net/for/kbvprforpractitioner) und "Technisches Handbuch Digitale Vordrucke" [KBV_ITA_VGEX_TECHNISCHES_HANDBUCH_DIMUS](https://update.kbv.de/ita-update/DigitaleMuster/KBV_ITA_VGEX_Technisches_Handbuch_DiMus.pdf) (**P4-01**) spezifiziert und nachfolgend näher erläutert.
+
+Technische Details der **practitioner**-Datenstruktur sind in der [YAML-Dokumentation](https://ehealthcardlink.github.io/Spezifikation/prescription-communication/) näher beschrieben.
+
+| Element | Datentyp | Beschreibung | 
+| --- | --- |  --- |
+| `Typ` | string | Dieses Feld enthält einen Typ zur Kennzeichnung der verschreibenden Person, z.B. Arzt, Arzt in Weiterbildung. Die vorgesehenen Werte sind der Schlüsseltabelle [KBV_CS_FOR_Qualification_Type](https://simplifier.net/for/kbvcsforqualificationtype) zu entnehmen. | 
+| `Berufsbezeichnung` | string | Dieses Feld enthält eine Freitextangabe zur Berufsbezeichnung, z. B. Facharzt für Allgemeinmedizin, Praktischer Arzt, Hebamme. | 
+| `ASV-FGN` | string | Dieses Feld enthält die ASV-Fachgruppennummer (ASV-FGN) gemäß der Vereinbarung über ambulante spezialärztliche Versorgung (ASV) (ASV-AV) § 9 Absatz 5. Diese ist gemäß der ASV-AV von Krankenhausärzten an Stelle der Arztnummer anzugeben. | 
+| `Arztnummer` | string | Dieses Feld enthält als Identifikator der Person eine Arztnummer (Lebenslange Arztnummer LANR). | 
+| `Zahnarztnummer` | string | Dieses Feld enthält als Identifikator der Person, eine Zahnarztnummer (ZANR). | 
+| `Telematik-ID` | string | Dieses Feld enthält als Identifikator der Person eine Telematik-ID. | 
+| `Person` | person | siehe Abschnitt A.2.6.x  | 
+| `VerantwortlichePerson` | practitioner | Dieses Element ist optional und kann dafür verwendet werden, wenn der verordnende Arzt nicht der verantwortliche Arzt ist.   | 
+
+#### A.3.8 - practitionerRole
+
+Das optionale **practitionerRole**-Element kann verwendet werden, um anzugeben, ob der verordnende Arzt eine weitere Rolle im Bereich der ambulanten spezialärztlichen Versorgung (ASV) innehat. 
+
+Es ist in [KBV_PR_FOR_PRACTITIONERROLE](http://hl7.org/fhir/R4/practitionerrole.html) und "Technisches Handbuch Digitale Vordrucke" [KBV_ITA_VGEX_TECHNISCHES_HANDBUCH_DIMUS](https://update.kbv.de/ita-update/DigitaleMuster/KBV_ITA_VGEX_Technisches_Handbuch_DiMus.pdf) (**P4-02**) spezifiziert und nachfolgend näher erläutert.
+
+Technische Details der **practitionerRole**-Datenstruktur sind in der [YAML-Dokumentation](https://ehealthcardlink.github.io/Spezifikation/prescription-communication/) näher beschrieben.
+
+| Element | Datentyp | Beschreibung | 
+| --- | --- |  --- |
+| `ASV-TN` | string | Dieses Feld muss im Rahmen einer ambulanten spezialfachärztlichen Versorgung genutzt werden. Jedes ASV-Team erhält von der ASV-Servicestelle eine ASV-Teamnummer (ASV-TN). Mit ihr kennzeichnen ASV-Ärzte die Leistungen oder Verordnungen, die sie in der ASV durchführen. Die Teamnummer umfasst neun Ziffern und ist wie eine Betriebsstättennummer (BSNR) aufgebaut. Sie wird vergeben, sobald die Ärzte eine ASV-Berechtigung haben – zusätzlich zur BSNR und zur lebenslangen Arztnummer. | 
+
+
+### A.3.9 - prescription
 
 Das **prescription**-Element bildet die fachlich und medizinisch relevanten Bestandteile einer Arzneimittelverordnung ab.
 
@@ -280,130 +434,17 @@ Technische Details der **prescription**-Datenstruktur sind in der [YAML-Dokument
 | `Patient` | patient | siehe Abschnitt A.2.6.3 |
 | `Practitioner` | practitioner | siehe Abschnitt A.2.6.4 | 
 
-#### A2.6.1 - coverage
+### A.3.10 - prescriptionBundle
 
-Das **coverage**-Element bildet die fachlich und medizinisch relevanten Bestandteile einer Arzneimittelverordnung ab.
+<ToDo>
 
-Es ist in [KBV_PR_FOR_COVERAGE](https://simplifier.net/packages/kbv.ita.for/1.1.0/files/720092) und "Technisches Handbuch Digitale Vordrucke" [KBV_ITA_VGEX_TECHNISCHES_HANDBUCH_DIMUS](https://update.kbv.de/ita-update/DigitaleMuster/KBV_ITA_VGEX_Technisches_Handbuch_DiMus.pdf) (**P4-04**) spezifiziert und nachfolgend näher erläutert.
+### A.3.11 - prescriptionIndexList
 
-Technische Details der **coverage**-Datenstruktur sind in der [YAML-Dokumentation](https://ehealthcardlink.github.io/Spezifikation/prescription-communication/) näher beschrieben.
+<ToDo>
 
-| Element | Datentyp | Beschreibung | 
-| --- | --- |  --- |
-| `Kostentraegertyp` | string | Dieses Feld gibt den Kostenträgertyp an. Gemäß [KBV_VS_FOR_Payor_type](https://simplifier.net/for/kbvvsforpayortype) und [KBV_CS_FOR_Payor_Type_KBV](https://simplifier.net/for/kbvcsforpayortypekbv) sind die folgenden  Werte vorgesehen: "GKV"	(gesetzliche Krankenversicherung), "PKV"	(private Krankenversicherung), "BG"	(Berufsgenossenschaft), "SEL"	(Selbstzahler), "SKT" (Sonstige Kostenträger), "UK" (Unfallkassen).| 
-| `IK-Krankenkasse` | string | Dieses Feld enthält das Institutionskennzeichen (IK) der zuständigen Krankenkasse z.B. laut elektronischer Ge-sundheitskarte (eGK). | 
-| `IK-Kostentraeger` | string | Dieses Feld enthält das Institutionskennzeichen (IK) des Kostenträgers und wird verwendet, wenn der Kostenträger nicht die zuständige Krankenkasse ist, bspw. eine Berufsgenossenschaft (BG) oder eine Unfallkasse (UK). | 
-| `Kostentraeger` | string | Name des Kostenträgers | 
-| `WOP` | string | Dieses Feld enthält das Wohnortkennzeichen entsprechend des Wohnortprinzips (WOP) für Honorarvereinbarungen (BMV-Ä Anlage 21). Die vorgesehenen Werte sind der Schlüsseltabelle [S_ITA_WOP](https://applications.kbv.de/S_ITA_WOP.xhtml) zu entnehmen.| 
-| `Versichertenstatus` | string | Dieses Element enthält Angaben zum Versichertenstatus. Gemäß [Leitfaden Basis DE (STU3)](https://ig.fhir.de/basisprofile-de/0.2.30/Versichertenstatus2.html) sind folgende Werte vorgesehen: "1"	(Mitglieder), "3"	(Familienangehörige), "5" (Rentner). | 
-| `BesonderePersonengruppe` | string | Dieses Feld enthält die besondere Personengruppe, zu der der Versicherte gehört (§ 264 SGB V). Die entsprechenden Werte sind der Schlüsseltabelle [S_KBV_PERSONENGRUPPE](https://applications.kbv.de/S_KBV_PERSONENGRUPPE.xhtml) zu entnehmen. | 
-| `DMP-KZ` | string | Dieses Feld enthält das Disease-Management-Programm (DMP), in dem der Versicherte eingeschrieben ist (§ 284 Abs. 1 Satz 1 Nr. 14 SGB V). Die vorgesehenen Werte sind der Schlüsseltabelle [S_KBV_DMP](https://applications.kbv.de/S_KBV_DMP_V1.06.xhtml) zu entnehmen. | 
-| `Versicherungsschutz-Ende` | date | In diesem Feld kann das Datum des Endes des Versicherungsschutzes angegeben werden, wenn die Datumsangabe auf der Versichertenkarte gespeichert ist und ausgelesen wurde. | 
-  
-#### A2.6.2 - organization
+### A.3.12 - supplyOptions
 
-Das **organization**-Element bildet die Daten des Patienten ab. 
-
-Es ist in [KBV_PR_FOR_ORGANIZATION](http://hl7.org/fhir/R4/organization.html) und "Technisches Handbuch Digitale Vordrucke" [KBV_ITA_VGEX_TECHNISCHES_HANDBUCH_DIMUS](https://update.kbv.de/ita-update/DigitaleMuster/KBV_ITA_VGEX_Technisches_Handbuch_DiMus.pdf) (**P4-03**) spezifiziert und nachfolgend näher erläutert.
-
-Technische Details der **organization**-Datenstruktur sind in der [YAML-Dokumentation](https://ehealthcardlink.github.io/Spezifikation/prescription-communication/) näher beschrieben.
-
-| Element | Datentyp | Beschreibung | 
-| --- | --- |  --- |
-| `Identifikator` | string | 61 | 
-| `BSNR` | string | 61a | 
-| `IK-Nummer` | string | 61b | 
-| `KZV-AN` | string | 61c | 
-| `Standortnummer` | string | 61d | 
-| `Telematik-ID` | string | 61 | 
-| `Name` | string | 62 | 
+<ToDo>
 
 
 
-  
-#### A2.6.3 - patient
-
-Das **patient**-Element bildet die Daten des Patienten ab. 
-
-Es ist in [KBV_PR_FOR_PATIENT](https://fhir.kbv.de/StructureDefinition/KBV_PR_FOR_Patient) und "Technisches Handbuch Digitale Vordrucke" [KBV_ITA_VGEX_TECHNISCHES_HANDBUCH_DIMUS](https://update.kbv.de/ita-update/DigitaleMuster/KBV_ITA_VGEX_Technisches_Handbuch_DiMus.pdf) (**P4-05**) spezifiziert und nachfolgend näher erläutert.
-
-Technische Details der **patient**-Datenstruktur sind in der [YAML-Dokumentation](https://ehealthcardlink.github.io/Spezifikation/prescription-communication/) näher beschrieben.
-
-| Element | Datentyp | Beschreibung | 
-| --- | --- |  --- |
-| `Identifikator` | string | Dieses Feld enthält den Identifikator der Person, z.B. die Krankenversicherungsnummer der GKV oder PKV. | 
-| `GKV-VersichertenID` | string | Dieses Feld enthält die VersichertenID der gesetzlichen Krankenversicherung (unveränderlicher Teil der einheitlichen Krankenversicherungsnummer der GKV gemäß § 290 SGB V). | 
-| `PKV-VersichertenID` | string | Dieses Feld enthält die VersichertenID der privaten Krankenversicherung (unveränderlicher Teil der einheitlichen Krankenversichertennummer gemäß § 290 SGB V). | 
-| `KVK-Versichertennummer` | string | Dieses Feld enthält die Versichertennummer der Krankenversichertenkarte. | 
-| `Person` | person | Dieses Element enthält die Informationen zur betreffenden Person. | 
-| `Geburtsdatum` | date | Dieses Feld gibt das Geburtsdatum des Versicherten an. | 
-| `Adresse` | strassenaddresse oder postfachadresse | Entweder Straßenadresse oder Postfachaddresse. | 
-
-Das Element **strassenadresse** ist folgendermaßen strukturiert.
-
-| Element | Datentyp | Beschreibung | 
-| --- | --- |  --- |
-| `Land` | string | Dieses Feld enthält den Wohnsitzländercode (entsprechend Gemeinsames Rundschreiben DEÜV Anlage 08). | 
-| `PLZ` | string | In diesem Feld kann die Postleitzahl angegeben werden. | 
-| `Ort` | string | In diesem Feld kann der Ortsnamen angegeben werden. Mehrere Namensbestandteile sind durch Blank/Sonderzeichen getrennt. | 
-| `Strasse` | string | In diesem Feld kann der Straßennamen angegeben werden. | 
-| `Hausnummer` | string | In diesem Feld kann die Hausnummer angegeben werden. | 
-| `Zusatz` | string | In diesem Feld kann der Anschriftenzusatz angegeben werden, z.B. Hinterhaus. | 
-
-Das Element **postfachadresse** ist folgendermaßen strukturiert.
-
-| Element | Datentyp | Beschreibung | 
-| --- | --- |  --- |
-| `Land` | string | siehe oben | 
-| `PLZ` | string | siehe oben | 
-| `Ort` | string | siehe oben | 
-| `Postfach` | string | In diesem Feld kann das Postfach angegeben werden. | 
-
-#### A2.6.x - person
-
-Das Element **person** wird in der Spezifikation der Elemente **patient** (Abschnitt A.2.6.x) und **practitioner** (Abschnitt A.2.6.x) genutzt und ist folgendermaßen strukturiert.
-
-| Element | Datentyp | Beschreibung | 
-| --- | --- |  --- |
-| `Vorname` | string | Dieses Feld enthält den Vornamen der Person; mehrere Vornamen sind durch Blank oder Bindestrich getrennt.| 
-| `Name` | string | Dieses Feld enthält den Nachnamen des Person. | 
-| `Titel` | string | Dieses Feld enthält den akademischen Grad der Person, z.B. „Dr. med.“, „Dr.rer.nat.“. | 
-| `Namenszusatz` | string | Dieses Feld enthält den Namenszusatz als Bestandteil des Nachnamens der Person, z.B. „Freiherr“, „Gräfin“; mehrere Namenszusätze sind durch Blank getrennt. | 
-| `Vorsatzwort` | string | Dieses Feld enthält das Vorsatzwort als Bestandteil des Nachnamens der Person, z.B. „von“, „von der“, „zu“ ; mehrere Vorsatzwörter sind durch Blank getrennt. | 
-
-#### A2.6.4 - practitioner
-
-Das **practitioner**-Element bildet die Daten des verordnenden Leistungserbringer (z.B. Arzt) ab. 
-
-Es ist in [KBV_PR_FOR_Practitioner](https://simplifier.net/for/kbvprforpractitioner) und "Technisches Handbuch Digitale Vordrucke" [KBV_ITA_VGEX_TECHNISCHES_HANDBUCH_DIMUS](https://update.kbv.de/ita-update/DigitaleMuster/KBV_ITA_VGEX_Technisches_Handbuch_DiMus.pdf) (**P4-01**) spezifiziert und nachfolgend näher erläutert.
-
-Technische Details der **practitioner**-Datenstruktur sind in der [YAML-Dokumentation](https://ehealthcardlink.github.io/Spezifikation/prescription-communication/) näher beschrieben.
-
-| Element | Datentyp | Beschreibung | 
-| --- | --- |  --- |
-| `Typ` | string | Dieses Feld enthält einen Typ zur Kennzeichnung der verschreibenden Person, z.B. Arzt, Arzt in Weiterbildung. Die vorgesehenen Werte sind der Schlüsseltabelle [KBV_CS_FOR_Qualification_Type](https://simplifier.net/for/kbvcsforqualificationtype) zu entnehmen. | 
-| `Berufsbezeichnung` | string | Dieses Feld enthält eine Freitextangabe zur Berufsbezeichnung, z. B. Facharzt für Allgemeinmedizin, Praktischer Arzt, Hebamme. | 
-| `ASV-FGN` | string | Dieses Feld enthält die ASV-Fachgruppennummer (ASV-FGN) gemäß der Vereinbarung über ambulante spezialärztliche Versorgung (ASV) (ASV-AV) § 9 Absatz 5. Diese ist gemäß der ASV-AV von Krankenhausärzten an Stelle der Arztnummer anzugeben. | 
-| `Arztnummer` | string | Dieses Feld enthält als Identifikator der Person eine Arztnummer (Lebenslange Arztnummer LANR). | 
-| `Zahnarztnummer` | string | Dieses Feld enthält als Identifikator der Person, eine Zahnarztnummer (ZANR). | 
-| `Telematik-ID` | string | Dieses Feld enthält als Identifikator der Person eine Telematik-ID. | 
-| `Person` | person | siehe Abschnitt A.2.6.x  | 
-| `VerantwortlichePerson` | practitioner | Dieses Element ist optional.   | 
-
-#### A2.6.5 - practitionerRole
-
-Das optionale **practitionerRole**-Element kann verwendet werden, um anzugeben, ob der verordnende Arzt eine weitere Rolle innehat. 
-
-Es ist in [KBV_PR_FOR_PRACTITIONERROLE](http://hl7.org/fhir/R4/practitionerrole.html) und "Technisches Handbuch Digitale Vordrucke" [KBV_ITA_VGEX_TECHNISCHES_HANDBUCH_DIMUS](https://update.kbv.de/ita-update/DigitaleMuster/KBV_ITA_VGEX_Technisches_Handbuch_DiMus.pdf) (**P4-02**) spezifiziert und nachfolgend näher erläutert.
-
-Technische Details der **practitionerRole**-Datenstruktur sind in der [YAML-Dokumentation](https://ehealthcardlink.github.io/Spezifikation/prescription-communication/) näher beschrieben.
-
-| Element | Datentyp | Beschreibung | 
-| --- | --- |  --- |
-| `ASV-TN` | string | Dieses Feld muss im Rahmen einer ambulanten spezialfachärztlichen Versorgung (ASV) genutzt werden. Jedes ASV-Team erhält von der ASV-Servicestelle eine ASV-Teamnummer (ASV-TN). Mit ihr kennzeichnen ASV-Ärzte die Leistungen oder Verordnungen, die sie in der ASV durchführen. Die Teamnummer umfasst neun Ziffern und ist wie eine Betriebsstättennummer (BSNR) aufgebaut. Sie wird vergeben, sobald die Ärzte eine ASV-Berechtigung haben – zusätzlich zur BSNR und zur lebenslangen Arztnummer. | 
-
-### A.2.7 selectedPrescriptionList
-
-Die **selectedPrescriptionList**-Nachricht spezifiziert, welche elektronischen Verordnungen genau dispensiert werden sollen. 
-
-Technische Details der **selectedPrescriptionList**-Datenstruktur sind in der [YAML-Dokumentation](https://ehealthcardlink.github.io/Spezifikation/prescription-communication/) näher beschrieben.
