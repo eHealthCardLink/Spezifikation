@@ -75,7 +75,7 @@ Der grundlegende Ablauf für das Einlösen von E-Rezepten ist im nachfolgenden S
 * `(14)` - Das individuelle E-Rezept wird zusammen mit einem Geheimnis (secret) als PKCS#7-MIME-codierte MedicationReference vom FD_eRp zurückgeliefert.
 * `(15)` - Jedes so erhaltene E-Rezept wird dekodiert und die E-Rezept-Informationen werden zur weiteren Verarbeitung extrahiert.
 
-### A.1.3 - Phase 3 - Auslesen der verfügbaren E-Rezepte aus FD_eRp
+### A.1.3 - Phase 3 - Bereitstellen der E-Rezept-Informationen und Auswahl der zu dispensierenden Exemplare
 
 * `(16)` - Die App fordert die Liste der verfügbaren E-Rezepte beim eHealth-CardLink-Dienst an (**requestPrescriptionList**).
 * `(17)` - Der eHealth-CardLink-Dienst schickt die Nachricht (**requestPrescriptionList**) weiter zum AVS.
@@ -132,7 +132,7 @@ näher beschrieben.
 
 Die **availablePrescriptionLists**-Nachricht besteht aus einer Folge von **availablePrescriptionList**-Elementen. 
 
-Ein **availablePrescriptionList**-Element enthält ein **ICCSN**-Element und eine Folge von **prescriptionBundle**-Elementen (siehe Abschnitt ).
+Ein **availablePrescriptionList**-Element enthält ein **ICCSN**-Element und eine Folge von **prescriptionBundle**-Elementen (siehe Abschnitt A.3.10).
 
 Die technischen Details sind in der [YAML-Dokumentation](https://ehealthcardlink.github.io/Spezifikation/prescription-communication/) 
 näher beschrieben.
@@ -147,7 +147,7 @@ Die **selectedPrescriptionList**-Nachricht umfasst die folgenden Elemente:
 | --- | --- |  --- |
 | `ICCSN` | string | Die ICCSN identifiziert die eGK für die elektronische Verordnungen eingelöst werden sollen. | 
 | `PrescriptionIndexList` | prescriptionIndexList | Dieses Element spezifiziert, welche der verfügbaren elektronischen Verordnungen eingelöst werden sollen. |
-| `SupplyOptions` | supplyOptions | Mit diesem Element kann die gewünschte Bereitstellungsart (Abholung, Botenversand, Paketversand) der verordneten Medikamente spezifiziert werden. |
+| `SupplyOptions` | supplyOptions | Mit diesem Element kann die gewünschte Bereitstellungsart (Abholung, Botenversand, Paketversand) der verordneten Medikamente spezifiziert werden. Weitere Informationen finden sich in Abschnitt A.3.13. |
 
 Die technischen Details der **selectedPrescriptionList**-Nachricht sind in der [YAML-Dokumentation](https://ehealthcardlink.github.io/Spezifikation/prescription-communication/) näher beschrieben.
 
@@ -158,24 +158,24 @@ Die **confirmSelection**-Nachricht dient der Bestätigung des Erhalts der vorher
 Die technischen Details sind in der [YAML-Dokumentation](https://ehealthcardlink.github.io/Spezifikation/prescription-communication/) 
 näher beschrieben.
 
-## A.3 In den Nachrichten genutzte Datenelemente
+## A.3 In den Nachrichten enthaltene Datenelemente
+
+In den oben spezifizierten Nachrichten sind die folgenden Elemente enthalten:
 
 * A.3.1 - coverage
 * A.3.2 - medication
-  * A.3.2.1 - medicationPZN (KBV_PR_ERP_Medication_PZN)
-  * A.3.2.2 - medicationIngredient (KBV_PR_ERP_Medication_Ingredient)
-  * A.3.2.3 - medicationCompounding (KBV_PR_ERP_Medication_Compounding)
-  * A.3.2.4 - medicationFreeText (KBV_PR_ERP_Medication_FreeText)
 * A.3.3 - organization
 * A.3.4 - patient
-* A.3.5 - person
-* A.3.6 - practiceSupply
-* A.3.7 - practitioner
-* A.3.8 - practitionerRole
-* A.3.9 - prescription
-* A.3.10 - prescriptionBundle
-* A.3.11 - prescriptionIndexList
-* A.3.12 - supplyOptions
+* A.3.5 - pobAdress
+* A.3.6 - person
+* A.3.7 - practiceSupply
+* A.3.8 - practitioner
+* A.3.9 - practitionerRole
+* A.3.10 - prescription
+* A.3.11 - prescriptionBundle
+* A.3.12 - prescriptionIndexList
+* A.3.13 - streetAdress
+* A.3.14 - supplyOptions
 
 #### A.3.1 - coverage
 
@@ -304,11 +304,10 @@ Technische Details der **organization**-Datenstruktur sind in der [YAML-Dokument
 | `Standortnummer` | string | Dieses Feld enthält eine Standortnummer eines Krankenhauses. | 
 | `Telematik-ID` | string | Dieses Feld enthält eine Telematik-ID der Einrichtung. | 
 | `Name` | string | Dieses Feld enthält die Bezeichnung der Einrichtung (Praxis / Krankenhaus). | 
-| `Adresse` | strassenadresse | Siehe Abschnitt A.2.6.3. | 
+| `Adresse` | streetAdress | Siehe Abschnitt A.3.13. | 
 | `Telefon` | string | Dieses Feld enthält die Telefonnummer. | 
 | `Fax` | string | Dieses Feld enthält die Faxnummer. | 
-| `E-Mail` | string | Dieses Feld enthält die E-Mail - Adresse der Einrichtung. Bei grenzüberschreitender Einlösung einer Arzneimittelverordnung ist diese zwingend anzugeben. | 
-
+| `E-Mail` | string | Dieses Feld enthält die E-Mail-Adresse der Einrichtung. Bei grenzüberschreitender Einlösung einer Arzneimittelverordnung ist diese zwingend anzugeben. | 
 
 #### A.3.4 - patient
 
@@ -320,37 +319,28 @@ Technische Details der **patient**-Datenstruktur sind in der [YAML-Dokumentation
 
 | Element | Datentyp | Beschreibung | 
 | --- | --- |  --- |
-| `Identifikator` | string | Dieses Feld enthält den Identifikator der Person, z.B. die Krankenversicherungsnummer der GKV oder PKV. | 
 | `GKV-VersichertenID` | string | Dieses Feld enthält die VersichertenID der gesetzlichen Krankenversicherung (unveränderlicher Teil der einheitlichen Krankenversicherungsnummer der GKV gemäß § 290 SGB V). | 
 | `PKV-VersichertenID` | string | Dieses Feld enthält die VersichertenID der privaten Krankenversicherung (unveränderlicher Teil der einheitlichen Krankenversichertennummer gemäß § 290 SGB V). | 
 | `KVK-Versichertennummer` | string | Dieses Feld enthält die Versichertennummer der Krankenversichertenkarte. | 
 | `Person` | person | Dieses Element enthält die Informationen zur betreffenden Person. | 
 | `Geburtsdatum` | date | Dieses Feld gibt das Geburtsdatum des Versicherten an. | 
-| `Adresse` | strassenaddresse oder postfachadresse | Entweder Straßenadresse oder Postfachaddresse. | 
+| `Adresse` | streetAdress oder pobAdress | Entweder Straßenadresse (streetAdress) oder Postfachaddresse (pobAdress). | 
 
-Das Element **strassenadresse** ist folgendermaßen strukturiert.
+#### A.3.5 - pobAdress
+
+Das **pobAdress**-Element enthält die Postfachadresse der betreffenden Person. 
+Dieses Element ist folgendermaßen strukturiert:
 
 | Element | Datentyp | Beschreibung | 
 | --- | --- |  --- |
 | `Land` | string | Dieses Feld enthält den Wohnsitzländercode (entsprechend [Gemeinsames Rundschreiben DEÜV](https://www.gkv-datenaustausch.de/arbeitgeber/deuev/gemeinsame_rundschreiben/gemeinsame_rundschreiben.jsp) [Anlage 08](https://www.gkv-datenaustausch.de/media/dokumente/arbeitgeber/deuev/rundschreiben_anlagen/03_Gem_RS_Anlage_8_Vers._8.00.pdf).| 
 | `PLZ` | string | In diesem Feld kann die Postleitzahl angegeben werden. | 
 | `Ort` | string | In diesem Feld kann der Ortsnamen angegeben werden. Mehrere Namensbestandteile sind durch Blank/Sonderzeichen getrennt. | 
-| `Strasse` | string | In diesem Feld kann der Straßennamen angegeben werden. | 
-| `Hausnummer` | string | In diesem Feld kann die Hausnummer angegeben werden. | 
-| `Zusatz` | string | In diesem Feld kann der Anschriftenzusatz angegeben werden, z.B. Hinterhaus. | 
-
-Das Element **postfachadresse** ist folgendermaßen strukturiert.
-
-| Element | Datentyp | Beschreibung | 
-| --- | --- |  --- |
-| `Land` | string | siehe oben | 
-| `PLZ` | string | siehe oben | 
-| `Ort` | string | siehe oben | 
 | `Postfach` | string | In diesem Feld kann das Postfach angegeben werden. | 
 
-#### A.3.5 - person
+#### A.3.6 - person
 
-Das Element **person** wird in der Spezifikation der Elemente **patient** (Abschnitt A.2.6.x) und **practitioner** (Abschnitt A.2.6.x) genutzt und ist folgendermaßen strukturiert.
+Das Element **person** wird in der Spezifikation der Elemente **patient** (Abschnitt A.3.4) und **practitioner** (Abschnitt A.3.8) genutzt und ist folgendermaßen strukturiert.
 
 | Element | Datentyp | Beschreibung | 
 | --- | --- |  --- |
@@ -360,16 +350,21 @@ Das Element **person** wird in der Spezifikation der Elemente **patient** (Absch
 | `Namenszusatz` | string | Dieses Feld enthält den Namenszusatz als Bestandteil des Nachnamens der Person, z.B. „Freiherr“, „Gräfin“; mehrere Namenszusätze sind durch Blank getrennt. | 
 | `Vorsatzwort` | string | Dieses Feld enthält das Vorsatzwort als Bestandteil des Nachnamens der Person, z.B. „von“, „von der“, „zu“ ; mehrere Vorsatzwörter sind durch Blank getrennt. | 
 
+### A.3.7 - practiceSupply
 
-### A.3.6 - practiceSupply
+Das **practiceSupply**-Element dient der Verschreibung von Sprechstundenbedarf gemäß [KBV_PR_ERP_PracticeSupply](https://simplifier.net/erezept/kbvprerppracticesupply). 
 
-Das **practiceSupply**-Element dient der Verschreibung von Sprechstundenbedarf gemäß [KBV_PR_ERP_PRACTICESUPPLY](https://simplifier.net/erezept/kbvprerppracticesupply). 
-
-<TODO>
+| Element | Datentyp | Beschreibung | 
+| --- | --- |  --- |
+| `Datum` | date | Dieses Feld enthält das Ausstellungsdatum der Verordnung. | 
+| `Anzahl` | integer | Dieses Feld enthält die Anzahl der verordneten Packungen. | 
+| `Kostentraegertyp` | string | Dieses Feld gibt den Kostenträgertyp an. Gemäß [KBV_VS_FOR_Payor_type](https://simplifier.net/for/kbvvsforpayortype) und [KBV_CS_FOR_Payor_Type_KBV](https://simplifier.net/for/kbvcsforpayortypekbv) sind die folgenden  Werte vorgesehen: "GKV"	(gesetzliche Krankenversicherung), "PKV"	(private Krankenversicherung), "BG"	(Berufsgenossenschaft), "SEL"	(Selbstzahler), "SKT" (Sonstige Kostenträger), "UK" (Unfallkassen).| 
+| `IK-Nummer` | string |Dieses Feld enthält das Institutionskennzeichen (IK) laut der elektronischen Gesundheitskarte (eGK). Siehe hierzu die Übertragungsregel gemäß [Technische Anlage zur Anlage 4a BMV-Ä](https://www.kbv.de/media/sp/04a_elektr._Gesundheitskarte_technische_Anlage.pdf) (Abschnitt 2.2).  | 
+| `Name` | string | Dieses Feld enthält den Namen des Kostenträgers. Der korrekte Name ergibt sich aus den definierten Regeln gemäß [Technische Anlage zur Anlage 4a BMV-Ä](https://www.kbv.de/media/sp/04a_elektr._Gesundheitskarte_technische_Anlage.pdf) (Abschnitt 2.3). | 
    
 Technische Details der **practiceSupply**-Datenstruktur sind in der [YAML-Dokumentation](https://ehealthcardlink.github.io/Spezifikation/prescription-communication/) näher beschrieben.
 
-#### A.3.7 - practitioner
+#### A.3.8 - practitioner
 
 Das **practitioner**-Element bildet die Daten des verordnenden Leistungserbringer (z.B. Arzt) ab. 
 
@@ -385,10 +380,10 @@ Technische Details der **practitioner**-Datenstruktur sind in der [YAML-Dokument
 | `Arztnummer` | string | Dieses Feld enthält als Identifikator der Person eine Arztnummer (Lebenslange Arztnummer LANR). | 
 | `Zahnarztnummer` | string | Dieses Feld enthält als Identifikator der Person, eine Zahnarztnummer (ZANR). | 
 | `Telematik-ID` | string | Dieses Feld enthält als Identifikator der Person eine Telematik-ID. | 
-| `Person` | person | siehe Abschnitt A.2.6.x  | 
+| `Person` | person | siehe Abschnitt A.3.6  | 
 | `VerantwortlichePerson` | practitioner | Dieses Element ist optional und kann dafür verwendet werden, wenn der verordnende Arzt nicht der verantwortliche Arzt ist.   | 
 
-#### A.3.8 - practitionerRole
+#### A.3.9 - practitionerRole
 
 Das optionale **practitionerRole**-Element kann verwendet werden, um anzugeben, ob der verordnende Arzt eine weitere Rolle im Bereich der ambulanten spezialärztlichen Versorgung (ASV) innehat. 
 
@@ -400,8 +395,7 @@ Technische Details der **practitionerRole**-Datenstruktur sind in der [YAML-Doku
 | --- | --- |  --- |
 | `ASV-TN` | string | Dieses Feld muss im Rahmen einer ambulanten spezialfachärztlichen Versorgung genutzt werden. Jedes ASV-Team erhält von der ASV-Servicestelle eine ASV-Teamnummer (ASV-TN). Mit ihr kennzeichnen ASV-Ärzte die Leistungen oder Verordnungen, die sie in der ASV durchführen. Die Teamnummer umfasst neun Ziffern und ist wie eine Betriebsstättennummer (BSNR) aufgebaut. Sie wird vergeben, sobald die Ärzte eine ASV-Berechtigung haben – zusätzlich zur BSNR und zur lebenslangen Arztnummer. | 
 
-
-### A.3.9 - prescription
+### A.3.10 - prescription
 
 Das **prescription**-Element bildet die fachlich und medizinisch relevanten Bestandteile einer Arzneimittelverordnung ab.
 
@@ -430,19 +424,52 @@ Technische Details der **prescription**-Datenstruktur sind in der [YAML-Dokument
 | `MFV-Nenner` | integer | Dieses Feld enthält die Angabe der Länge dieser Serie, d.h. die Gesamtanzahl der Teilverordnungen der Mehrfachverordnung. Beispiel: "4" in "2 von 4" |
 | `MFV-Beginn` | date | Dieses Feld enthält das Datum, ab dem die Teilverordnung der Mehrfachverordnung eingelöst werden kann. |
 | `MFV-Ende` | date | Dieses Feld enthält das Datum des letzten Einlösetages der Teilverordnung der Mehrfachverordnung. Von der ausstellenden Person kann eine von der Arzneimittelverschreibungsverordnung (AMVV) abweichende Einlösefrist angegeben werden. |
-| `Coverage` | coverage | siehe Abschnitt A.2.6.1 |
-| `Patient` | patient | siehe Abschnitt A.2.6.3 |
-| `Practitioner` | practitioner | siehe Abschnitt A.2.6.4 | 
+| `Coverage` | coverage | siehe Abschnitt A.3.1 |
+| `Patient` | patient | siehe Abschnitt A.3.4 |
+| `Practitioner` | practitioner | siehe Abschnitt A.3.8 | 
 
-### A.3.10 - prescriptionBundle
+### A.3.11 - prescriptionBundle
+
+Das **prescriptionBundle**-Element ist das für elektronische Verordnungen genutzte Bündelungselement, das von der [Bundle](https://hl7.org/fhir/R4/bundle.html)-Ressource abgeleitet wird und alle weiteren Datenelemente enthält. 
+
+Es ist in [KBV_PR_ERP_Bundle](https://simplifier.net/packages/kbv.ita.erp/1.1.2/files/2212799) und der "Technischen Anlage zur elektronischen Arzneimittelverordnung (E16A)" [[KBV_ITA_VGEX_TECHNISCHE_ANLAGE_ERP]](https://update.kbv.de/ita-update/DigitaleMuster/ERP/KBV_ITA_VGEX_Technische_Anlage_ERP.pdf) (Abschnitt 3.6.2) spezifiziert und nachfolgend näher erläutert. 
+
+Technische Details der **prescriptionBundle**-Datenstruktur sind in der [YAML-Dokumentation](https://ehealthcardlink.github.io/Spezifikation/prescription-communication/) näher beschrieben.
+
+| Element | Datentyp | Beschreibung | 
+| --- | --- |  --- |
+| `PrescriptionID` | string | Dieses Feld enthält den im Zeitraum von 11 Jahren eindeutigen Identifikator der elektronischen Verordnung gemäß [GEM_ERP_PR_PrescriptionId](https://simplifier.net/packages/de.gematik.erezept-workflow.r4/1.2.1/files/2030548) und [gemSpec_DM_eRp](https://fachportal.gematik.de/fachportal-import/files/gemSpec_DM_eRp_V1.9.0.pdf) (Abschnitt 2.2). |
+| `Erstellungszeitpunkt` | date-time | Gibt den Zeitpunkt der Erstellung des E-Rezept-Bundles an. |
+| `Status` | string | Enthält das Statuskennzeichen der elektronischen Verordnung. Die vorgesehenen Werte sind der Schlüsseltabelle [S_KBV_STATUSKENNZEICHEN](https://applications.kbv.de/S_KBV_STATUSKENNZEICHEN.xhtml) zu entnehmen. |
+| `PKV-Tarif` | string | Enthält im Fall eines Privatrezeptes Informationen zum PKV-Tarif gemäß [KBV_EX_FOR_PKV_Tariff](https://simplifier.net/for/kbvexforpkvtariff). |
+| `Krankenversicherung` | coverage | Enthält die Informationen zur Krankenversicherung. Details sind in Abschnitt A.3.1 spezifiziert. |
+| `Patient` | patient | Enthält die Informationen zum Patienten. Details sind in Abschnitt A.3.4 spezifiziert. |
+| `Arzt` | practitioner | Enthält die Informationen zum Aussteller der elektronischen Verordnung (z.B. Arzt). Details sind in Abschnitt A.3.8 spezifiziert. |
+| `Pruefnummer` | string | Enthält die Prüfnummer des Praxisverwaltungssystems, mit dem die elektronische Verordnung erstellt wurde. |
+| `Organisation` | organization | Enthält die Information zur ausstellenden Organisation. Details sind in Abschnitt A.3.3 spezifiziert. |
+| `Verordnung` | prescription oder practiceSupply | Enthält weitere Informationen zur elektronischen Verordnung. Das **prescription**-Element ist in Abschnitt A.3.10 und das **practiceSupply**-Element ist in Abschnitt A.3.7 näher spezifiziert. | 
+| `ASV-TN` | practitionerRole | Dieses Element kann verwendet werden, um anzugeben, ob der verordnende Arzt eine weitere Rolle im Bereich der ambulanten spezialärztlichen Versorgung (ASV) innehat. Details zum **practitionerRole**-Element sind in Abschnitt A.3.9 spezifiziert. | 
+| `Arzneimittel` | medication | Dieses Element enthält die Informationen über das verordnete Arzneimittel. Details zum **medication**-Element sind in Abschnitt A.3.2 spezifiziert. | 
+
+### A.3.12 - prescriptionIndexList
 
 <ToDo>
 
-### A.3.11 - prescriptionIndexList
 
-<ToDo>
+### A.3.13 - streetAdress
 
-### A.3.12 - supplyOptions
+Das Element **streetAdress** ist folgendermaßen strukturiert.
+
+| Element | Datentyp | Beschreibung | 
+| --- | --- |  --- |
+| `Land` | string | Dieses Feld enthält den Wohnsitzländercode (entsprechend [Gemeinsames Rundschreiben DEÜV](https://www.gkv-datenaustausch.de/arbeitgeber/deuev/gemeinsame_rundschreiben/gemeinsame_rundschreiben.jsp) [Anlage 08](https://www.gkv-datenaustausch.de/media/dokumente/arbeitgeber/deuev/rundschreiben_anlagen/03_Gem_RS_Anlage_8_Vers._8.00.pdf).| 
+| `PLZ` | string | In diesem Feld kann die Postleitzahl angegeben werden. | 
+| `Ort` | string | In diesem Feld kann der Ortsnamen angegeben werden. Mehrere Namensbestandteile sind durch Blank/Sonderzeichen getrennt. | 
+| `Strasse` | string | In diesem Feld kann der Straßennamen angegeben werden. | 
+| `Hausnummer` | string | In diesem Feld kann die Hausnummer angegeben werden. | 
+| `Zusatz` | string | In diesem Feld kann der Anschriftenzusatz angegeben werden, z.B. Hinterhaus. | 
+
+### A.3.14 - supplyOptions
 
 <ToDo>
 
