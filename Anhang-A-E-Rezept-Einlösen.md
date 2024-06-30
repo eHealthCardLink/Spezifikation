@@ -141,13 +141,21 @@ näher beschrieben.
 
 Die **selectedPrescriptionList**-Nachricht spezifiziert, welche elektronischen Verordnungen genau dispensiert werden sollen und wie die verordneten Medikamente zugestellt werden sollen. 
 
-Die **selectedPrescriptionList**-Nachricht umfasst die folgenden Elemente:
+Die **selectedPrescriptionList**-Nachricht ist an die Strukturen aus 
+[gemSpec_DM_eRp](https://fachportal.gematik.de/fachportal-import/files/gemSpec_DM_eRp_V1.9.0.pdf) (Abschnitt 2.6.3) angelehnt und
+umfasst die folgenden Elemente:
 
 | Element | Datentyp | Beschreibung | 
 | --- | --- |  --- |
 | `ICCSN` | string | Die ICCSN identifiziert die eGK für die elektronische Verordnungen eingelöst werden sollen. | 
-| `PrescriptionIndexList` | prescriptionIndexList | Dieses Element spezifiziert, welche der verfügbaren elektronischen Verordnungen eingelöst werden sollen. |
-| `SupplyOptions` | supplyOptions | Mit diesem Element kann die gewünschte Bereitstellungsart (Abholung, Botenversand, Paketversand) der verordneten Medikamente spezifiziert werden. Weitere Informationen finden sich in Abschnitt A.3.13. |
+| `PrescriptionIndexList` | prescriptionIndexList | Dieses Element spezifiziert, welche der verfügbaren elektronischen Verordnungen eingelöst werden sollen. Details sind in Abschnitt A.3.12 spezifiziert. |
+| `supplyOptionsType` | string | Mit diesem Element kann die gewünschte Bereitstellungsart der verordneten Medikamente spezifiziert werden. Gemäß [gemSpec_DM_eRp](https://fachportal.gematik.de/fachportal-import/files/gemSpec_DM_eRp_V1.9.0.pdf) sind die Werte "onPremise", "shipment", "delivery" vorgesehen. |
+| `name` | string | Name des Versicherten (optional).  |
+| `address` | streetAddress | Adresse des Versicherten (optional). |
+| `hint` | string | Hinweis, den der Versicherte mit angeben kann. (optional) |
+| `text` | string | Freitext, den der Nutzer App-unterstützt eingeben kann. (optional) |
+| `phone` | string | Telefonnummer des Versicherten.  |
+| `mail` | string | E-Mail-Adresse des Versicherten.  |
 
 Die technischen Details der **selectedPrescriptionList**-Nachricht sind in der [YAML-Dokumentation](https://ehealthcardlink.github.io/Spezifikation/prescription-communication/) näher beschrieben.
 
@@ -166,7 +174,7 @@ In den oben spezifizierten Nachrichten sind die folgenden Elemente enthalten:
 * A.3.2 - medication
 * A.3.3 - organization
 * A.3.4 - patient
-* A.3.5 - pobAdress
+* A.3.5 - pobAddress
 * A.3.6 - person
 * A.3.7 - practiceSupply
 * A.3.8 - practitioner
@@ -174,8 +182,7 @@ In den oben spezifizierten Nachrichten sind die folgenden Elemente enthalten:
 * A.3.10 - prescription
 * A.3.11 - prescriptionBundle
 * A.3.12 - prescriptionIndexList
-* A.3.13 - streetAdress
-* A.3.14 - supplyOptions
+* A.3.13 - streetAddress
 
 #### A.3.1 - coverage
 
@@ -326,9 +333,9 @@ Technische Details der **patient**-Datenstruktur sind in der [YAML-Dokumentation
 | `Geburtsdatum` | date | Dieses Feld gibt das Geburtsdatum des Versicherten an. | 
 | `Adresse` | streetAdress oder pobAdress | Entweder Straßenadresse (streetAdress) oder Postfachaddresse (pobAdress). | 
 
-#### A.3.5 - pobAdress
+#### A.3.5 - pobAddress
 
-Das **pobAdress**-Element enthält die Postfachadresse der betreffenden Person. 
+Das **pobAddress**-Element enthält die Postfachadresse der betreffenden Person. 
 Dieses Element ist folgendermaßen strukturiert:
 
 | Element | Datentyp | Beschreibung | 
@@ -453,12 +460,15 @@ Technische Details der **prescriptionBundle**-Datenstruktur sind in der [YAML-Do
 
 ### A.3.12 - prescriptionIndexList
 
-<ToDo>
+Das **prescriptionIndexList**-Element ist in der **selectedPrescriptionList**-Nachricht enthalten und spezifiziert, welche der verfügbaren elektronischen Verordnungen eingelöst werden sollen.
 
+Das **prescriptionIndexList**-Element besteht aus einer Folge von **prescriptionID** Elementen, welche die einzulösenden Verordnungen identifizieren (siehe auch **prescriptionBundle** in Abschnitt A.3.11).
 
-### A.3.13 - streetAdress
+Technische Details der **prescriptionIndexList**-Datenstruktur sind in der [YAML-Dokumentation](https://ehealthcardlink.github.io/Spezifikation/prescription-communication/) näher beschrieben.
 
-Das Element **streetAdress** ist folgendermaßen strukturiert.
+### A.3.13 - streetAddress
+
+Das Element **streetAddress** ist folgendermaßen strukturiert.
 
 | Element | Datentyp | Beschreibung | 
 | --- | --- |  --- |
@@ -468,10 +478,5 @@ Das Element **streetAdress** ist folgendermaßen strukturiert.
 | `Strasse` | string | In diesem Feld kann der Straßennamen angegeben werden. | 
 | `Hausnummer` | string | In diesem Feld kann die Hausnummer angegeben werden. | 
 | `Zusatz` | string | In diesem Feld kann der Anschriftenzusatz angegeben werden, z.B. Hinterhaus. | 
-
-### A.3.14 - supplyOptions
-
-<ToDo>
-
 
 
