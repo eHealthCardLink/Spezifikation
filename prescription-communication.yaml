@@ -2,7 +2,7 @@ asyncapi: 3.0.0
 info:
   title: eHealth-CardLink Prescription Communication Interface
   version: 1.0.0
-  description: >
+  description: 
     This API defines an interface between a Pharmacy System and a Pharmacy App with 
     eHealth-CardLink service as intermediary, which is used to present the essential 
     parts of a set of available prescriptions and allows to select electronic prescriptions
@@ -26,12 +26,12 @@ channels:
     messages:
       requestPrescriptionListMessage:
         $ref: '#/components/messages/requestPrescriptionListMessage'
-      availablePrescriptionListMessage:
-        $ref: '#/components/messages/availablePrescriptionListMessage'
+      availablePrescriptionListsMessage:
+        $ref: '#/components/messages/availablePrescriptionListsMessage'
       selectedPrescriptionListMessage:
         $ref: '#/components/messages/selectedPrescriptionListMessage'
-      confirmPrescriptionListMessage:
-        $ref: '#/components/messages/confirmPrescriptionListMessage'
+      selectedPrescriptionListResponseMessage:
+        $ref: '#/components/messages/selectedPrescriptionListResponseMessage'
       genericErrorMessage:
         $ref: '#/components/messages/genericErrorMessage'
     bindings:
@@ -55,14 +55,16 @@ operations:
       $ref: '#/channels/prescriptionExchange'
     messages:
       - $ref: '#/channels/prescriptionExchange/messages/requestPrescriptionListMessage'
-  availablePrescriptionListMessage:
+
+  availablePrescriptionListsMessage:
     action: send
     title: Send list of available prescriptions
     summary: Send list of available prescriptions from the Pharmacy System to the Pharmacy App via the eHealth-CardLink service
     channel:
       $ref: '#/channels/prescriptionExchange'
     messages:
-      - $ref: '#/channels/prescriptionExchange/messages/availablePrescriptionListMessage'
+      - $ref: '#/channels/prescriptionExchange/messages/availablePrescriptionListsMessage'
+
   selectedPrescriptionListMessage:
     action: receive
     title: Receive list of selected prescriptions
@@ -71,14 +73,16 @@ operations:
       $ref: '#/channels/prescriptionExchange'
     messages:
       - $ref: '#/channels/prescriptionExchange/messages/selectedPrescriptionListMessage'
-  confirmPrescriptionListMessage:
+
+  selectedPrescriptionListResponseMessage:
     action: receive
     title: Send confirmation of selected prescriptions
     summary: Send confirmation of prescriptions selected by the user for dispensation and delivery
     channel:
       $ref: '#/channels/prescriptionExchange'
     messages:
-      - $ref: '#/channels/prescriptionExchange/messages/confirmPrescriptionListMessage'
+      - $ref: '#/channels/prescriptionExchange/messages/selectedPrescriptionListResponseMessage'
+
   sendGenericErrorMessage:
     action: send
     title: Generic Error
@@ -103,19 +107,20 @@ components:
           - $ref: '#/components/schemas/messageIdTrait'
       examples:
         - name: requestPrescriptionList_single
-          summary: requestPrescriptionList single ICCSN message
+          summary: requestPrescriptionList with a single eHealth card (ICCSN) message
           payload:
             type: requestPrescriptionList
-            ICCSNs:
+            ICCSN:
               - MTIzNDU2Nzg5
             messageId: df094bd9-4669-458a-b47f-8330e8254306
         - name: requestPrescriptionList_all
-          summary: requestPrescriptionList all ICCSNs message
+          summary: requestPrescriptionList with all connected eHealth cards (ICCSNs) message
           payload:
             type: requestPrescriptionList
             messageId: df094bd9-4669-458a-b47f-8330e8254306
-    availablePrescriptionListMessage:
-      name: availablePrescriptionListMessage
+
+    availablePrescriptionListsMessage:
+      name: availablePrescriptionListsMessage
       title: Send List of Available Prescriptions
       summary: Send list of available prescriptions from the Pharmacy System to the Pharmacy App via the eHealth-CardLink service
       contentType: application/json
@@ -127,72 +132,349 @@ components:
           - $ref: '#/components/schemas/messageIdTrait'
           - $ref: '#/components/schemas/correlationIdTrait'
       examples:
-        - name: availablePrescriptionList
-          summary: availablePrescriptionList message
+        - name: availablePrescriptionLists
+          summary: availablePrescriptionLists message
           payload:
             type: availablePrescriptionLists
             availablePrescriptionLists:
-            - type: availablePrescriptionList
-              ICCSN: MTIzNDU2Nzg5
-              medicationSummaryList:
-                - index: 0
-                  medication:
-                    type: medicationPZN
-                    kategorie: 00
-                    impfstoff: false
-                    normgroesse: N3
-                    pzn: 06313728
-                    handelsname: Sumatriptan-1a Pharma 100 mg Tabletten
-                    darreichungsform: TAB
-                    packungsgroesseNachMenge: 12
-                    einheit: TAB
-                - index: 1
-                  medication:
-                    type: medicationIngredient
-                    kategorie: 00
-                    impfstoff: false
-                    normgroesse: N3
-                    darreichungsform: Tabletten
-                    packungsgroesseNachMenge: 100
-                    einheit: Stück
-                    listeBestandteilWirkstoffverordnung:
-                      - type: bestandteilWirkstoffverordnung
-                        wirkstoffnummer: 22686
-                        wirkstoffname: Ramipril
-                        wirkstaerke: 5
-                        wirkstaerkeneinheit: mg
-                - index: 2
-                  medication:
-                    type: medicationCompounding
-                    kategorie: 00
-                    impfstoff: false
-                    herstellungsanweisung: Lösung
-                    verpackung:
-                    rezepturname:
-                    darreichungsform:
-                    gesamtmenge: 100
-                    einheit: ml
-                    listeBestandteilRezepturverordnung:
-                      - type: bestandteilRezepturverordnung
-                        name: Salicylsäure
-                        menge: 5
-                        einheit: g
-                      - name: 2-propanol 70 %
-                        mengeUndEinheit: Ad 100 g
-                - index: 3
-                  medication:
-                    type: medicationFreeText
-                    kategorie: 00
-                    impfstoff: false
-                    freitextverordnung: Metformin 850mg Tabletten N3
-              hint: Sie erreichen uns nun telefonisch unter +49 123 456 7890.
-            messageId: e9a148b9-e70a-498e-af0e-358c8226cae8
-            correlationId: df094bd9-4669-458a-b47f-8330e8254306
+              - type: availablePrescriptionLists
+                ICCSN: MTIzNDU2Nzg5
+                prescriptionBundle:
+
+                  # prescription with medicationPZN (01)
+
+                  - prescriptionid: 160.000.764.737.300.50
+                    erstellungszeitpunkt: 2024-06-30T09:30:00Z
+                    status: final
+                    krankenversicherung:
+                      kostentraegertyp: GKV
+                      ik-krankenkasse: 104212059
+                      kostentraeger: AOK Baden-Württemberg
+                      wop: 52
+                      versichertenstatus: 1
+                      besonderepersonengruppe: 00
+                      dmp-kz: 00
+                    patient:
+                      gkv-versichertenid: X234567891
+                      person:
+                        vorname: Tina
+                        name: Tester
+                      geburtsdatum: 1985-05-05
+                      adresse:
+                        plz: 70372
+                        ort: Stuttgart
+                        strasse: Musterstrasse
+                        hausnummer: 42
+                    arzt:
+                      typ: 00
+                      berufsbezeichnung: Hausarzt
+                      arztnummer: 838382202
+                      person:
+                        vorname: Hans
+                        nachname: Gesundmacher
+                        titel: Dr. med.
+                    pruefnummer: Y/400/1910/36/346
+                    organisation:
+                      bsnr: 031234567
+                      name: Hausarztpraxis Dr. Gesundmacher
+                      adresse:
+                        plz: 70372
+                        ort: Stuttgart
+                        strasse: Musterstrasse
+                        hausnummer: 200
+                      telefon: +49 711 1234567
+                      fax: +49 711 1234599
+                      e-mail: hans@praxis-gesundmacher.de
+                    verordnung:
+                      ausstellungsdatum: 2024-06-30
+                      noctu: false
+                      bvg: false
+                      zuzahlungsstatus: 0
+                      autidem: true
+                      abgabehinweis: Vor Zugriff durch Kinder schützen.
+                      anzahl: 1
+                      dosierung: true
+                      dosieranweisung: 1-0-1
+                    arzneimittel:
+                      type: medicationPZN
+                      kategorie: 00
+                      impfstoff: false
+                      normgroesse: N3
+                      pzn: 38706
+                      handelsname: Amoxicillin Al 1000
+                      darreichungsform: TAB
+                      packungsgroesseNachMenge: 30
+                      einheit: TAB
+
+                    # prescription with medicationPZN (02)
+
+                  - prescriptionid: 160.100.000.000.012.06
+                    erstellungszeitpunkt: 2024-06-30T09:35:00Z
+                    status: final
+                    krankenversicherung:
+                      kostentraegertyp: GKV
+                      ik-krankenkasse: 104212059
+                      kostentraeger: AOK Baden-Württemberg
+                      wop: 52
+                      versichertenstatus: 1
+                      besonderepersonengruppe: 00
+                      dmp-kz: 00
+                    patient:
+                      gkv-versichertenid: X234567891
+                      person:
+                        vorname: Tina
+                        name: Tester
+                      geburtsdatum: 1985-05-05
+                      adresse:
+                        plz: 70372
+                        ort: Stuttgart
+                        strasse: Musterstrasse
+                        hausnummer: 42
+                    arzt:
+                      typ: 00
+                      berufsbezeichnung: Hausarzt
+                      arztnummer: 838382202
+                      person:
+                        vorname: Hans
+                        nachname: Gesundmacher
+                        titel: Dr. med.
+                    pruefnummer: Y/400/1910/36/346
+                    organisation:
+                      bsnr: 031234567
+                      name: Hausarztpraxis Dr. Gesundmacher
+                      adresse:
+                        plz: 70372
+                        ort: Stuttgart
+                        strasse: Musterstrasse
+                        hausnummer: 200
+                      telefon: +49 711 1234567
+                      fax: +49 711 1234599
+                      e-mail: hans@praxis-gesundmacher.de
+                    verordnung:
+                      ausstellungsdatum: 2024-06-30
+                      noctu: false
+                      bvg: false
+                      zuzahlungsstatus: 0
+                      autidem: true
+                      abgabehinweis: Vor Zugriff durch Kinder schützen.
+                      anzahl: 1
+                      dosierung: true
+                      dosieranweisung: 1-0-1
+                    arzneimittel:
+                      type: medicationPZN
+                      kategorie: 00
+                      impfstoff: false
+                      normgroesse: N3
+                      pzn: 232199
+                      handelsname: Simva Basics 10mg
+                      darreichungsform: TAB
+                      packungsgroesseNachMenge: 100
+                      einheit: TAB
+
+                    # prescription with medicationIngredient
+
+                  - prescriptionid: 160.100.000.000.004.30
+                    erstellungszeitpunkt: 2024-06-30T09:40:00Z
+                    status: final
+                    krankenversicherung:
+                      kostentraegertyp: GKV
+                      ik-krankenkasse: 104212059
+                      kostentraeger: AOK Baden-Württemberg
+                      wop: 52
+                      versichertenstatus: 1
+                      besonderepersonengruppe: 00
+                      dmp-kz: 00
+                    patient:
+                      gkv-versichertenid: X234567891
+                      person:
+                        vorname: Tina
+                        name: Tester
+                      geburtsdatum: 1985-05-05
+                      adresse:
+                        plz: 70372
+                        ort: Stuttgart
+                        strasse: Musterstrasse
+                        hausnummer: 42
+                    arzt:
+                      typ: 00
+                      berufsbezeichnung: Hausarzt
+                      arztnummer: 838382202
+                      person:
+                        vorname: Hans
+                        nachname: Gesundmacher
+                        titel: Dr. med.
+                    pruefnummer: Y/400/1910/36/346
+                    organisation:
+                      bsnr: 031234567
+                      name: Hausarztpraxis Dr. Gesundmacher
+                      adresse:
+                        plz: 70372
+                        ort: Stuttgart
+                        strasse: Musterstrasse
+                        hausnummer: 200
+                      telefon: +49 711 1234567
+                      fax: +49 711 1234599
+                      e-mail: hans@praxis-gesundmacher.de
+                    verordnung:
+                      ausstellungsdatum: 2024-06-30
+                      noctu: false
+                      bvg: false
+                      zuzahlungsstatus: 0
+                      autidem: true
+                      abgabehinweis: Vor Zugriff durch Kinder schützen.
+                      anzahl: 1
+                      dosierung: true
+                      dosieranweisung: 1-0-0
+                    arzneimittel:
+                      type: medicationIngredient
+                      kategorie: 00
+                      impfstoff: false
+                      normgroesse: N3
+                      darreichungsform: Tabletten
+                      packungsgroesseNachMenge: 100
+                      einheit: Stück
+                      listeBestandteilWirkstoffverordnung:
+                        - type: bestandteilWirkstoffverordnung
+                          wirkstoffnummer: 22686
+                          wirkstoffname: Ramipril
+                          wirkstaerke: 5
+                          wirkstaerkeneinheit: mg
+
+                    # prescription with medicationCompounding
+
+                  - prescriptionid: 160.100.000.000.014.97
+                    erstellungszeitpunkt: 2024-06-30T09:45:00Z
+                    status: final
+                    krankenversicherung:
+                      kostentraegertyp: GKV
+                      ik-krankenkasse: 104212059
+                      kostentraeger: AOK Baden-Württemberg
+                      wop: 52
+                      versichertenstatus: 1
+                      besonderepersonengruppe: 00
+                      dmp-kz: 00
+                    patient:
+                      gkv-versichertenid: X234567891
+                      person:
+                        vorname: Tina
+                        name: Tester
+                      geburtsdatum: 1985-05-05
+                      adresse:
+                        plz: 70372
+                        ort: Stuttgart
+                        strasse: Musterstrasse
+                        hausnummer: 42
+                    arzt:
+                      typ: 00
+                      berufsbezeichnung: Hausarzt
+                      arztnummer: 838382202
+                      person:
+                        vorname: Hans
+                        nachname: Gesundmacher
+                        titel: Dr. med.
+                    pruefnummer: Y/400/1910/36/346
+                    organisation:
+                      bsnr: 031234567
+                      name: Hausarztpraxis Dr. Gesundmacher
+                      adresse:
+                        plz: 70372
+                        ort: Stuttgart
+                        strasse: Musterstrasse
+                        hausnummer: 200
+                      telefon: +49 711 1234567
+                      fax: +49 711 1234599
+                      e-mail: hans@praxis-gesundmacher.de
+                    verordnung:
+                      ausstellungsdatum: 2024-06-30
+                      noctu: false
+                      bvg: false
+                      zuzahlungsstatus: 0
+                      autidem: true
+                      abgabehinweis: Vor Zugriff durch Kinder schützen.
+                      anzahl: 1
+                    arzneimittel:
+                      type: medicationCompounding
+                      kategorie: 00
+                      impfstoff: false
+                      herstellungsanweisung: Lösung
+                      verpackung:
+                      rezepturname:
+                      darreichungsform:
+                      gesamtmenge: 100
+                      einheit: ml
+                      listeBestandteilRezepturverordnung:
+                        - type: bestandteilRezepturverordnung
+                          name: Salicylsäure
+                          menge: 5
+                          einheit: g
+                        - name: 2-propanol 70 %
+                          mengeUndEinheit: Ad 100 g
+
+                    # prescription with medicationFreeText
+
+                  - prescriptionid: 160.100.000.000.006.24
+                    erstellungszeitpunkt: 2024-06-30T09:50:00Z
+                    status: final
+                    krankenversicherung:
+                      kostentraegertyp: GKV
+                      ik-krankenkasse: 104212059
+                      kostentraeger: AOK Baden-Württemberg
+                      wop: 52
+                      versichertenstatus: 1
+                      besonderepersonengruppe: 00
+                      dmp-kz: 00
+                    patient:
+                      gkv-versichertenid: X234567891
+                      person:
+                        vorname: Tina
+                        name: Tester
+                      geburtsdatum: 1985-05-05
+                      adresse:
+                        plz: 70372
+                        ort: Stuttgart
+                        strasse: Musterstrasse
+                        hausnummer: 42
+                    arzt:
+                      typ: 00
+                      berufsbezeichnung: Hausarzt
+                      arztnummer: 838382202
+                      person:
+                        vorname: Hans
+                        nachname: Gesundmacher
+                        titel: Dr. med.
+                    pruefnummer: Y/400/1910/36/346
+                    organisation:
+                      bsnr: 031234567
+                      name: Hausarztpraxis Dr. Gesundmacher
+                      adresse:
+                        plz: 70372
+                        ort: Stuttgart
+                        strasse: Musterstrasse
+                        hausnummer: 200
+                      telefon: +49 711 1234567
+                      fax: +49 711 1234599
+                      e-mail: hans@praxis-gesundmacher.de
+                    verordnung:
+                      ausstellungsdatum: 2024-06-30
+                      noctu: false
+                      bvg: false
+                      zuzahlungsstatus: 0
+                      autidem: true
+                      abgabehinweis: Vor Zugriff durch Kinder schützen.
+                      anzahl: 1
+                    arzneimittel:
+                      type: medicationFreeText
+                      kategorie: 00
+                      impfstoff: false
+                      freitextverordnung: Metformin 850mg Tabletten N3
+
+                messageId: e9a148b9-e70a-498e-af0e-358c8226cae8
+                correlationId: df094bd9-4669-458a-b47f-8330e8254306
 
     selectedPrescriptionListMessage:
       name: selectedPrescriptionListMessage
-      title: Send List of Available Prescriptions
-      summary: Return list of prescriptions selected by user from the Pharmacy App to the Pharmacy System via the eHealth-CardLink service
+      title: Send List of Prescriptions Selected for Dispensation
+      summary: Return list of prescriptions selected by user for dispensation from the Pharmacy App to the Pharmacy System via the eHealth-CardLink service
       contentType: application/json
       payload:
         title: selectedPrescriptionList
@@ -207,34 +489,45 @@ components:
             type: selectedPrescriptionList
             selectedPrescriptionListMessage:
               ICCSN: MTIzNDU2Nzg5
-              medicationIndexList:
-                - 0
-                - 1
-                - 2
-                - 3
+              prescriptionIndexList:
+                - prescriptionid: 160.000.764.737.300.50
+                - prescriptionid: 160.100.000.000.012.06
+                - prescriptionid: 160.100.000.000.004.30
+                - prescriptionid: 160.100.000.000.014.97
+                - prescriptionid: 160.100.000.000.006.24
+              version: 2
               supplyOptionsType: delivery
-              name: "Nachbar: Heinz Müller (2. OG)"
+              name: Der Nachbar ist Heinz Müller und wohnt im 2. OG.
+              address:
+                plz: 70372
+                ort: Stuttgart
+                strasse: Musterstrasse
+                hausnummer: 42
               hint: Bitte beim Nachbarn (Heinz Müller (2. OG)) abgeben und bei Belieferung anrufen.
-              phone: +49 89 123 456789
+              phone: +49 711 123 9876543
+              mail: tina.tester@gmail.com
             messageId: e9a148b9-e70a-498e-af0e-358c8226cae8
 
-    confirmPrescriptionListMessage:
-      name: confirmPrescriptionListMessage
-      title: Receive confirmation for selecting prescriptions
+    selectedPrescriptionListResponseMessage:
+      name: selectedPrescriptionListResponseMessage
+      title: Receive confirmation for list of selected prescriptions
       summary: Return confirmation of prescription selection by user from the Pharmacy System to the Pharmacy App via the eHealth-CardLink service
       contentType: application/json
       payload:
-        title: confirmPrescriptionList
+        title: selectedPrescriptionListResponse
         type: object
         allOf:
-          - $ref: '#/components/schemas/confirmPrescriptionList'
+          - $ref: '#/components/schemas/selectedPrescriptionListResponse'
           - $ref: '#/components/schemas/messageIdTrait'
           - $ref: '#/components/schemas/correlationIdTrait'
       examples:
-        - name: confirmPrescriptionList
-          summary: confirmPrescriptionList message
+        - name: selectedPrescriptionListResponse
+          summary: selectedPrescriptionListResponse message
           payload:
-            type: confirmPrescriptionList
+            type: selectedPrescriptionListResponse
+            version: 1
+            supplyOptionsType: delivery
+            info_text: Der Bote ist auf dem Weg zu Ihnen und wird voraussichtlich um 10:30 Uhr bei Ihnen sein.
             messageId: 48482e8c-fb65-4931-a737-60008521bf50
             correlationId: e9a148b9-e70a-498e-af0e-358c8226cae8
 
@@ -266,6 +559,7 @@ components:
         properties:
           replyTo:
             type: string
+
   correlationIds:
     default:
       description: Default Correlation ID
@@ -273,63 +567,38 @@ components:
 
   schemas:
 
-    ICCSN:
-      type: string
-      format: byte
-      description: ICCSN (Integrated Circuit Card Serial Number) of the eHealth card
-
-    requestPrescriptionList:
-      type: object
-      description: List of available prescriptions
-      required:
-        - type
-      properties:
-        type:
-          type: string
-          const: requestPrescriptionList
-        ICCSNs:
-          description: The ICCSNs for which to request prescriptions, or all ICCNs know to the server if the array is empty or absent
-          type: array
-          minItems: 0
-          items:
-            - $ref: '#/components/schemas/ICCSN'
-
-    availablePrescriptionLists:
-        type: object
-        description: List of available prescription lists
-        required:
-            - type
-            - availablePrescriptionLists
-        properties:
-          type:
-            type: string
-            const: availablePrescriptionLists
-          availablePrescriptionLists:
-            type: array
-            items:
-              - $ref: '#/components/schemas/availablePrescriptionList'
-
     availablePrescriptionList:
       type: object
       description: List of available prescriptions
       required:
         - type
         - ICCSN
-        - medicationSummaryList
+        - prescriptionBundleList
       properties:
         type:
           type: string
           const: availablePrescriptionList
         ICCSN:
           $ref: '#/components/schemas/ICCSN'
-        medicationSummaryList:
+        prescriptionBundleList:
           type: array
           items:
-            - $ref: '#/components/schemas/medicationSummary'
-        hint:
-          type: string
-          maxLength: 500
+            - $ref: '#/components/schemas/prescriptionBundle'
 
+    availablePrescriptionLists:
+      type: object
+      description: List of available prescription lists
+      required:
+        - type
+        - availablePrescriptionLists
+      properties:
+        type:
+          type: string
+          const: availablePrescriptionLists
+        availablePrescriptionLists:
+          type: array
+          items:
+            - $ref: '#/components/schemas/availablePrescriptionList'
 
     bestandteilRezepturverordnung:
       type: object
@@ -390,16 +659,16 @@ components:
       description: CorrelationId
       $ref: '#/components/schemas/messageId'
 
-    correlationIdTrait:
+    correlationIdOptionalTrait:
       type: object
-      required:
-        - correlationId
       properties:
         correlationId:
           $ref: '#/components/schemas/correlationId'
 
-    correlationIdOptionalTrait:
+    correlationIdTrait:
       type: object
+      required:
+        - correlationId
       properties:
         correlationId:
           $ref: '#/components/schemas/correlationId'
@@ -436,37 +705,70 @@ components:
         - INVALID_MESSAGE_DATA
         - TI_UNAVAILABLE
         - TI_SERVICE_ERROR
-        - CARD_EXPIRED
-        - CARD_REVOKED
-        - CARD_INVALID
-        - CARD_ERROR
         - UNKNOWN_ERROR
+
+    ICCSN:
+      type: string
+      format: byte
+      description: ICCSN (Integrated Circuit Card Serial Number) of the eHealth card
+
 
     index:
       type: integer
       minimum: 0
       description: Unique index of the selected medication corresponding to the index
-          within availablePrescriptionList, whereas the index is starting at 0.
+        within availablePrescriptionList, whereas the index is starting at 0.
 
-    medicationSummary:
+    coverage:
       type: object
       required:
-        - index
-        - medication
-      description: Element containing a medication with an additional index to enable referencing, 
-        whereas the medication element may either be medicationPZN, medicationIngredient, medicationCompounding,
-        medicationFreeText
+        - kostentraegertyp
+        - ik-krankenkasse
+      description: This element contains information about the health insurance of the patient. See section A.3.1 of specification.
       properties:
         type:
           type: string
-          const: medicationSummary
-        index:
-          type: integer
-          minimum: 0
-          description: Unique index of the individual medication within availablePrescriptionList, 
-            whereas the index is starting at 0.
-        medication:
-          title: medicationType
+          const: coverage
+        kostentraegertyp:
+          type: string
+          description: {This field specifies the payer type. According to KBV_VS_FOR_Payor_type and KBV_CS_FOR_Payor_Type_KBV, the following values are admissible: "GKV" (statutory health insurance), "PKV" (private health insurance), "BG" (professional association), "SEL" (self-payer), "SKT" (other payers), "UK" (accident insurance funds).}
+        ik-krankenkasse:
+          type: string
+          description: This field contains the institutional code (IK) of the responsible health insurance company, e.g. according to the electronic health card (eGK).
+        ik-kostentraeger:
+          type: string
+          description: This field contains the institutional code (IK) of the cost carrier and is used if the cost carrier is not the responsible health insurance fund, e.g. a professional association (BG) or an accident insurance fund (UK).
+        kostentraeger:
+          type: string
+          description: Name of the cost carrier.
+        wop:
+          type: string
+          description: This field contains the place of residence code according to the place of residence principle (WOP) for fee agreements (BMV-Ä Annex 21). The intended values can be found in the key table S_ITA_WOP.
+        versichertenstatus:
+          type: string
+          description: {This element contains information on the insured person's status. According to the German Basis Guide (STU3), the following values are provided: "1" (members), "3" (family members), "5" (pensioners).}
+        besonderepersonengruppe:
+          type: string
+          description: This field contains the special group of people to which the insured person belongs (§ 264 SGB V). The corresponding values can be found in the key table S_KBV_PERSONENGRUPPE.
+        dmp-kz:
+          type: string
+          description: This field contains the disease management program (DMP) in which the insured person is enrolled (Section 284, Paragraph 1, Sentence 1, No. 14 SGB V). The intended values can be found in the key table S_KBV_DMP.
+        versicherungsschutz-ende:
+          type: string
+          description: In this field, the date of the end of insurance coverage can be entered if the date is stored on the insurance card and has been read.
+
+    medication:
+      type: object
+      required:
+        - medicationItem
+      description: Element containing a medication item, whereas the medication element may either be medicationPZN, medicationIngredient, medicationCompounding,
+        medicationFreeText. See section A.3.2 of specification.
+      properties:
+        type:
+          type: string
+          const: medication
+        medicationItem:
+          title: medicationItem
           type: array
           oneOf:
             - $ref: '#/components/schemas/medicationPZN'
@@ -474,87 +776,6 @@ components:
             - $ref: '#/components/schemas/medicationCompounding'
             - $ref: '#/components/schemas/medicationFreeText'
 
-    medicationPZN:
-      type: object
-      required:
-        - type
-        - kategorie
-        - impfstoff
-        - pzn
-        - handelsname
-        - darreichungsform
-      description: Prescription of standardised medication, which is identified by PZN.
-      properties:
-        type:
-          type: string
-          const: medicationPZN
-        kategorie:
-          type: string
-          description: Category of prescription. Is "00" for regular prescriptions.
-        impfstoff:
-          type: boolean
-          description: Indicates whether the prescription is a vaccine or not. Default is "false".
-        normgroesse:
-          type: string
-          description: Contains the norm size of the prescription.
-        pzn:
-          type: string
-          description: Is the identifier of the standardised prescription (Pharmazentralnummer, PZN).
-        handelsname:
-          type: string
-          description: Is the name of the standardised prescription.
-        darreichungsform:
-          type: string
-          description: Contains the encoded value how to apply the prescription.
-        packungsgroesseNachMenge:
-          type: string
-          description: Size of the package.
-        einheit:
-          type: string
-          description: Unit corresponding to the package size.
-        packungsgroesseNachNBezeichnung:
-          type: string
-          description: Normal size of the package (e.g. N1).
-
-    medicationIngredient:
-      type: object
-      required:
-        - type
-        - kategorie
-        - impfstoff
-        - darreichungsform
-        - listeBestandteilWirkstoffverordnung
-      description: Prescription of medication, which is defined by its ingredients.
-      properties:
-        type:
-          type: string
-          const: medicationIngredient
-        kategorie:
-          type: string
-          description: Category of prescription. Is "00" for regular prescriptions.
-        impfstoff:
-          type: boolean
-          description: Indicates whether the prescription is a vaccine or not. Default is "false".
-        normgroesse:
-          type: string
-          description: Contains the norm size of the prescription.
-        darreichungsform:
-          type: string
-          description: Contains the description how to apply the prescription.
-        packungsgroesseNachMenge:
-          type: string
-          description: Size of the package.
-        einheit:
-          type: string
-          description: Unit corresponding to the package size.
-        packungsgroesseNachNBezeichnung:
-          type: string
-          description: Normal size of the package (e.g. N1).
-        listeBestandteilWirkstoffverordnung:
-          type: array
-          description: List of ingredients
-          items:
-            - $ref: '#/components/schemas/bestandteilWirkstoffverordnung'
 
     medicationCompounding:
       type: object
@@ -567,7 +788,7 @@ components:
         - darreichungsform
         - gesamtmenge
         - listeBestandteilRezepturverordnung
-      description: Prescription of medication, which is defined by a specific recipe.
+      description: Prescription of medication, which is defined by a specific recipe. See section A.3.2.3 of specification.
       properties:
         type:
           type: string
@@ -610,7 +831,7 @@ components:
         - impfstoff
         - freitextverordnung
         - darreichungsform
-      description: Prescription of a  medication, which is described by a free text.
+      description: Prescription of a  medication, which is described by a free text. See section A.3.2.4 of specification.
       properties:
         type:
           type: string
@@ -628,6 +849,89 @@ components:
           type: string
           description: Contains the description how to apply the prescribed medication.
 
+
+    medicationPZN:
+      type: object
+      required:
+        - type
+        - kategorie
+        - impfstoff
+        - pzn
+        - handelsname
+        - darreichungsform
+      description: Prescription of standardised medication, which is identified by PZN. See section A.3.2.1 of specification.
+      properties:
+        type:
+          type: string
+          const: medicationPZN
+        kategorie:
+          type: string
+          description: Category of prescription. Is "00" for regular prescriptions.
+        impfstoff:
+          type: boolean
+          description: Indicates whether the prescription is a vaccine or not. Default is "false".
+        normgroesse:
+          type: string
+          description: Contains the norm size of the prescription.
+        pzn:
+          type: string
+          description: Is the identifier of the standardised prescription (Pharmazentralnummer, PZN).
+        handelsname:
+          type: string
+          description: Is the name of the standardised prescription.
+        darreichungsform:
+          type: string
+          description: Contains the encoded value how to apply the prescription.
+        packungsgroesseNachMenge:
+          type: string
+          description: Size of the package.
+        einheit:
+          type: string
+          description: Unit corresponding to the package size.
+        packungsgroesseNachNBezeichnung:
+          type: string
+          description: Normal size of the package (e.g. N1).
+
+    medicationIngredient:
+      type: object
+      required:
+        - type
+        - kategorie
+        - impfstoff
+        - darreichungsform
+        - listeBestandteilWirkstoffverordnung
+      description: Prescription of medication, which is defined by its ingredients. See section A.3.2.2 of specification.
+      properties:
+        type:
+          type: string
+          const: medicationIngredient
+        kategorie:
+          type: string
+          description: Category of prescription. Is "00" for regular prescriptions.
+        impfstoff:
+          type: boolean
+          description: Indicates whether the prescription is a vaccine or not. Default is "false".
+        normgroesse:
+          type: string
+          description: Contains the norm size of the prescription.
+        darreichungsform:
+          type: string
+          description: Contains the description how to apply the prescription.
+        packungsgroesseNachMenge:
+          type: string
+          description: Size of the package.
+        einheit:
+          type: string
+          description: Unit corresponding to the package size.
+        packungsgroesseNachNBezeichnung:
+          type: string
+          description: Normal size of the package (e.g. N1).
+        listeBestandteilWirkstoffverordnung:
+          type: array
+          description: List of ingredients
+          items:
+            - $ref: '#/components/schemas/bestandteilWirkstoffverordnung'
+
     messageId:
       type: string
       description: Message identifier
@@ -640,23 +944,406 @@ components:
         messageId:
           $ref: '#/components/schemas/messageId'
 
+    organization:
+      type: object
+      description: Element containing the data of an organization. See section A.3.3 of specification.
+      properties:
+        type:
+          type: string
+          const: organization
+        bsnr:
+          type: string
+          description: This field contains a business location number (Betriebsstättennummer, BSNR) to identify a facility. In the statutory health insurance sector, the field is a prerequisite for billing between service providers and cost bearers. The BSNR must be specified for hospitals. In the context of hospital treatment, this field can show the place of issue.
+        ik-nummer:
+          type: string
+          description: This field contains an institutional code (IK), which is assigned by the ARGE IK and is a unique identifier for billing with the social insurance providers.
+        kzv-an:
+          type: string
+          description: This field contains a billing number from the Association of Statutory Health Insurance Dentists (KZV).
+        standortnummer:
+          type: string
+          description: This field contains a hospital location number.
+        telematik-id:
+          type: string
+          description: This field contains a telematics ID of the facility.
+        name:
+          type: string
+          description: This field contains the name of the facility (practice / hospital).
+        address:
+          type: streetAdress
+          description: This field contains the street address of the facility.
+        telefon:
+          type: string
+          description: This field contains the phone number of the facility.
+        fax:
+          type: string
+          description: This field contains the fax number of the facility.
+        e-mail:
+          type: string
+          description: This field contains the email address of the institution. This must be provided when redeeming a drug prescription across borders.
+
+    patient:
+      type: object
+      description: Element containing the data of a patient. See section A.3.4 of specification.
+      required:
+        - type
+        - person
+        - geburtsdatum
+      properties:
+        type:
+          type: string
+          const: patient
+        gkv-versichertenid:
+          type: string
+          description: This field contains the insured person ID of the statutory health insurance (unchangeable part of the uniform health insurance number of the GKV according to Section 290 SGB V).
+        pkv-versichertenid:
+          type: string
+          description: This field contains the insured ID of the private health insurance (unchangeable part of the uniform health insurance number according to Section 290 SGB V).
+        kvk-versichertennummer:
+          type: string
+          description: This field contains the insurance number of the health insurance card (Krankenversichertenkarte).
+        person:
+          type: person
+          description: This field contains information about the respective person.
+        geburtsdatum:
+          type: string
+          decription: This field contains the date of birth of the patient.
+        adresse:
+          type: object
+          description: This field contains either the street address (streetAddress) or the postal box address (pobAddress) of the patient.
+          oneOf:
+            - $ref: '#/components/schemas/streetAddress'
+            - $ref: '#/components/schemas/pobAddress'
+
+    pobAddress:
+      type: object
+      description: Element containing the mailbox address of the respective person. See section A.3.5 of specification.
+      required:
+        - type
+        - plz
+        - ort
+        - postfach
+      properties:
+        type:
+          type: string
+          const: pobAddress
+        land:
+          type: string
+          description: This field contains the country code according to "Gemeinsames Rundschreiben DEÜV" (Anlage 8).
+        plz:
+          type: string
+          description: The postal code can be entered in this field.
+        ort:
+          type: The place name can be entered in this field. Multiple name components are separated by spaces/special characters.
+        postfach:
+          type: string
+          description: The mailbox can be specified in this field.
+
+    person:
+      type: object
+      description: Element containing information about a person (e.g. patient or practitioner). See section A.3.6 of specification.
+      required:
+        - type
+        - vorname
+        - nachname
+      properties:
+        type:
+          type: string
+          const: person
+        vorname:
+          type: string
+          description: This field contains the person's first name; multiple first names are separated by a space or hyphen.
+        name:
+          type: string
+          description: This field contains the person's last name.
+        titel:
+          type: string
+          description: This field contains the person’s academic degree, e.g. “Dr. med.”, “Dr.rer.nat.”.
+        namenszusatz:
+          type: string
+          description: This field contains the suffix as part of the person’s last name, e.g. “Freiherr”, “Gräfin”; multiple suffixes are separated by a blank.
+        vorsatzwort:
+          type: string
+          description: This field contains the prefix as part of the person's last name, e.g. "von", "von der", "zu"; multiple prefixes are separated by a space.
+
+    practiceSupply:
+      type: object
+      description: The practiceSupply element is used to prescribe practice supplies. See section A.3.7 of specification.
+      required:
+        - type
+        - datum
+        - anzahl
+        - kostentraegertyp
+        - ik-nummer
+        - name
+      properties:
+        type:
+          type: string
+          const: practiceSupply
+        datum:
+          type: string
+          description: This field contains the date of issue of the prescription for practice supply.
+        anzahl:
+          type: integer
+          minimum: 1
+          description: This field contains the number of packs prescribed.
+        kostentragertyp:
+          type: string
+          description: {This field specifies the payer type. According to KBV_VS_FOR_Payor_type and KBV_CS_FOR_Payor_Type_KBV, the following values are expected: "GKV" (statutory health insurance), "PKV" (private health insurance), "BG" (professional association), "SEL" (self-payer), "SKT" (other payers), "UK" (accident insurance funds).}
+        ik-nummer:
+          type: string
+          description: This field contains the institution code (IK) according to the electronic health card (eGK). See the transfer rule according to "Technical Annex to Annex 4a BMV-Ä" (Section 2.2).
+        name:
+          type: string
+          description: This field contains the name of the cost carrier. The correct name is derived from the defined rules according to "Technical Annex to Annex 4a BMV-Ä" (Section 2.3).
+
+    practicitioner:
+      type: object
+      description: The practitioner element contains information about the issuer of a prescription (e.g. medical doctor). See section A.3.8 of specification.
+      required:
+        - typ
+        - person
+      properties:
+        type:
+          type: string
+          const: practitioner
+        typ:
+          type: string
+          description: This field contains a type to identify the prescribing person, e.g. doctor, doctor in training. The intended values can be found in the key table KBV_CS_FOR_Qualification_Type.
+        berufsbezeichnung:
+          type: string
+          description: This field contains free text information about the job title, e.g. specialist in general medicine, general practitioner, midwife.
+        asv-fgn:
+          type: string
+          description: This field contains the ASV specialist group number (ASV-FGN, Fachgruppen-Nummer für Ambulante Spezialärztliche Versorgung) according to the Agreement on Outpatient Specialist Medical Care (ASV) (ASV-AV) Section 9 Paragraph 5. According to the ASV-AV, this must be stated by hospital doctors instead of the doctor number.
+        arztnummer:
+          type: string
+          description: This field contains a doctor number (lifetime doctor number, LANR, Lebenslange Arztnummer) as an identifier for the practitioner.
+        zahnarztnummer:
+          type: string
+          description: This field contains a dentist number (ZANR) as an identifier for the person.
+        telematik-id:
+          type: string
+          description: This field contains a telematics ID as an identifier for the person.
+        person:
+          type: person
+          description: See section A.3.6.
+        verantwortlicheperson:
+          type: practitioner
+          description: This element is optional and can be used when the prescribing physician is not the responsible physician.
+
+    practicitionerRole:
+      type: object
+      description: The optional practitionerRole element can be used to indicate whether the prescribing physician holds another role in the area of outpatient specialty care (ASC). See section A.3.9 of specification.
+      required:
+        - asv-tn
+      properties:
+        type:
+          type: string
+          const: practitionerRole
+        asv-tn:
+          type: string
+          description: This field must be used in the context of outpatient specialist medical care. Each ASV team receives an ASV team number (ASV-TN) from the ASV service center. ASV doctors use this number to identify the services or prescriptions they provide in the ASV. The team number consists of nine digits and is structured like a business location number (BSNR). It is assigned as soon as the doctors have ASV authorization - in addition to the BSNR and the lifelong doctor number.
+
+    prescription:
+      type: object
+      description: The prescription element represents the technically and medically relevant components of a drug prescription.
+      required:
+        - asv-tn
+      properties:
+        type:
+          type: string
+          const: prescription
+        ausstellungsdatum:
+          type: string
+          description: This field contains the date of issue of the regulation.
+        noctu:
+          type: boolean
+          description: This field contains the indication whether this prescription should also be delivered during general store closing times, combined with the collection of the Noctu fee (emergency service fee) at the expense of the health insurance company in accordance with the Drug Price Ordinance.
+        bvg:
+          type: boolean
+          description: This field indicates whether this regulation is issued for persons entitled to benefits under the Federal Compensation Act (Bundesentschädigungsgesetz, BEG) or for persons entitled to benefits under the Federal Social Security Act (Bundesversorgungsgesetz, BVG).
+        zuzahlungsstatus:
+          type: string
+          description: {This field specifies the co-payment status for the prescription. According to KBV_CS_FOR_StatusCoPayment the following options are available: 0 (not exempt from co-payment / subject to fees), 1 (exempt from co-payment / free of charge), 2 (artificial insemination (regulation according to Section 27a SGB V)).}
+        autidem:
+          type: boolean
+          description: This field indicates whether the medicine is interchangeable or not. If an exchange is allowed in the pharmacy, this field is set to true.
+        anzahl:
+          type: integer
+          minimum: 1
+          description: This field contains the number of packs prescribed.
+        dosierung:
+          type: boolean
+          description: This field contains a dosage identifier and describes whether a dosage instruction or a medication plan is being transmitted.
+        dosieranweisung:
+          type: string
+          description: This field contains dosing instructions.
+        gebrauchsanweisung:
+          type: string
+          description: This field contains the instructions for use of the recipe.
+        unfallkennzeichen:
+          type: string
+          description: This field contains the information about the context in which the prescription was issued, e.g. accident. The possible values are specified in KBV_VS_ERP_Accident_Type.
+          The following cases are provided: 1 (accident), 2 (work accident (professional association/accident insurance fund)), 4 (occupational disease (professional association/accident insurance fund)).
+        unfalltag:
+          type: string
+          description: Day of accident.
+        unfallbetrieb:
+          type: string
+          description: Accident organisation.
+        mehrfachverordnung:
+          type: boolean
+          description: This field indicates whether the prescription is a multiple prescription (Mehrfachverordnung, MFV).
+        mfv-id:
+          type: string
+          description: This field contains a unique ID which is identical across all partial prescriptions of a multiple prescription.
+        mfv-zahler:
+          type: integer
+          minimum: 1
+          description: {This field contains the information about the partial prescription of a multiple prescription (series). Example: "2" in "2 of 4".}
+        mfv-nenner:
+          type: integer
+          minimum: 2
+          description: {This field contains the length of this series, i.e. the total number of partial prescriptions of the multiple prescription. Example: "4" in "2 of 4".}
+        mfv-beginn:
+          type: string
+          description: This field contains the date from which the partial prescription of the multiple prescription can be redeemed.
+        mfv-ende:
+          type: string
+          description: This field contains the date of the last redemption day of the partial prescription of the multiple prescription. The issuing person can specify a redemption period that differs from the Drug Prescription Ordinance (Arzneimittelverschreibungsverordnung, AMVV).
+
+    prescriptionBundle:
+      type: object
+      description: The prescriptionBundle element is the bundling element used for electronic prescriptions, which is derived from the Bundle resource and contains all other data elements.
+      required:
+        - prescriptionid
+        - erstellungszeitpunkt
+        - status
+        - patient
+        - arzt
+        - organisation
+        - verordnung
+        - arzneimittel
+      properties:
+        type:
+          type: string
+          const: prescriptionBundle
+        prescriptionid:
+          type: prescriptionID
+          description: This field contains the unique identifier of the electronic prescription over a period of 11 years according to GEM_ERP_PR_PrescriptionId and gemSpec_DM_eRp (section 2.2).
+        erstellungszeitpunkt:
+          type: string
+          description: Indicates the time at which the e-prescription bundle was created.
+        status:
+          type: string
+          description: Contains the status code of the electronic prescription. The intended values can be found in the key table S_KBV_STATUSKENNZEICHEN.
+        pkv-tarif:
+          type: string
+          description: In the case of a private prescription, contains information on the PKV tariff according to KBV_EX_FOR_PKV_Tariff.
+        patient:
+          type: patient
+          description: Contains the patient information. Details are specified in section A.3.4.
+        arzt:
+          type: practitioner
+          description: Contains information about the issuer of the electronic prescription (e.g. doctor). Details are specified in section A.3.8.
+        pruefnummer:
+          type: string
+          description: Contains the verification number of the practice management system with which the electronic prescription was created.
+        organisation:
+          type: organization
+          description: Contains information on the issuing organization. Details are specified in section A.3.3.
+        verordnung:
+          type: object
+          description: Contains further information on the electronic prescription. The prescription element is specified in section A.3.10 and the practiceSupply element is specified in section A.3.7.
+          oneOf:
+            - $ref: '#/components/schemas/prescription'
+            - $ref: '#/components/schemas/practiceSupply'
+        asv-tn:
+          type: practitionerRole
+          description: This element can be used to indicate whether the prescribing physician has another role in the area of outpatient specialist care (Ambulante Spezialärztliche Versorgung, ASV). Details of the practitionerRole element are specified in section A.3.9.
+        arzneimittel:
+          type: medication
+          despription: This element contains the information about the prescribed medication. Details about the medication element are specified in section A.3.2.
+
+    prescriptionID:
+      type: string
+      description: This field contains the unique identifier of the electronic prescription over a period of 11 years according to GEM_ERP_PR_PrescriptionId and gemSpec_DM_eRp (section 2.2). It uniquely identifies an electronic prescription.
+
+    prescriptionIndexList:
+      type: array
+      description: The prescriptionIndexList element is contained in the selectedPrescriptionList message and specifies which of the available electronic prescriptions should be redeemed.
+      minItems: 1
+      items:
+        - $ref: '#/components/schemas/PrescriptionID'
+
+    streetAddress:
+      type: object
+      description: Element containing the street address of the respective person. See section A.3.13 of specification.
+      required:
+        - type
+        - plz
+        - ort
+        - strasse
+        - hausnummer
+      properties:
+        type:
+          type: string
+          const: streetAddress
+        land:
+          type: string
+          description: This field contains the country code according to "Gemeinsames Rundschreiben DEÜV" (Anlage 8).
+        plz:
+          type: string
+          description: The postal code can be entered in this field.
+        ort:
+          type: The place name can be entered in this field. Multiple name components are separated by spaces/special characters.
+        strasse:
+          type: string
+          description: The street name can be specified in this field.
+        hausnummer:
+          type: string
+          description: The house number can be entered in this field.
+        zusatz:
+          type: string
+          description: In this field you can enter the additional address, e.g. rear building.
+
+
+    requestPrescriptionList:
+      type: object
+      description: List of available prescriptions
+      required:
+        - type
+      properties:
+        type:
+          type: string
+          const: requestPrescriptionList
+        ICCSNs:
+          description: The ICCSNs for which to request prescriptions, or all ICCNs known to the server if the array is empty or absent.
+          type: array
+          minItems: 0
+          items:
+            - $ref: '#/components/schemas/ICCSN'
+
     selectedPrescriptionList:
       type: object
+      description: The selectedPrescriptionList message specifies exactly which electronic prescriptions should be dispensed and how the prescribed medication should be delivered. The selectedPrescriptionList message is based on the structures from gemSpec_DM_eRp (section 2.6.3).
       required:
         - type
         - ICCSN
-        - medicationIndexList
-        - supplyOptionsType
+        - prescriptionIndexList
       properties:
         type:
           type: string
           const: selectedPrescriptionList
         ICCSN:
           $ref: '#/components/schemas/ICCSN'
-        medicationIndexList:
-          type: array
-          items:
-            - $ref: '#/components/schemas/index'
+        prescriptionIndexList:
+          type: prescriptionIndexList
+          description: This element specifies which of the available electronic prescriptions are to be redeemed. Details are specified in section A.3.12.
+        version:
+          type: string
+          description: Specifies the version of the JSON. Currently always 2. Can be changed later in the life cycle.
         supplyOptionsType:
           description: Allows the user to choose between different delivery options,
             such as onPremise, shipment and delivery.
@@ -664,27 +1351,58 @@ components:
         name:
           type: string
           maxLength: 100
+          descriptíon: Name of the patient.
         address:
-          type: array
-          maxLength: 4
-          items:
-            type: string
-            maxlength: 500
+          type: streetAddress
+          description: Address of the patient. See section A.3.13 for details.
         hint:
           type: string
+          description: Note that the insured person can provide.
+          maxlength: 500
+        text:
+          type: string
+          description: Free text that the user can enter using the app.
           maxlength: 500
         phone:
           type: string
-          maxlength: 32
+          description: Telephone number of the insured person.
+          maxlength: 25
+        mail:
+          type: string
+          description: E-Mail-Adresse des Versicherten.
+          maxlength: 100
 
-    confirmPrescriptionList:
+    selectedPrescriptionListResponse:
       type: object
       required:
         - type
       properties:
         type:
           type: string
-          const: confirmPrescriptionList
+          const: selectedPrescriptionListResponse
+        version:
+          type: string
+          description: Specifies the version of the JSON. Currently always 1. Can be changed later in the life cycle.
+        supplyOptionsType:
+          description: Allows the user to choose between different delivery options,
+            such as onPremise, shipment and delivery.
+          $ref: '#/components/schemas/supplyOptionsType'
+        info_text:
+          type: string
+          maxLength: 500
+          descriptíon: Additional free text from the pharmacy to the insured person.
+        url:
+          type: string
+          maxLength: 500
+          descriptíon: Embedding an external URL exclusively for redeeming e-prescriptions in an external ordering platform.
+        pickUpCodeHR:
+          type: string
+          maxLength: 8
+          description: Human-readable pickup code only for supplyOptionsType "onPremise". If set, the content of the "pickUpCodeHR" is displayed to the user in a visually highlighted manner.
+        pickUpCodeDMC:
+          type: string
+          maxLength: 128
+          description: Machine-readable pickup code (data matrix code) that is only used with supplyOptionsType "onPremise". If set, the user can display the content as a data matrix code. The content is converted into a DMC by the app in accordance with ISO/IEC 16022:2006. If the interpretation is missing, the code is displayed as free text.
 
     supplyOptionsType:
       type: string
