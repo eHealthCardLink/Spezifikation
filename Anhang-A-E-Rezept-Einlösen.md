@@ -11,15 +11,15 @@
        <ul>A.1.0 - eHealth-CardLink-Basisablauf</ul>
        <ul>A.1.1 - Phase 1 - Aufbau der Verbindung zum FD_eRp</ul>
        <ul>A.1.2 - Phase 2 - Auslesen der verfügbaren E-Rezepte aus FD_eRp</ul>
-       <ul>A.1.3 - Phase 3 - Auslesen der verfügbaren E-Rezepte aus FD_eRp</ul>
+       <ul>A.1.3 - Phase 3 - Bereitstellen der E-Rezept-Informationen und Auswahl der zu dispensierenden Exemplare</ul>
        <ul>A.1.4 - Phase 4 - Verbindliche Zuweisung der zu dispensierenden E-Rezepte an Apotheke</ul>
        <ul>A.1.5 - Phase 5 - Signaturvalidierung, Dispensierung der E-Rezepte und Abschluss der Transaktion</ul>
-    <li><b>A.2 Nachrichten jenseits der gematik-Spezifikationen</b></li>
+    <li><b>A.2 - Nachrichten jenseits der gematik-Spezifikationen</b></li>
       <ul>A.2.1 - requestPrescriptionList</ul>
       <ul>A.2.2 - availablePrescriptionLists</ul>
       <ul>A.2.3 - selectedPrescriptionList</ul>
       <ul>A.2.4 - selectedPrescriptionListResponse</ul>
-    <li><b>A.3 In den Nachrichten enthaltene Datenelemente</b></li>  
+    <li><b>A.3 - In den Nachrichten enthaltene Datenelemente</b></li>  
       <ul>A.3.1 - coverage</ul>
       <ul>A.3.2 - medication</ul> 
         <ul>A.3.2.1 - medicationPZN (KBV_PR_ERP_Medication_PZN)</ul>
@@ -57,7 +57,7 @@ Die Spezifikationen in diesem Dokument wird durch die folgende [asyncapi](https:
 | --- | --- |  --- |
 | `1.0.0 (RC)` | 01.07.2024 | Initiale Version | 
 
-## A.1 Ablauf beim Einlösen von E-Rezepten
+## A.1 - Ablauf beim Einlösen von E-Rezepten
 
 Der grundlegende Ablauf für das Einlösen von E-Rezepten ist im nachfolgenden Sequenzdiagramm dargestellt. 
 
@@ -116,7 +116,7 @@ mit einer umschließenden Signatur (CAdES-enveloping) des FHIR-codierten E-Rezep
 * `(39)` - Das AVS führt eine geeignete Protokollierung durch.
 * `(40)` - Im letzten Schritt werden hier die im E-Rezept verordneten Medikamente an den Nutzer per Boten oder Paketversand geliefert bzw. in einer Vor-Ort-Apotheke übergeben.
 
-## A.2 Nachrichten jenseits der gematik-Spezifikationen 
+## A.2 - Nachrichten jenseits der gematik-Spezifikationen 
 
 Zur Realisierung des oben beschriebenen Ablaufs zum Einlösen von elektronischen Verordnungen
 sind eine Reihe von Nachrichten jenseits der einschlägigen gematik-Spezifikationen nötig.
@@ -144,7 +144,7 @@ Ein **availablePrescriptionList**-Element enthält ein **ICCSN**-Element und ein
 Die technischen Details sind in der [YAML-Dokumentation](https://ehealthcardlink.github.io/Spezifikation/prescription-communication/) 
 näher beschrieben.
 
-### A.2.3 selectedPrescriptionList
+### A.2.3 - selectedPrescriptionList
 
 Die **selectedPrescriptionList**-Nachricht spezifiziert, welche elektronischen Verordnungen genau dispensiert werden sollen und wie die verordneten Medikamente zugestellt werden sollen. 
 
@@ -183,7 +183,7 @@ Die **selectedPrescriptionListResponse**-Nachricht dient der Bestätigung des Er
 Die technischen Details sind in der [YAML-Dokumentation](https://ehealthcardlink.github.io/Spezifikation/prescription-communication/) 
 näher beschrieben.
 
-## A.3 In den Nachrichten enthaltene Datenelemente
+## A.3 - In den Nachrichten enthaltene Datenelemente
 
 In den oben spezifizierten Nachrichten sind die folgenden Elemente enthalten:
 
@@ -221,7 +221,7 @@ Technische Details der **coverage**-Datenstruktur sind in der [YAML-Dokumentatio
 | `DMP-KZ` | string | Dieses Feld enthält das Disease-Management-Programm (DMP), in dem der Versicherte eingeschrieben ist ([§ 284 Abs. 1 Satz 1 Nr. 14 SGB V](https://www.gesetze-im-internet.de/sgb_5/__284.html)). Die vorgesehenen Werte sind der Schlüsseltabelle [S_KBV_DMP](https://applications.kbv.de/S_KBV_DMP_V1.06.xhtml) zu entnehmen. | 
 | `Versicherungsschutz-Ende` | date | In diesem Feld kann das Datum des Endes des Versicherungsschutzes angegeben werden, wenn die Datumsangabe auf der Versichertenkarte gespeichert ist und ausgelesen wurde. | 
 
-### A.3.2 medication
+### A.3.2 - medication
 
 Das **medication**-Element enthält die Rezeptierdaten einer elektronischen Verordnung in den verschiedenen vorgesehenen Ausprägungen:
 
@@ -234,7 +234,7 @@ Hierbei handelt es sich um entsprechende Profilierungen der Ressource [Medicatio
 
 Technische Details der **medication**-Datenstruktur sind in der [YAML-Dokumentation](https://ehealthcardlink.github.io/Spezifikation/prescription-communication/) näher beschrieben.
 
-#### A.3.2.1 medicationPZN ([KBV_PR_ERP_Medication_PZN](https://simplifier.net/eRezept/KBVPRERPMedicationPZN/~overview))
+#### A.3.2.1 - medicationPZN ([KBV_PR_ERP_Medication_PZN](https://simplifier.net/eRezept/KBVPRERPMedicationPZN/~overview))
 
 In diesem Profil werden die Rezeptierdaten einer Verordnung aus den Preis- und Produktverzeichnissen nach § 131 SGB V abgebildet. 
 
@@ -250,7 +250,7 @@ In diesem Profil werden die Rezeptierdaten einer Verordnung aus den Preis- und P
 | `Einheit` | string | Dieses Feld enthält die Einheit (z.B. Stück) und tritt nur in Verbindung mit „Packungsgröße nach abgeteilter Menge“ auf (z.B. 100 Stück). | 
 | `PackungsgroesseNachNBezeichnung` | string | Dieses Feld enthält die Normgröße der therapiegerechten Packung (z.B. N1). |
 
-#### A.3.2.2 medicationIngredient ([KBV_PR_ERP_Medication_Ingredient](https://simplifier.net/erezept/kbvprerpmedicationingredient))
+#### A.3.2.2 - medicationIngredient ([KBV_PR_ERP_Medication_Ingredient](https://simplifier.net/erezept/kbvprerpmedicationingredient))
 
 In diesem Profil werden die Rezeptierdaten einer **Wirkstoffverordnung** abgebildet. 
 
@@ -274,7 +274,7 @@ Das Element `BestandteilWirkstoffverordnung` enthält die folgenden Elemente:
 | `Wirkstaerke` | string | Dieses Feld enthält eine Angabe der Wirkstärke. Diese ermittelt sich durch die Angabe von Wirkstoffmenge / Bezugsgrößenmenge. Die zugehörige Einheit ist im Feld "Wirkstärkeneinheit" anzugeben. | 
 | `Wirkstaerkeneinheit` | string | Dieses Feld enthält die Einheit der Wirkstärke (bspw. mg/ml). | 
 
-#### A.3.2.3 medicationCompounding ([KBV_PR_ERP_Medication_Compounding](https://simplifier.net/eRezept/KBVPRERPMedicationCompounding/~overview))
+#### A.3.2.3 - medicationCompounding ([KBV_PR_ERP_Medication_Compounding](https://simplifier.net/eRezept/KBVPRERPMedicationCompounding/~overview))
 
 In diesem Profil werden die Rezeptierdaten einer **Rezepturverordnung** abgebildet.
 
@@ -301,7 +301,7 @@ Das Element `BestandteilRezepturverordnung` enthält die folgenden Elemente:
 | `Einheit` | string | Dieses Feld enthält die Einheit des Bestandteils z.B. mg. |
 | `MengeUndEinheit` | string | Dieses Feld enthält eine freitextliche Angabe zur Menge und Einheit des Bestandteils und kann insbesondere für klassische lateinische Angaben z.B. „ad 100,0“ oder „quantum satis“ genutzt werden. |
 
-#### A.3.2.4 medicationFreeText ([KBV_PR_ERP_Medication_FreeText](https://simplifier.net/eRezept/KBVPRERPMedicationFreeText/))
+#### A.3.2.4 - medicationFreeText ([KBV_PR_ERP_Medication_FreeText](https://simplifier.net/eRezept/KBVPRERPMedicationFreeText/))
 
 In diesem Profil werden die Rezeptierdaten einer **freitextlichen Verordnung** abgebildet. 
 
