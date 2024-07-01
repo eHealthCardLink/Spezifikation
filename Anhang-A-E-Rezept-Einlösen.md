@@ -15,22 +15,28 @@
        <ul>A.1.4 - Phase 4 - Verbindliche Zuweisung der zu dispensierenden E-Rezepte an Apotheke</ul>
        <ul>A.1.5 - Phase 5 - Signaturvalidierung, Dispensierung der E-Rezepte und Abschluss der Transaktion</ul>
     <li><b>A.2 Nachrichten jenseits der gematik-Spezifikationen</b></li>
-      <ul>A.2.1 - availablePrescriptionLists</ul>
-      <ul>A.2.2 - availablePrescriptionList</ul>
-      <ul>A.2.3 - confirmSelection</ul>
-      <ul>A.2.4 - medication</ul> 
-        <ul>A.2.4.1 - medicationPZN (KBV_PR_ERP_Medication_PZN)</ul>
-        <ul>A.2.4.2 - medicationIngredient (KBV_PR_ERP_Medication_Ingredient)</ul>
-        <ul>A.2.4.3 - medicationCompounding (KBV_PR_ERP_Medication_Compounding)</ul>
-        <ul>A.2.4.4 - medicationFreeText (KBV_PR_ERP_Medication_FreeText)</ul>
-      <ul>A2.4.5 - practiceSupply</ul>
-      <ul>A.2.6 - prescription</ul>
-        <ul>A2.6.1 - coverage</ul>
-        <ul>A2.6.2 - organisation</ul>
-        <ul>A2.6.3 - patient</ul>
-        <ul>A2.6.4 - practitioner</ul>
-        <ul>A2.6.5 - practitionerRole</ul>
-      <ul>A.2.7 - selectedPrescriptionList</ul>
+      <ul>A.2.1 - requestPrescriptionList</ul>
+      <ul>A.2.2 - availablePrescriptionLists</ul>
+      <ul>A.2.3 - selectedPrescriptionList</ul>
+      <ul>A.2.4 - selectedPrescriptionListResponse</ul>
+    <li><b>A.3 In den Nachrichten enthaltene Datenelemente</b></li>  
+      <ul>A.3.1 - coverage</ul>
+      <ul>A.3.2 - medication</ul> 
+        <ul>A.3.2.1 - medicationPZN (KBV_PR_ERP_Medication_PZN)</ul>
+        <ul>A.3.2.2 - medicationIngredient (KBV_PR_ERP_Medication_Ingredient)</ul>
+        <ul>A.3.3.3 - medicationCompounding (KBV_PR_ERP_Medication_Compounding)</ul>
+        <ul>A.3.3.4 - medicationFreeText (KBV_PR_ERP_Medication_FreeText)</ul>
+      <ul>A.3.3 - organisation</ul>
+      <ul>A.3.4 - patient</ul>
+      <ul>A.3.5 - pobAddress</ul>
+      <ul>A.3.6 - person</ul>
+      <ul>A.3.7 - practiceSupply</ul>
+      <ul>A.3.8 - practitioner</ul>
+      <ul>A.3.9 - practitionerRole</ul>
+      <ul>A.3.10 - prescription</ul>
+      <ul>A.3.11 - prescriptionBundle</ul>
+      <ul>A.3.12 - prescriptionIndexList</ul>
+      <ul>A.3.13 - streetAddress</ul>
   </ol>
 </details>
 
@@ -49,7 +55,7 @@ Die Spezifikationen in diesem Dokument wird durch die folgende [asyncapi](https:
 
 | Version | Datum | Beschreibung der wesentlichen Änderungen | 
 | --- | --- |  --- |
-| `1.0.0 (RC)` | 25.06.2024 | Initiale Version | 
+| `1.0.0 (RC)` | 01.07.2024 | Initiale Version | 
 
 ## A.1 Ablauf beim Einlösen von E-Rezepten
 
@@ -72,7 +78,8 @@ Der grundlegende Ablauf für das Einlösen von E-Rezepten ist im nachfolgenden S
 * `(11)` - Die verfügbaren E-Rezept-Tasks werden in einem Bundle zurückgeliefert. 
 * `(12)` - In diesem Schritt wird das erhaltene Bundle dekodiert.
 * `(13)` - In einer Schleife über alle verfügbaren E-Rezepte wird unter Verwendung des Prüfungsnachweises das jeweilige E-Rezept angefordert.
-* `(14)` - Das individuelle E-Rezept wird zusammen mit einem Geheimnis (secret) als PKCS#7-MIME-codierte MedicationReference vom FD_eRp zurückgeliefert.
+* `(14)` - Das individuelle E-Rezept wird zusammen mit einem Geheimnis (**secret**) als PKCS#7-MIME-codiertes Binärdatenobjekt 
+mit einer umschließenden Signatur (CAdES-enveloping) des FHIR-codierten E-Rezept-Bundles (vgl. **prescriptionBundle** in Abschnitt A.3.11) vom FD_eRp zurückgeliefert. Hierbei wird eine [Binary](https://www.hl7.org/fhir/binary.html)-Ressource mit Dokumententyp "1" gemäß [GEM_ERP_CS_DocumentType](https://simplifier.net/packages/de.gematik.erezept-workflow.r4/1.4.0-rc1/files/2447792) zurückgeliefert, welche den signierten E-Rezeptdatensatz enthält. 
 * `(15)` - Jedes so erhaltene E-Rezept wird dekodiert und die E-Rezept-Informationen werden zur weiteren Verarbeitung extrahiert.
 
 ### A.1.3 - Phase 3 - Bereitstellen der E-Rezept-Informationen und Auswahl der zu dispensierenden Exemplare
@@ -83,19 +90,19 @@ Der grundlegende Ablauf für das Einlösen von E-Rezepten ist im nachfolgenden S
 * `(19)` - Der eHealth-CardLink-Dienst reicht die Liste mit den E-Rezept-Informationen (**availablePrescriptionLists**) weiter an die App.
 * `(20)` - Die App zeigt dem Nutzer die Liste der verfügbaren E-Rezepte an.
 * `(21)` - Der Nutzer wählt die zu dispensierenden E-Rezepte aus und erfasst ggf. weitere Daten zur Belieferung des E-Rezepts.
-* `(22)` - Sofern ein Apotheken-Webshop ("ApoShop") existiert, kann dieser nun die weitere Steuerung der Abläufe übernehmen, so dass der Nutzer bei Bedarf weitere Waren (z.B. OTC-Artikel) auswählen und die Bezahlung durchführen kann.
+* `(22)` - Sofern ein Apotheken-Webshop ("ApoShop") existiert, kann dieser nun die weitere Steuerung der Abläufe übernehmen, so dass der Nutzer bei Bedarf weitere Waren (z.B. [OTC-Artikel](https://www.g-ba.de/themen/arzneimittel/arzneimittel-richtlinie-anlagen/otc-uebersicht/)) auswählen und die Bezahlung durchführen kann.
 * `(23)` - Sofern kein ApoShop existiert, werden hier die vom Nutzer ausgewählten E-Rezepte (**selectedPrescriptionList**) von der App an den eHealth-CardLink-Dienst übertragen.
 * `(24)` - Die Liste mit den ausgewählten E-Rezepten (**selectedPrescriptionList**) wird vom eHealth-CardLink-Dienst ans AVS übertragen.
-* `(25)` - Der Empfang der Nachricht wird vom AVS mit der Nachricht (**confirmPrescriptonList**) quittiert.
-* `(26)` - Die (**confirmPrescriptonList**) Nachricht wird an die App weitergeleitet und signalisiert dort, dass der Ablauf für die App beendet ist.
+* `(25)` - Der Empfang der Nachricht wird vom AVS mit der Nachricht (**selectedPrescriptionListResponse**) quittiert.
+* `(26)` - Die (**selectedPrescriptionListResponse**) Nachricht wird an die App weitergeleitet und signalisiert dort, dass der Ablauf für die App beendet ist.
 
 ### A.1.4 - Phase 4 - Verbindliche Zuweisung der zu dispensierenden E-Rezepte an Apotheke
 
 * `(27)` - Sofern in Schritt (22) die Steuerung durch den ApoShop übernommen wurde, werden in diesem Schritt die zur Dispensierung vorgesehenen E-Rezepte in der (**selectedPrescriptionList**) Nachricht an das AVS geschickt.
-* `(28)` - Analog zu Schritt (25) wird hier der Empfang der Nachricht vom AVS mit der Nachricht (**confirmPrescriptonList**) quittiert.
+* `(28)` - Analog zu Schritt (25) wird hier der Empfang der Nachricht vom AVS mit der Nachricht (**selectedPrescriptionList**) quittiert.
 * `(29)` - In diesem Schritt wird das E-Rezept mit einer **$accept**-Nachricht verbindlich bei der Apotheke eingereicht.
 * `(30)` - Der FD_eRp liefert ein Bundle mit einer Task und einen PKCS#7-Container mit dem signierten E-Rezept zurück.
-* `(31)` - Das erhaltene Bundle wird dekodiert und das enthaltene secret wird gespeichert.
+* `(31)` - Das erhaltene Bundle wird dekodiert und das enthaltene **secret** wird gespeichert.
 
 ### A.1.5 - Phase 5 - Signaturvalidierung, Dispensierung der E-Rezepte und Abschluss der Transaktion
   
@@ -103,8 +110,8 @@ Der grundlegende Ablauf für das Einlösen von E-Rezepten ist im nachfolgenden S
 * `(33)` - Die qualifizierte elektronische Signatur, die die E-Rezept-Nutzdaten im PKCS#7-Container umschließt, wird unter Verwendung der **VerifyDocument**-Funktion des Konnektors validiert.
 * `(34)` - Der Konnektor liefert das Ergebnis der Signaturvalidierung mit **VerifyDocumentResponse** zurück.
 * `(35)` - Sofern die Signaturvalidierung erfolgreich war, werden die FHIR-basierten E-Rezept-Nutzdaten aus dem PKCS#7-Container extrahiert.
-* `(36)` - Die Medikamente werden auf dem vom Nutzer gewünschten Weg abgegeben und es wird eine entsprechende MedicationDispense-Struktur erzeugt.
-* `(37)` - Die MedicationDispense-Struktur wird zusammen mit dem secret und dem Access-Token in einer **$close**-Nachricht an den FD_eRp gesandt, um die Dispensierung abzuschließen.
+* `(36)` - Die Medikamente werden auf dem vom Nutzer gewünschten Weg abgegeben und es wird eine entsprechende **MedicationDispense**-Struktur gemäß [GEM_ERP_PR_MedicationDispense](https://simplifier.net/packages/de.gematik.erezept-workflow.r4/1.4.0-rc1/files/2447785) erzeugt.
+* `(37)` - Die **MedicationDispense**-Struktur wird zusammen mit dem **secret** und dem Access-Token in einer **$close**-Nachricht an den FD_eRp gesandt, um die Dispensierung abzuschließen.
 * `(38)` - Im Gegenzug liefert der FD_eRp eine signierte Quittung zurück.
 * `(39)` - Das AVS führt eine geeignete Protokollierung durch.
 * `(40)` - Im letzten Schritt werden hier die im E-Rezept verordneten Medikamente an den Nutzer per Boten oder Paketversand geliefert bzw. in einer Vor-Ort-Apotheke übergeben.
@@ -462,7 +469,7 @@ Technische Details der **prescriptionBundle**-Datenstruktur sind in der [YAML-Do
 
 Das **prescriptionIndexList**-Element ist in der **selectedPrescriptionList**-Nachricht enthalten und spezifiziert, welche der verfügbaren elektronischen Verordnungen eingelöst werden sollen.
 
-Das **prescriptionIndexList**-Element besteht aus einer Folge von **prescriptionID** Elementen, welche die einzulösenden Verordnungen identifizieren (siehe auch **prescriptionBundle** in Abschnitt A.3.11).
+Das **prescriptionIndexList**-Element besteht aus einer Folge von **prescriptionID**-Elementen, welche die einzulösenden Verordnungen identifizieren (siehe auch **prescriptionBundle** in Abschnitt A.3.11).
 
 Technische Details der **prescriptionIndexList**-Datenstruktur sind in der [YAML-Dokumentation](https://ehealthcardlink.github.io/Spezifikation/prescription-communication/) näher beschrieben.
 
