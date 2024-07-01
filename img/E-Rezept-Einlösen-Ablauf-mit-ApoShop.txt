@@ -48,8 +48,8 @@ App -> AS: 22. Übergabe der Steuerung an ApoShop
 else case 2 Keine Übergabe der Steuerung an ApoShop
 App --> CL: 23. Ausgewählte E-Rezepte (**selectedPrescriptionList**)
 CL --> AVS: 24. Ausgewählte E-Rezepte (**selectedPrescriptionList**)
-AVS-> CL: 25. Rückmeldung des Empfangs (**confirmPrescriptionList**)
-CL-> App: 26. Rückmeldung des Empfangs (**confirmPrescriptionList**)
+AVS-> CL: 25. Rückmeldung des Empfangs (**selectPrescriptionListResponse**)
+CL-> App: 26. Rückmeldung des Empfangs (**selectPrescriptionListResponse**)
 end
 
 note over Nutzer, FD_eRp#lightgreen:**Phase 4** - Verbindliche Zuweisung der zu dispensierenden E-Rezepte an Apotheke
@@ -57,7 +57,7 @@ note over Nutzer, FD_eRp#lightgreen:**Phase 4** - Verbindliche Zuweisung der zu 
 opt Sofern Steuerung über ApoShop erfolgt ist
 
 AS -> AVS: 27. Ausgewählte E-Rezepte (**selectedPrescriptionList**)
-AVS --> AS: 28. Rückmeldung des Empfangs (**confirmPrescriptionList**)
+AVS --> AS: 28. Rückmeldung des Empfangs (**selectPrescriptionListResponse**)
 end
 
 
