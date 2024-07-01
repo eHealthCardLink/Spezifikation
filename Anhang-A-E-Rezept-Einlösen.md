@@ -126,7 +126,7 @@ Im Einzelnen sind dies die nachfolgend und im [YAML-Schema](https://github.com/e
 * A.2.1 - requestPrescriptionList
 * A.2.2 - availablePrescriptionLists
 * A.2.3 - selectedPrescriptionList
-* A.2.4 - confirmSelection
+* A.2.4 - selectedPrescriptionListResponse
   
 ### A.2.1 - requestPrescriptionList
 
@@ -149,13 +149,13 @@ näher beschrieben.
 Die **selectedPrescriptionList**-Nachricht spezifiziert, welche elektronischen Verordnungen genau dispensiert werden sollen und wie die verordneten Medikamente zugestellt werden sollen. 
 
 Die **selectedPrescriptionList**-Nachricht ist an die Strukturen aus 
-[gemSpec_DM_eRp](https://fachportal.gematik.de/fachportal-import/files/gemSpec_DM_eRp_V1.9.0.pdf) (Abschnitt 2.6.3) angelehnt und
-umfasst die folgenden Elemente:
+[gemSpec_DM_eRp](https://fachportal.gematik.de/fachportal-import/files/gemSpec_DM_eRp_V1.9.0.pdf) (Abschnitt 2.6.3) angelehnt und umfasst die folgenden Elemente:
 
 | Element | Datentyp | Beschreibung | 
 | --- | --- |  --- |
 | `ICCSN` | string | Die ICCSN identifiziert die eGK für die elektronische Verordnungen eingelöst werden sollen. | 
 | `PrescriptionIndexList` | prescriptionIndexList | Dieses Element spezifiziert, welche der verfügbaren elektronischen Verordnungen eingelöst werden sollen. Details sind in Abschnitt A.3.12 spezifiziert. |
+| `version` | string | Gibt die Version des JSON an. Aktuell immer 2. Kann im weiteren Lebenszyklus verändert werden. | 
 | `supplyOptionsType` | string | Mit diesem Element kann die gewünschte Bereitstellungsart der verordneten Medikamente spezifiziert werden. Gemäß [gemSpec_DM_eRp](https://fachportal.gematik.de/fachportal-import/files/gemSpec_DM_eRp_V1.9.0.pdf) sind die Werte "onPremise", "shipment", "delivery" vorgesehen. |
 | `name` | string | Name des Versicherten (optional).  |
 | `address` | streetAddress | Adresse des Versicherten (optional). |
@@ -166,9 +166,19 @@ umfasst die folgenden Elemente:
 
 Die technischen Details der **selectedPrescriptionList**-Nachricht sind in der [YAML-Dokumentation](https://ehealthcardlink.github.io/Spezifikation/prescription-communication/) näher beschrieben.
 
-### A.2.4 - confirmSelection
+### A.2.4 - selectedPrescriptionListResponse
 
-Die **confirmSelection**-Nachricht dient der Bestätigung des Erhalts der vorher übermittelten **selectedPrescriptionList**-Nachricht.
+Die **selectedPrescriptionListResponse**-Nachricht dient der Bestätigung des Erhalts der vorher übermittelten **selectedPrescriptionList**-Nachricht. Die **selectedPrescriptionListResponse**-Nachricht ist an die Strukturen aus 
+[gemSpec_DM_eRp](https://fachportal.gematik.de/fachportal-import/files/gemSpec_DM_eRp_V1.9.0.pdf) (Abschnitt 2.6.2) angelehnt und umfasst die folgenden Elemente:
+
+| Element | Datentyp | Beschreibung | 
+| --- | --- |  --- |
+| `version` | string | Gibt die Version des JSON an. Aktuell immer 1. Kann im weiteren Lebenszyklus verändert werden. | 
+| `supplyOptionsType` | string | Mit diesem Element kann die gewünschte Bereitstellungsart der verordneten Medikamente spezifiziert werden. Gemäß [gemSpec_DM_eRp](https://fachportal.gematik.de/fachportal-import/files/gemSpec_DM_eRp_V1.9.0.pdf) sind die Werte "onPremise", "shipment", "delivery" vorgesehen. |
+| `info_text` | string | Zusätzlicher Freitext der Apotheke an den Versicherten. | 
+| `url` | string | Einbettung einer externen URL ausschließlich für das Einlösen von E-Rezepten in einer externen Bestellplattform. | 
+| `pickUpCodeHR` | string | Menschenlesbarer Abholcode, der nur bei supplyOptionsType "onPremise" gesetzt wird. Wenn gesetzt, wird dem Nutzer der Inhalt des "pickUpCodeHR" optisch hervorgehoben angezeigt. | 
+| `pickUpCodeDMC` | string | Maschinenlesbarer Abholcode (Data-Matrix-Code), der nur bei supplyOptionsType "onPremise" verwendet wird. Wenn gesetzt, kann sich der Nutzer den Inhalt als Data-Matrix-Code anzeigen lassen. Der Inhalt wird gemäß ISO/IEC 16022:2006 von der App in einen DMC gewandelt. Fehlt die Interpretation, so wird der Code als Freitext angezeigt. | 
 
 Die technischen Details sind in der [YAML-Dokumentation](https://ehealthcardlink.github.io/Spezifikation/prescription-communication/) 
 näher beschrieben.
@@ -191,7 +201,7 @@ In den oben spezifizierten Nachrichten sind die folgenden Elemente enthalten:
 * A.3.12 - prescriptionIndexList
 * A.3.13 - streetAddress
 
-#### A.3.1 - coverage
+### A.3.1 - coverage
 
 Das **coverage**-Element bildet die Informationen zum Krankenversicherungsverhältnis des Patienten ab.
 
@@ -302,7 +312,7 @@ In diesem Profil werden die Rezeptierdaten einer **freitextlichen Verordnung** a
 | `Freitextverordnung` | string | Dieses Feld enthält den Text einer Freitextverordnung. | 
 | `Darreichungsform` | string | siehe oben |
 
-#### A.3.3 - organization
+### A.3.3 - organization
 
 Das **organization**-Element enthält die Daten einer Organisation. 
 
@@ -323,7 +333,7 @@ Technische Details der **organization**-Datenstruktur sind in der [YAML-Dokument
 | `Fax` | string | Dieses Feld enthält die Faxnummer. | 
 | `E-Mail` | string | Dieses Feld enthält die E-Mail-Adresse der Einrichtung. Bei grenzüberschreitender Einlösung einer Arzneimittelverordnung ist diese zwingend anzugeben. | 
 
-#### A.3.4 - patient
+### A.3.4 - patient
 
 Das **patient**-Element bildet die Daten des Patienten ab. 
 
@@ -340,7 +350,7 @@ Technische Details der **patient**-Datenstruktur sind in der [YAML-Dokumentation
 | `Geburtsdatum` | date | Dieses Feld gibt das Geburtsdatum des Versicherten an. | 
 | `Adresse` | streetAdress oder pobAdress | Entweder Straßenadresse (streetAddress) oder Postfachaddresse (pobAddress). | 
 
-#### A.3.5 - pobAddress
+### A.3.5 - pobAddress
 
 Das **pobAddress**-Element enthält die Postfachadresse der betreffenden Person. 
 Dieses Element ist folgendermaßen strukturiert:
@@ -352,7 +362,7 @@ Dieses Element ist folgendermaßen strukturiert:
 | `Ort` | string | In diesem Feld kann der Ortsnamen angegeben werden. Mehrere Namensbestandteile sind durch Blank/Sonderzeichen getrennt. | 
 | `Postfach` | string | In diesem Feld kann das Postfach angegeben werden. | 
 
-#### A.3.6 - person
+### A.3.6 - person
 
 Das Element **person** wird in der Spezifikation der Elemente **patient** (Abschnitt A.3.4) und **practitioner** (Abschnitt A.3.8) genutzt und ist folgendermaßen strukturiert.
 
@@ -364,7 +374,7 @@ Das Element **person** wird in der Spezifikation der Elemente **patient** (Absch
 | `Namenszusatz` | string | Dieses Feld enthält den Namenszusatz als Bestandteil des Nachnamens der Person, z.B. „Freiherr“, „Gräfin“; mehrere Namenszusätze sind durch Blank getrennt. | 
 | `Vorsatzwort` | string | Dieses Feld enthält das Vorsatzwort als Bestandteil des Nachnamens der Person, z.B. „von“, „von der“, „zu“ ; mehrere Vorsatzwörter sind durch Blank getrennt. | 
 
-#### A.3.7 - practiceSupply
+### A.3.7 - practiceSupply
 
 Das **practiceSupply**-Element dient der Verschreibung von Sprechstundenbedarf gemäß [KBV_PR_ERP_PracticeSupply](https://simplifier.net/erezept/kbvprerppracticesupply). 
 
@@ -378,7 +388,7 @@ Das **practiceSupply**-Element dient der Verschreibung von Sprechstundenbedarf g
    
 Technische Details der **practiceSupply**-Datenstruktur sind in der [YAML-Dokumentation](https://ehealthcardlink.github.io/Spezifikation/prescription-communication/) näher beschrieben.
 
-#### A.3.8 - practitioner
+### A.3.8 - practitioner
 
 Das **practitioner**-Element bildet die Daten des verordnenden Leistungserbringer (z.B. Arzt) ab. 
 
@@ -397,7 +407,7 @@ Technische Details der **practitioner**-Datenstruktur sind in der [YAML-Dokument
 | `Person` | person | siehe Abschnitt A.3.6  | 
 | `VerantwortlichePerson` | practitioner | Dieses Element ist optional und kann dafür verwendet werden, wenn der verordnende Arzt nicht der verantwortliche Arzt ist.   | 
 
-#### A.3.9 - practitionerRole
+### A.3.9 - practitionerRole
 
 Das optionale **practitionerRole**-Element kann verwendet werden, um anzugeben, ob der verordnende Arzt eine weitere Rolle im Bereich der ambulanten spezialärztlichen Versorgung (ASV) innehat. 
 
@@ -409,7 +419,7 @@ Technische Details der **practitionerRole**-Datenstruktur sind in der [YAML-Doku
 | --- | --- |  --- |
 | `ASV-TN` | string | Dieses Feld muss im Rahmen einer ambulanten spezialfachärztlichen Versorgung genutzt werden. Jedes ASV-Team erhält von der ASV-Servicestelle eine ASV-Teamnummer (ASV-TN). Mit ihr kennzeichnen ASV-Ärzte die Leistungen oder Verordnungen, die sie in der ASV durchführen. Die Teamnummer umfasst neun Ziffern und ist wie eine Betriebsstättennummer (BSNR) aufgebaut. Sie wird vergeben, sobald die Ärzte eine ASV-Berechtigung haben – zusätzlich zur BSNR und zur lebenslangen Arztnummer. | 
 
-#### A.3.10 - prescription
+### A.3.10 - prescription
 
 Das **prescription**-Element bildet die fachlich und medizinisch relevanten Bestandteile einer Arzneimittelverordnung ab.
 
@@ -439,7 +449,7 @@ Technische Details der **prescription**-Datenstruktur sind in der [YAML-Dokument
 | `MFV-Beginn` | date | Dieses Feld enthält das Datum, ab dem die Teilverordnung der Mehrfachverordnung eingelöst werden kann. |
 | `MFV-Ende` | date | Dieses Feld enthält das Datum des letzten Einlösetages der Teilverordnung der Mehrfachverordnung. Von der ausstellenden Person kann eine von der Arzneimittelverschreibungsverordnung [AMVV](https://www.gesetze-im-internet.de/amvv/) abweichende Einlösefrist angegeben werden. |
 
-#### A.3.11 - prescriptionBundle
+### A.3.11 - prescriptionBundle
 
 Das **prescriptionBundle**-Element ist das für elektronische Verordnungen genutzte Bündelungselement, das von der [Bundle](https://hl7.org/fhir/R4/bundle.html)-Ressource abgeleitet wird und alle weiteren Datenelemente enthält. 
 
@@ -462,7 +472,7 @@ Technische Details der **prescriptionBundle**-Datenstruktur sind in der [YAML-Do
 | `ASV-TN` | practitionerRole | Dieses Element kann verwendet werden, um anzugeben, ob der verordnende Arzt eine weitere Rolle im Bereich der ambulanten spezialärztlichen Versorgung (ASV) innehat. Details zum **practitionerRole**-Element sind in Abschnitt A.3.9 spezifiziert. | 
 | `Arzneimittel` | medication | Dieses Element enthält die Informationen über das verordnete Arzneimittel. Details zum **medication**-Element sind in Abschnitt A.3.2 spezifiziert. | 
 
-#### A.3.12 - prescriptionIndexList
+### A.3.12 - prescriptionIndexList
 
 Das **prescriptionIndexList**-Element ist in der **selectedPrescriptionList**-Nachricht enthalten und spezifiziert, welche der verfügbaren elektronischen Verordnungen eingelöst werden sollen.
 
@@ -470,7 +480,7 @@ Das **prescriptionIndexList**-Element besteht aus einer Folge von **prescription
 
 Technische Details der **prescriptionIndexList**-Datenstruktur sind in der [YAML-Dokumentation](https://ehealthcardlink.github.io/Spezifikation/prescription-communication/) näher beschrieben.
 
-#### A.3.13 - streetAddress
+### A.3.13 - streetAddress
 
 Das Element **streetAddress** ist folgendermaßen strukturiert.
 
