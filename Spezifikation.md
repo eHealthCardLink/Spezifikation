@@ -11,8 +11,8 @@
       <ul>1.1 - Zielsetzung</ul>
       <ul>1.2 - Methodik</ul>
     <li><b>2. - Generische Basisspezifikation</b></li>
-      <ul>2.1 Überblick</ul> 
-      <ul>2.2 Grundlegende Abläufe beim eHealth-CardLink-Verfahren</ul>  
+      <ul>2.1 - Überblick</ul> 
+      <ul>2.2 - Grundlegende Abläufe beim eHealth-CardLink-Verfahren</ul>  
         <ul>2.2.1 - Phase 0 - Vorbereitende Schritte und SMS-TAN-Verfahren</ul>
         <ul>2.2.2 - Phase 1 - eGK mit App kontaktieren und Daten auslesen</ul>
         <ul>2.2.3 - Phase 2 - Übermittlung der für den Prüfablauf relevanten Daten</ul>
