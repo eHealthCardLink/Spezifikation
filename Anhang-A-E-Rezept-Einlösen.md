@@ -207,8 +207,8 @@ Technische Details der **coverage**-Datenstruktur sind in der [YAML-Dokumentatio
 | `Kostentraeger` | string | Name des Kostenträgers | 
 | `WOP` | string | Dieses Feld enthält das Wohnortkennzeichen entsprechend des Wohnortprinzips (WOP) für Honorarvereinbarungen (BMV-Ä Anlage 21). Die vorgesehenen Werte sind der Schlüsseltabelle [S_ITA_WOP](https://applications.kbv.de/S_ITA_WOP.xhtml) zu entnehmen.| 
 | `Versichertenstatus` | string | Dieses Element enthält Angaben zum Versichertenstatus. Gemäß [Leitfaden Basis DE (STU3)](https://ig.fhir.de/basisprofile-de/0.2.30/Versichertenstatus2.html) sind folgende Werte vorgesehen: "1"	(Mitglieder), "3"	(Familienangehörige), "5" (Rentner). | 
-| `BesonderePersonengruppe` | string | Dieses Feld enthält die besondere Personengruppe, zu der der Versicherte gehört (§ 264 SGB V). Die entsprechenden Werte sind der Schlüsseltabelle [S_KBV_PERSONENGRUPPE](https://applications.kbv.de/S_KBV_PERSONENGRUPPE.xhtml) zu entnehmen. | 
-| `DMP-KZ` | string | Dieses Feld enthält das Disease-Management-Programm (DMP), in dem der Versicherte eingeschrieben ist (§ 284 Abs. 1 Satz 1 Nr. 14 SGB V). Die vorgesehenen Werte sind der Schlüsseltabelle [S_KBV_DMP](https://applications.kbv.de/S_KBV_DMP_V1.06.xhtml) zu entnehmen. | 
+| `BesonderePersonengruppe` | string | Dieses Feld enthält die besondere Personengruppe, zu der der Versicherte gehört ([§ 264 SGB V](https://www.gesetze-im-internet.de/sgb_5/__264.html)). Die entsprechenden Werte sind der Schlüsseltabelle [S_KBV_PERSONENGRUPPE](https://applications.kbv.de/S_KBV_PERSONENGRUPPE.xhtml) zu entnehmen. | 
+| `DMP-KZ` | string | Dieses Feld enthält das Disease-Management-Programm (DMP), in dem der Versicherte eingeschrieben ist ([§ 284 Abs. 1 Satz 1 Nr. 14 SGB V](https://www.gesetze-im-internet.de/sgb_5/__284.html)). Die vorgesehenen Werte sind der Schlüsseltabelle [S_KBV_DMP](https://applications.kbv.de/S_KBV_DMP_V1.06.xhtml) zu entnehmen. | 
 | `Versicherungsschutz-Ende` | date | In diesem Feld kann das Datum des Endes des Versicherungsschutzes angegeben werden, wenn die Datumsangabe auf der Versichertenkarte gespeichert ist und ausgelesen wurde. | 
 
 ### A.3.2 medication
@@ -233,9 +233,9 @@ In diesem Profil werden die Rezeptierdaten einer Verordnung aus den Preis- und P
 | `Kategorie` | string | Dieses Feld enthält die Kennzeichnung der Verordnungskategorie, bspw. für ein BtM-Rezept. Der in Abschnitt 6.1 von [[KBV_ITA_VGEX_TECHNISCHE_ANLAGE_ERP]](https://update.kbv.de/ita-update/DigitaleMuster/ERP/KBV_ITA_VGEX_Technische_Anlage_ERP.pdf) definierte Standardwert ist "00".| 
 | `Impfstoff` | boolean | Dieses Feld enthält die Kennzeichnung, ob es sich bei der Verordnung um Impfstoff handelt. Der Standardwert ist "false" und gibt an, dass es sich nicht um einen Impfstoff handelt. "true" gibt an, dass es sich um einen Impfstoff handelt. |
 | `Normgroesse` | string | Enthält den Code der Normgröße der Arzneimittelverordnung. Die Schlüsseltabelle für die Anzeige der codierten Werte wird von der KBV gepflegt und ist unter [S_KBV_NORMGROESSE](https://applications.kbv.de/S_KBV_NORMGROESSE.xhtml) verfügbar. | 
-| `PZN` | string | Dieses Feld enthält die Pharmazentralnummer (PZN), die von der Informationsstelle für Arzneispezialitäten IFA, Frankfurt produktbezogen vergeben wird und für die gesetzlichen Krankenkassen gemäß Vereinbarungen nach § 131 SGB V mit der Pharmazeutischen Industrie und nach § 300 SGB V mit dem Deutschen Apothekerverband vereinbart ist. Die Angaben Handelsname, Darreichungsform, Packungsgröße usw. entstammen den Preis- und Produktangaben nach § 131 Abs. 4 SGB V. | 
+| `PZN` | string | Dieses Feld enthält die Pharmazentralnummer (PZN), die von der Informationsstelle für Arzneispezialitäten IFA, Frankfurt produktbezogen vergeben wird und für die gesetzlichen Krankenkassen gemäß Vereinbarungen nach [§ 131 SGB V](https://www.gesetze-im-internet.de/sgb_5/__131.html) mit der Pharmazeutischen Industrie und nach [§ 300 SGB V](https://www.gesetze-im-internet.de/sgb_5/__300.html) mit dem Deutschen Apothekerverband vereinbart ist. Die Angaben Handelsname, Darreichungsform, Packungsgröße usw. entstammen den Preis- und Produktangaben nach [§ 131 Abs. 4 SGB V](https://www.gesetze-im-internet.de/sgb_5/__131.html). | 
 | `Handelsname` | string | Dieses Feld enthält den Handelsnamen des verordneten Präparates, welcher aus der PZN abgeleitet wird. |
-| `Darreichungsform` | string | Dieses Feld enthält die Angabe der Darreichungsform entsprechend der Daten nach § 131 Abs. 4 SGB V und ist immer zu verwenden, wenn ein Fertigarzneimittel gemäß Preis- und Produktverzeichnis verordnet wird. Die Schlüsseltabelle für die Anzeige der codierten Werte wird von der KBV gepflegt und ist unter [S_KBV_DARREICHUNGSFORM](https://applications.kbv.de/S_KBV_DARREICHUNGSFORM.xhtml) verfügbar.| 
+| `Darreichungsform` | string | Dieses Feld enthält die Angabe der Darreichungsform entsprechend der Daten nach [§ 131 Abs. 4 SGB V](https://www.gesetze-im-internet.de/sgb_5/__131.html) und ist immer zu verwenden, wenn ein Fertigarzneimittel gemäß Preis- und Produktverzeichnis verordnet wird. Die Schlüsseltabelle für die Anzeige der codierten Werte wird von der KBV gepflegt und ist unter [S_KBV_DARREICHUNGSFORM](https://applications.kbv.de/S_KBV_DARREICHUNGSFORM.xhtml) verfügbar.| 
 | `PackungsgroesseNachMenge` | string | Dieses Feld enthält die Packungsgröße (z.B. 100) und tritt nur in Verbindung mit „Einheit“ auf (z.B. 100 Stück). | 
 | `Einheit` | string | Dieses Feld enthält die Einheit (z.B. Stück) und tritt nur in Verbindung mit „Packungsgröße nach abgeteilter Menge“ auf (z.B. 100 Stück). | 
 | `PackungsgroesseNachNBezeichnung` | string | Dieses Feld enthält die Normgröße der therapiegerechten Packung (z.B. N1). |
@@ -260,7 +260,7 @@ Das Element `BestandteilWirkstoffverordnung` enthält die folgenden Elemente:
 | Element | Datentyp | Beschreibung | 
 | --- | --- |  --- |
 | `Wirkstoffnummer` | string | Dieses Feld enthält eine ASK-Nummer (Arzneimittelstoffkatalog-Nummer). | 
-| `Wirkstoffname` | string | Dieses Feld enthält einen Wirkstoffnamen für ein Wirkstoff- bzw. sonstiges Fertigarzneimittel oder ein Produkt, welches nicht nach § 131 Abs. 4 SGB V gelistet ist. | 
+| `Wirkstoffname` | string | Dieses Feld enthält einen Wirkstoffnamen für ein Wirkstoff- bzw. sonstiges Fertigarzneimittel oder ein Produkt, welches nicht nach [§ 131 Abs. 4 SGB V](https://www.gesetze-im-internet.de/sgb_5/__131.html) gelistet ist. | 
 | `Wirkstaerke` | string | Dieses Feld enthält eine Angabe der Wirkstärke. Diese ermittelt sich durch die Angabe von Wirkstoffmenge / Bezugsgrößenmenge. Die zugehörige Einheit ist im Feld "Wirkstärkeneinheit" anzugeben. | 
 | `Wirkstaerkeneinheit` | string | Dieses Feld enthält die Einheit der Wirkstärke (bspw. mg/ml). | 
 
@@ -333,12 +333,12 @@ Technische Details der **patient**-Datenstruktur sind in der [YAML-Dokumentation
 
 | Element | Datentyp | Beschreibung | 
 | --- | --- |  --- |
-| `GKV-VersichertenID` | string | Dieses Feld enthält die VersichertenID der gesetzlichen Krankenversicherung (unveränderlicher Teil der einheitlichen Krankenversicherungsnummer der GKV gemäß § 290 SGB V). | 
-| `PKV-VersichertenID` | string | Dieses Feld enthält die VersichertenID der privaten Krankenversicherung (unveränderlicher Teil der einheitlichen Krankenversichertennummer gemäß § 290 SGB V). | 
+| `GKV-VersichertenID` | string | Dieses Feld enthält die VersichertenID der gesetzlichen Krankenversicherung (unveränderlicher Teil der einheitlichen Krankenversicherungsnummer der GKV gemäß [§ 290 SGB V](https://www.gesetze-im-internet.de/sgb_5/__290.html). | 
+| `PKV-VersichertenID` | string | Dieses Feld enthält die VersichertenID der privaten Krankenversicherung (unveränderlicher Teil der einheitlichen Krankenversichertennummer gemäß [§ 290 SGB V](https://www.gesetze-im-internet.de/sgb_5/__290.html)). | 
 | `KVK-Versichertennummer` | string | Dieses Feld enthält die Versichertennummer der Krankenversichertenkarte. | 
 | `Person` | person | Dieses Element enthält die Informationen zur betreffenden Person. | 
 | `Geburtsdatum` | date | Dieses Feld gibt das Geburtsdatum des Versicherten an. | 
-| `Adresse` | streetAdress oder pobAdress | Entweder Straßenadresse (streetAdress) oder Postfachaddresse (pobAdress). | 
+| `Adresse` | streetAdress oder pobAdress | Entweder Straßenadresse (streetAddress) oder Postfachaddresse (pobAddress). | 
 
 #### A.3.5 - pobAddress
 
