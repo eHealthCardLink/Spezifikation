@@ -364,7 +364,7 @@ Das Element **person** wird in der Spezifikation der Elemente **patient** (Absch
 | `Namenszusatz` | string | Dieses Feld enthält den Namenszusatz als Bestandteil des Nachnamens der Person, z.B. „Freiherr“, „Gräfin“; mehrere Namenszusätze sind durch Blank getrennt. | 
 | `Vorsatzwort` | string | Dieses Feld enthält das Vorsatzwort als Bestandteil des Nachnamens der Person, z.B. „von“, „von der“, „zu“ ; mehrere Vorsatzwörter sind durch Blank getrennt. | 
 
-### A.3.7 - practiceSupply
+#### A.3.7 - practiceSupply
 
 Das **practiceSupply**-Element dient der Verschreibung von Sprechstundenbedarf gemäß [KBV_PR_ERP_PracticeSupply](https://simplifier.net/erezept/kbvprerppracticesupply). 
 
@@ -421,8 +421,8 @@ Technische Details der **prescription**-Datenstruktur sind in der [YAML-Dokument
 | --- | --- |  --- |
 | `Ausstellungsdatum` | date | Dieses Feld enthält das Ausstellungsdatum der Verordnung. | 
 | `Noctu` | boolean | Dieses Feld enthält die Kennzeichnung, ob diese Verordnung auch während der allgemeinen Ladenschlusszeiten beliefert werden soll, verbunden mit der Erhebung der Noctu-Gebühr (Notdienstgebühr) zu Lasten der Krankenkasse gemäß Arzneimittelpreisverordnung. |
-| `BVG` | boolean | Dieses Feld enthält die Kennzeichnung, ob diese Verordnung für Anspruchsberechtigte nach dem Bundesentschädigungsgesetz (BEG) oder für Anspruchsberechtigte nach dem Bundesversorgungsgesetz (BVG) erfolgt. |
-| `Zuzahlungsstatus` | string | In diesem Feld wird der Zuzahlungsstatus für die Verordnung angegeben. Gemäß [KBV_CS_FOR_StatusCoPayment](https://simplifier.net/packages/kbv.ita.for/1.1.0/files/720086) sind folgende Möglichkeiten vorgesehen: 0 (von Zuzahlungspflicht nicht befreit / gebührenpflichtig), 1	(von Zuzahlungspflicht befreit / gebührenfrei), 2 (künstliche Befruchtung (Regelung nach § 27a SGB V))|
+| `BVG` | boolean | Dieses Feld enthält die Kennzeichnung, ob diese Verordnung für Anspruchsberechtigte nach dem Bundesentschädigungsgesetz [BEG](https://www.gesetze-im-internet.de/beg/BJNR013870953.html) oder für Anspruchsberechtigte nach dem Bundesversorgungsgesetz [BVG](https://de.wikipedia.org/wiki/Bundesversorgungsgesetz) erfolgt. |
+| `Zuzahlungsstatus` | string | In diesem Feld wird der Zuzahlungsstatus für die Verordnung angegeben. Gemäß [KBV_CS_FOR_StatusCoPayment](https://simplifier.net/packages/kbv.ita.for/1.1.0/files/720086) sind folgende Möglichkeiten vorgesehen: 0 (von Zuzahlungspflicht nicht befreit / gebührenpflichtig), 1	(von Zuzahlungspflicht befreit / gebührenfrei), 2 (künstliche Befruchtung (Regelung nach [§ 27a SGB V](https://www.gesetze-im-internet.de/sgb_5/__27a.html))).|
 | `AutIdem` | boolean | Dieses Feld enthält die Angabe, ob das Arzneimittel austauschbar ist oder nicht. Wenn ein Austausch in der Apotheke zulässig ist, wird dieses Feld auf true gesetzt. |
 | `Abgabehinweis` | string | Dieses Feld enthält über die Dosierung hinausgehende / sonstige Abgabehinweise an die Apotheke. |
 | `Anzahl` | integer | Dieses Feld enthält die Anzahl der verordneten Packungen. |
@@ -430,17 +430,14 @@ Technische Details der **prescription**-Datenstruktur sind in der [YAML-Dokument
 | `Dosieranweisung` | string | Dieses Feld enthält eine Dosieranweisung. |
 | `Gebrauchsanweisung` | string | Dieses Feld enthält die Gebrauchsanweisung der Rezeptur. |
 | `Unfallkennzeichen` | string | Dieses Feld enthält die Information, in welchem Zusammenhang die Verordnung ausgestellt wurde, z.B. Unfall. Die möglichen Werte sind in [KBV_VS_ERP_Accident_Type](https://simplifier.net/erezept/kbvvserpaccidenttype) spezifiziert. Hierbei sind folgende Fälle vorgesehen: 1	(Unfall), 2	(Arbeitsunfall (Berufsgenossenschaft/Unfallkasse)), 4	(Berufskrankheit (Berufsgenossenschaft/Unfallkasse)) |
-| `Unfalltag` | date | Tag des Unfalls |
-| `Unfallbetrieb` | string | Unfallbetrieb |
+| `Unfalltag` | date | Tag des Unfalls. |
+| `Unfallbetrieb` | string | Name des Unfallbetriebs. |
 | `Mehrfachverordnung` | boolean | Dieses Feld enthält die Kennzeichnung, ob es sich bei der Verordnung um eine Mehrfachverordnung (MFV) handelt. |
 | `MFV-ID` | string | Dieses Feld enthält eine eineindeutige ID, welche über alle Teilverordnungen einer Mehrfachverordnung identisch ist. |
-| `MFV-Zaehler` | integer | Dieses Feld enthält die Angabe, um die wievielte Teilverordnung einer Mehrfachverordnung (Serie) es sich handelt. Beispiel: "2" in "2 von 4" |
-| `MFV-Nenner` | integer | Dieses Feld enthält die Angabe der Länge dieser Serie, d.h. die Gesamtanzahl der Teilverordnungen der Mehrfachverordnung. Beispiel: "4" in "2 von 4" |
+| `MFV-Zaehler` | integer | Dieses Feld enthält die Angabe, um die wievielte Teilverordnung einer Mehrfachverordnung (Serie) es sich handelt. Beispiel: "2" in "2 von 4". |
+| `MFV-Nenner` | integer | Dieses Feld enthält die Angabe der Länge dieser Serie, d.h. die Gesamtanzahl der Teilverordnungen der Mehrfachverordnung. Beispiel: "4" in "2 von 4". |
 | `MFV-Beginn` | date | Dieses Feld enthält das Datum, ab dem die Teilverordnung der Mehrfachverordnung eingelöst werden kann. |
-| `MFV-Ende` | date | Dieses Feld enthält das Datum des letzten Einlösetages der Teilverordnung der Mehrfachverordnung. Von der ausstellenden Person kann eine von der Arzneimittelverschreibungsverordnung (AMVV) abweichende Einlösefrist angegeben werden. |
-| `Coverage` | coverage | siehe Abschnitt A.3.1 |
-| `Patient` | patient | siehe Abschnitt A.3.4 |
-| `Practitioner` | practitioner | siehe Abschnitt A.3.8 | 
+| `MFV-Ende` | date | Dieses Feld enthält das Datum des letzten Einlösetages der Teilverordnung der Mehrfachverordnung. Von der ausstellenden Person kann eine von der Arzneimittelverschreibungsverordnung [AMVV](https://www.gesetze-im-internet.de/amvv/) abweichende Einlösefrist angegeben werden. |
 
 ### A.3.11 - prescriptionBundle
 
