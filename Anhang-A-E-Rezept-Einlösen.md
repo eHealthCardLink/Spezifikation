@@ -409,7 +409,7 @@ Technische Details der **practitionerRole**-Datenstruktur sind in der [YAML-Doku
 | --- | --- |  --- |
 | `ASV-TN` | string | Dieses Feld muss im Rahmen einer ambulanten spezialfachärztlichen Versorgung genutzt werden. Jedes ASV-Team erhält von der ASV-Servicestelle eine ASV-Teamnummer (ASV-TN). Mit ihr kennzeichnen ASV-Ärzte die Leistungen oder Verordnungen, die sie in der ASV durchführen. Die Teamnummer umfasst neun Ziffern und ist wie eine Betriebsstättennummer (BSNR) aufgebaut. Sie wird vergeben, sobald die Ärzte eine ASV-Berechtigung haben – zusätzlich zur BSNR und zur lebenslangen Arztnummer. | 
 
-### A.3.10 - prescription
+#### A.3.10 - prescription
 
 Das **prescription**-Element bildet die fachlich und medizinisch relevanten Bestandteile einer Arzneimittelverordnung ab.
 
@@ -439,7 +439,7 @@ Technische Details der **prescription**-Datenstruktur sind in der [YAML-Dokument
 | `MFV-Beginn` | date | Dieses Feld enthält das Datum, ab dem die Teilverordnung der Mehrfachverordnung eingelöst werden kann. |
 | `MFV-Ende` | date | Dieses Feld enthält das Datum des letzten Einlösetages der Teilverordnung der Mehrfachverordnung. Von der ausstellenden Person kann eine von der Arzneimittelverschreibungsverordnung [AMVV](https://www.gesetze-im-internet.de/amvv/) abweichende Einlösefrist angegeben werden. |
 
-### A.3.11 - prescriptionBundle
+#### A.3.11 - prescriptionBundle
 
 Das **prescriptionBundle**-Element ist das für elektronische Verordnungen genutzte Bündelungselement, das von der [Bundle](https://hl7.org/fhir/R4/bundle.html)-Ressource abgeleitet wird und alle weiteren Datenelemente enthält. 
 
@@ -462,7 +462,7 @@ Technische Details der **prescriptionBundle**-Datenstruktur sind in der [YAML-Do
 | `ASV-TN` | practitionerRole | Dieses Element kann verwendet werden, um anzugeben, ob der verordnende Arzt eine weitere Rolle im Bereich der ambulanten spezialärztlichen Versorgung (ASV) innehat. Details zum **practitionerRole**-Element sind in Abschnitt A.3.9 spezifiziert. | 
 | `Arzneimittel` | medication | Dieses Element enthält die Informationen über das verordnete Arzneimittel. Details zum **medication**-Element sind in Abschnitt A.3.2 spezifiziert. | 
 
-### A.3.12 - prescriptionIndexList
+#### A.3.12 - prescriptionIndexList
 
 Das **prescriptionIndexList**-Element ist in der **selectedPrescriptionList**-Nachricht enthalten und spezifiziert, welche der verfügbaren elektronischen Verordnungen eingelöst werden sollen.
 
@@ -470,7 +470,7 @@ Das **prescriptionIndexList**-Element besteht aus einer Folge von **prescription
 
 Technische Details der **prescriptionIndexList**-Datenstruktur sind in der [YAML-Dokumentation](https://ehealthcardlink.github.io/Spezifikation/prescription-communication/) näher beschrieben.
 
-### A.3.13 - streetAddress
+#### A.3.13 - streetAddress
 
 Das Element **streetAddress** ist folgendermaßen strukturiert.
 
