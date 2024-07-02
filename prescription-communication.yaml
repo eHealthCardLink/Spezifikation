@@ -715,6 +715,7 @@ components:
     coverage:
       type: object
       required:
+        - type
         - kostentraegertyp
         - ikKrankenkasse
       description: This element contains information about the health insurance of the patient. See section A.3.1 of specification.
@@ -759,6 +760,7 @@ components:
     medication:
       type: object
       required:
+        - type
         - medicationItem
       description: Element containing a medication item, whereas the medication element may either be medicationPZN, medicationIngredient, medicationCompounding,
         medicationFreeText. See section A.3.2 of specification.
@@ -947,6 +949,8 @@ components:
     organization:
       type: object
       description: Element containing the data of an organization. See section A.3.3 of specification.
+      required:
+        - type
       properties:
         type:
           type: string
@@ -1105,6 +1109,7 @@ components:
       type: object
       description: The practitioner element contains information about the issuer of a prescription (e.g. medical doctor). See section A.3.8 of specification.
       required:
+        - type
         - typ
         - person
       properties:
@@ -1140,6 +1145,7 @@ components:
       type: object
       description: The optional practitionerRole element can be used to indicate whether the prescribing physician holds another role in the area of outpatient specialty care (ASC). See section A.3.9 of specification.
       required:
+        - type
         - asvTn
       properties:
         type:
@@ -1238,6 +1244,7 @@ components:
       type: object
       description: The prescriptionBundle element is the bundling element used for electronic prescriptions, which is derived from the Bundle resource and contains all other data elements.
       required:
+        - type
         - prescriptionId
         - erstellungszeitpunkt
         - status
