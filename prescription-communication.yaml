@@ -137,9 +137,9 @@ components:
           payload:
             type: availablePrescriptionLists
             availablePrescriptionLists:
-              - type: availablePrescriptionLists
+              - type: availablePrescriptionList
                 ICCSN: MTIzNDU2Nzg5
-                prescriptionBundle:
+                prescriptionBundleList:
 
                   # prescription with medicationPZN (01)
 
