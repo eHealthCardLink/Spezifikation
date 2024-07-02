@@ -143,7 +143,7 @@ components:
 
                   # prescription with medicationPZN (01)
 
-                  - prescriptionid: 160.000.764.737.300.50
+                  - prescriptionId: 160.000.764.737.300.50
                     erstellungszeitpunkt: 2024-06-30T09:30:00Z
                     status: final
                     krankenversicherung:
@@ -208,7 +208,7 @@ components:
 
                     # prescription with medicationPZN (02)
 
-                  - prescriptionid: 160.100.000.000.012.06
+                  - prescriptionId: 160.100.000.000.012.06
                     erstellungszeitpunkt: 2024-06-30T09:35:00Z
                     status: final
                     krankenversicherung:
@@ -273,7 +273,7 @@ components:
 
                     # prescription with medicationIngredient
 
-                  - prescriptionid: 160.100.000.000.004.30
+                  - prescriptionId: 160.100.000.000.004.30
                     erstellungszeitpunkt: 2024-06-30T09:40:00Z
                     status: final
                     krankenversicherung:
@@ -342,7 +342,7 @@ components:
 
                     # prescription with medicationCompounding
 
-                  - prescriptionid: 160.100.000.000.014.97
+                  - prescriptionId: 160.100.000.000.014.97
                     erstellungszeitpunkt: 2024-06-30T09:45:00Z
                     status: final
                     krankenversicherung:
@@ -412,7 +412,7 @@ components:
 
                     # prescription with medicationFreeText
 
-                  - prescriptionid: 160.100.000.000.006.24
+                  - prescriptionId: 160.100.000.000.006.24
                     erstellungszeitpunkt: 2024-06-30T09:50:00Z
                     status: final
                     krankenversicherung:
@@ -1237,7 +1237,7 @@ components:
       type: object
       description: The prescriptionBundle element is the bundling element used for electronic prescriptions, which is derived from the Bundle resource and contains all other data elements.
       required:
-        - prescriptionid
+        - prescriptionId
         - erstellungszeitpunkt
         - status
         - patient
@@ -1249,7 +1249,7 @@ components:
         type:
           type: string
           const: prescriptionBundle
-        prescriptionid:
+        prescriptionId:
           $ref: '#/components/schemas/prescriptionID'
           description: This field contains the unique identifier of the electronic prescription over a period of 11 years according to GEM_ERP_PR_PrescriptionId and gemSpec_DM_eRp (section 2.2).
         erstellungszeitpunkt:
