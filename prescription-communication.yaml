@@ -712,13 +712,6 @@ components:
       format: byte
       description: ICCSN (Integrated Circuit Card Serial Number) of the eHealth card
 
-
-    index:
-      type: integer
-      minimum: 0
-      description: Unique index of the selected medication corresponding to the index
-        within availablePrescriptionList, whereas the index is starting at 0.
-
     coverage:
       type: object
       required:
