@@ -583,7 +583,7 @@ components:
         prescriptionBundleList:
           type: array
           items:
-            - $ref: '#/components/schemas/prescriptionBundle'
+            $ref: '#/components/schemas/prescriptionBundle'
 
     availablePrescriptionLists:
       type: object
@@ -598,7 +598,7 @@ components:
         availablePrescriptionLists:
           type: array
           items:
-            - $ref: '#/components/schemas/availablePrescriptionList'
+            $ref: '#/components/schemas/availablePrescriptionList'
 
     bestandteilRezepturverordnung:
       type: object
@@ -776,11 +776,12 @@ components:
         medicationItem:
           title: medicationItem
           type: array
-          oneOf:
-            - $ref: '#/components/schemas/medicationPZN'
-            - $ref: '#/components/schemas/medicationIngredient'
-            - $ref: '#/components/schemas/medicationCompounding'
-            - $ref: '#/components/schemas/medicationFreeText'
+          items:
+            oneOf:
+              - $ref: '#/components/schemas/medicationPZN'
+              - $ref: '#/components/schemas/medicationIngredient'
+              - $ref: '#/components/schemas/medicationCompounding'
+              - $ref: '#/components/schemas/medicationFreeText'
 
 
     medicationCompounding:
@@ -827,7 +828,7 @@ components:
           type: array
           description: List of ingredients
           items:
-            - $ref: '#/components/schemas/bestandteilWirkstoffverordnung'
+            $ref: '#/components/schemas/bestandteilWirkstoffverordnung'
 
     medicationFreeText:
       type: object
@@ -936,7 +937,7 @@ components:
           type: array
           description: List of ingredients
           items:
-            - $ref: '#/components/schemas/bestandteilWirkstoffverordnung'
+            $ref: '#/components/schemas/bestandteilWirkstoffverordnung'
 
     messageId:
       type: string
@@ -1294,7 +1295,7 @@ components:
       description: The prescriptionIndexList element is contained in the selectedPrescriptionList message and specifies which of the available electronic prescriptions should be redeemed.
       minItems: 1
       items:
-        - $ref: '#/components/schemas/prescriptionID'
+        $ref: '#/components/schemas/prescriptionID'
 
     streetAddress:
       type: object
@@ -1343,7 +1344,7 @@ components:
           type: array
           minItems: 0
           items:
-            - $ref: '#/components/schemas/ICCSN'
+            $ref: '#/components/schemas/ICCSN'
 
     selectedPrescriptionList:
       type: object
