@@ -148,14 +148,14 @@ components:
                     status: final
                     krankenversicherung:
                       kostentraegertyp: GKV
-                      ik-krankenkasse: 104212059
+                      ikKrankenkasse: 104212059
                       kostentraeger: AOK Baden-Württemberg
                       wop: 52
                       versichertenstatus: 1
-                      besonderepersonengruppe: 00
-                      dmp-kz: 00
+                      besonderePersonengruppe: 00
+                      dmpKz: 00
                     patient:
-                      gkv-versichertenid: X234567891
+                      gkvVersichertenId: X234567891
                       person:
                         vorname: Tina
                         name: Tester
@@ -184,7 +184,7 @@ components:
                         hausnummer: 200
                       telefon: +49 711 1234567
                       fax: +49 711 1234599
-                      e-mail: hans@praxis-gesundmacher.de
+                      eMail: hans@praxis-gesundmacher.de
                     verordnung:
                       ausstellungsdatum: 2024-06-30
                       noctu: false
@@ -213,14 +213,14 @@ components:
                     status: final
                     krankenversicherung:
                       kostentraegertyp: GKV
-                      ik-krankenkasse: 104212059
+                      ikKrankenkasse: 104212059
                       kostentraeger: AOK Baden-Württemberg
                       wop: 52
                       versichertenstatus: 1
-                      besonderepersonengruppe: 00
-                      dmp-kz: 00
+                      besonderePersonengruppe: 00
+                      dmpKz: 00
                     patient:
-                      gkv-versichertenid: X234567891
+                      gkvVersichertenId: X234567891
                       person:
                         vorname: Tina
                         name: Tester
@@ -249,7 +249,7 @@ components:
                         hausnummer: 200
                       telefon: +49 711 1234567
                       fax: +49 711 1234599
-                      e-mail: hans@praxis-gesundmacher.de
+                      eMail: hans@praxis-gesundmacher.de
                     verordnung:
                       ausstellungsdatum: 2024-06-30
                       noctu: false
@@ -278,14 +278,14 @@ components:
                     status: final
                     krankenversicherung:
                       kostentraegertyp: GKV
-                      ik-krankenkasse: 104212059
+                      ikKrankenkasse: 104212059
                       kostentraeger: AOK Baden-Württemberg
                       wop: 52
                       versichertenstatus: 1
-                      besonderepersonengruppe: 00
-                      dmp-kz: 00
+                      besonderePersonengruppe: 00
+                      dmpKz: 00
                     patient:
-                      gkv-versichertenid: X234567891
+                      gkvVersichertenId: X234567891
                       person:
                         vorname: Tina
                         name: Tester
@@ -314,7 +314,7 @@ components:
                         hausnummer: 200
                       telefon: +49 711 1234567
                       fax: +49 711 1234599
-                      e-mail: hans@praxis-gesundmacher.de
+                      eMail: hans@praxis-gesundmacher.de
                     verordnung:
                       ausstellungsdatum: 2024-06-30
                       noctu: false
@@ -347,14 +347,14 @@ components:
                     status: final
                     krankenversicherung:
                       kostentraegertyp: GKV
-                      ik-krankenkasse: 104212059
+                      ikKrankenkasse: 104212059
                       kostentraeger: AOK Baden-Württemberg
                       wop: 52
                       versichertenstatus: 1
-                      besonderepersonengruppe: 00
-                      dmp-kz: 00
+                      besonderePersonengruppe: 00
+                      dmpKz: 00
                     patient:
-                      gkv-versichertenid: X234567891
+                      gkvVersichertenId: X234567891
                       person:
                         vorname: Tina
                         name: Tester
@@ -383,7 +383,7 @@ components:
                         hausnummer: 200
                       telefon: +49 711 1234567
                       fax: +49 711 1234599
-                      e-mail: hans@praxis-gesundmacher.de
+                      eMail: hans@praxis-gesundmacher.de
                     verordnung:
                       ausstellungsdatum: 2024-06-30
                       noctu: false
@@ -417,14 +417,14 @@ components:
                     status: final
                     krankenversicherung:
                       kostentraegertyp: GKV
-                      ik-krankenkasse: 104212059
+                      ikKrankenkasse: 104212059
                       kostentraeger: AOK Baden-Württemberg
                       wop: 52
                       versichertenstatus: 1
-                      besonderepersonengruppe: 00
-                      dmp-kz: 00
+                      besonderePersonengruppe: 00
+                      dmpKz: 00
                     patient:
-                      gkv-versichertenid: X234567891
+                      gkvVersichertenId: X234567891
                       person:
                         vorname: Tina
                         name: Tester
@@ -453,7 +453,7 @@ components:
                         hausnummer: 200
                       telefon: +49 711 1234567
                       fax: +49 711 1234599
-                      e-mail: hans@praxis-gesundmacher.de
+                      eMail: hans@praxis-gesundmacher.de
                     verordnung:
                       ausstellungsdatum: 2024-06-30
                       noctu: false
@@ -527,7 +527,7 @@ components:
             type: selectedPrescriptionListResponse
             version: 1
             supplyOptionsType: delivery
-            info_text: Der Bote ist auf dem Weg zu Ihnen und wird voraussichtlich um 10:30 Uhr bei Ihnen sein.
+            infoText: Der Bote ist auf dem Weg zu Ihnen und wird voraussichtlich um 10:30 Uhr bei Ihnen sein.
             messageId: 48482e8c-fb65-4931-a737-60008521bf50
             correlationId: e9a148b9-e70a-498e-af0e-358c8226cae8
 
@@ -723,7 +723,7 @@ components:
       type: object
       required:
         - kostentraegertyp
-        - ik-krankenkasse
+        - ikKrankenkasse
       description: This element contains information about the health insurance of the patient. See section A.3.1 of specification.
       properties:
         type:
@@ -735,10 +735,10 @@ components:
             This field specifies the payer type.
             According to KBV_VS_FOR_Payor_type and KBV_CS_FOR_Payor_Type_KBV, the following values are admissible:
             "GKV" (statutory health insurance), "PKV" (private health insurance), "BG" (professional association), "SEL" (self-payer), "SKT" (other payers), "UK" (accident insurance funds).
-        ik-krankenkasse:
+        ikKrankenkasse:
           type: string
           description: This field contains the institutional code (IK) of the responsible health insurance company, e.g. according to the electronic health card (eGK).
-        ik-kostentraeger:
+        ikKostentraeger:
           type: string
           description: This field contains the institutional code (IK) of the cost carrier and is used if the cost carrier is not the responsible health insurance fund, e.g. a professional association (BG) or an accident insurance fund (UK).
         kostentraeger:
@@ -753,10 +753,10 @@ components:
             This element contains information on the insured person's status.
             According to the German Basis Guide (STU3), the following values are provided:
             "1" (members), "3" (family members), "5" (pensioners).}
-        besonderepersonengruppe:
+        besonderePersonengruppe:
           type: string
           description: This field contains the special group of people to which the insured person belongs (§ 264 SGB V). The corresponding values can be found in the key table S_KBV_PERSONENGRUPPE.
-        dmp-kz:
+        dmpKz:
           type: string
           description: This field contains the disease management program (DMP) in which the insured person is enrolled (Section 284, Paragraph 1, Sentence 1, No. 14 SGB V). The intended values can be found in the key table S_KBV_DMP.
         versicherungsschutz-ende:
@@ -961,16 +961,16 @@ components:
         bsnr:
           type: string
           description: This field contains a business location number (Betriebsstättennummer, BSNR) to identify a facility. In the statutory health insurance sector, the field is a prerequisite for billing between service providers and cost bearers. The BSNR must be specified for hospitals. In the context of hospital treatment, this field can show the place of issue.
-        ik-nummer:
+        ikNummer:
           type: string
           description: This field contains an institutional code (IK), which is assigned by the ARGE IK and is a unique identifier for billing with the social insurance providers.
-        kzv-an:
+        kzvAn:
           type: string
           description: This field contains a billing number from the Association of Statutory Health Insurance Dentists (KZV).
         standortnummer:
           type: string
           description: This field contains a hospital location number.
-        telematik-id:
+        telematikId:
           type: string
           description: This field contains a telematics ID of the facility.
         name:
@@ -985,7 +985,7 @@ components:
         fax:
           type: string
           description: This field contains the fax number of the facility.
-        e-mail:
+        eMail:
           type: string
           description: This field contains the email address of the institution. This must be provided when redeeming a drug prescription across borders.
 
@@ -1000,13 +1000,13 @@ components:
         type:
           type: string
           const: patient
-        gkv-versichertenid:
+        gkvVersichertenId:
           type: string
           description: This field contains the insured person ID of the statutory health insurance (unchangeable part of the uniform health insurance number of the GKV according to Section 290 SGB V).
-        pkv-versichertenid:
+        pkvVersichertenId:
           type: string
           description: This field contains the insured ID of the private health insurance (unchangeable part of the uniform health insurance number according to Section 290 SGB V).
-        kvk-versichertennummer:
+        kvkVersichertennummer:
           type: string
           description: This field contains the insurance number of the health insurance card (Krankenversichertenkarte).
         person:
@@ -1082,7 +1082,7 @@ components:
         - datum
         - anzahl
         - kostentraegertyp
-        - ik-nummer
+        - ikNummer
         - name
       properties:
         type:
@@ -1095,13 +1095,13 @@ components:
           type: integer
           minimum: 1
           description: This field contains the number of packs prescribed.
-        kostentragertyp:
+        kostentraegertyp:
           type: string
           description: >
             This field specifies the payer type.
             According to KBV_VS_FOR_Payor_type and KBV_CS_FOR_Payor_Type_KBV, the following values are expected:
             "GKV" (statutory health insurance), "PKV" (private health insurance), "BG" (professional association), "SEL" (self-payer), "SKT" (other payers), "UK" (accident insurance funds).
-        ik-nummer:
+        ikNummer:
           type: string
           description: This field contains the institution code (IK) according to the electronic health card (eGK). See the transfer rule according to "Technical Annex to Annex 4a BMV-Ä" (Section 2.2).
         name:
@@ -1124,7 +1124,7 @@ components:
         berufsbezeichnung:
           type: string
           description: This field contains free text information about the job title, e.g. specialist in general medicine, general practitioner, midwife.
-        asv-fgn:
+        asvFgn:
           type: string
           description: This field contains the ASV specialist group number (ASV-FGN, Fachgruppen-Nummer für Ambulante Spezialärztliche Versorgung) according to the Agreement on Outpatient Specialist Medical Care (ASV) (ASV-AV) Section 9 Paragraph 5. According to the ASV-AV, this must be stated by hospital doctors instead of the doctor number.
         arztnummer:
@@ -1133,13 +1133,13 @@ components:
         zahnarztnummer:
           type: string
           description: This field contains a dentist number (ZANR) as an identifier for the person.
-        telematik-id:
+        telematikId:
           type: string
           description: This field contains a telematics ID as an identifier for the person.
         person:
           $ref: '#/components/schemas/person'
           description: See section A.3.6.
-        verantwortlicheperson:
+        verantwortlichePerson:
           $ref: '#/components/schemas/practitioner'
           description: This element is optional and can be used when the prescribing physician is not the responsible physician.
 
@@ -1147,20 +1147,25 @@ components:
       type: object
       description: The optional practitionerRole element can be used to indicate whether the prescribing physician holds another role in the area of outpatient specialty care (ASC). See section A.3.9 of specification.
       required:
-        - asv-tn
+        - asvTn
       properties:
         type:
           type: string
           const: practitionerRole
-        asv-tn:
+        asvTn:
           type: string
-          description: This field must be used in the context of outpatient specialist medical care. Each ASV team receives an ASV team number (ASV-TN) from the ASV service center. ASV doctors use this number to identify the services or prescriptions they provide in the ASV. The team number consists of nine digits and is structured like a business location number (BSNR). It is assigned as soon as the doctors have ASV authorization - in addition to the BSNR and the lifelong doctor number.
+          description: >
+            This field must be used in the context of outpatient specialist medical care.
+            Each ASV team receives an ASV team number (ASV-TN) from the ASV service center.
+            ASV doctors use this number to identify the services or prescriptions they provide in the ASV.
+            The team number consists of nine digits and is structured like a business location number (BSNR).
+            It is assigned as soon as the doctors have ASV authorization - in addition to the BSNR and the lifelong doctor number.
 
     prescription:
       type: object
       description: The prescription element represents the technically and medically relevant components of a drug prescription.
       required:
-        - asv-tn
+        - type
       properties:
         type:
           type: string
@@ -1198,8 +1203,11 @@ components:
           description: This field contains the instructions for use of the recipe.
         unfallkennzeichen:
           type: string
-          description: This field contains the information about the context in which the prescription was issued, e.g. accident. The possible values are specified in KBV_VS_ERP_Accident_Type.
-          The following cases are provided: 1 (accident), 2 (work accident (professional association/accident insurance fund)), 4 (occupational disease (professional association/accident insurance fund)).
+          description: >
+            This field contains the information about the context in which the prescription was issued, e.g. accident.
+            The possible values are specified in KBV_VS_ERP_Accident_Type.
+            The following cases are provided:
+            1 (accident), 2 (work accident (professional association/accident insurance fund)), 4 (occupational disease (professional association/accident insurance fund)).
         unfalltag:
           type: string
           description: Day of accident.
@@ -1209,25 +1217,25 @@ components:
         mehrfachverordnung:
           type: boolean
           description: This field indicates whether the prescription is a multiple prescription (Mehrfachverordnung, MFV).
-        mfv-id:
+        mfvId:
           type: string
           description: This field contains a unique ID which is identical across all partial prescriptions of a multiple prescription.
-        mfv-zahler:
+        mfvZaehler:
           type: integer
           minimum: 1
           description: >
             This field contains the information about the partial prescription of a multiple prescription (series).
             Example: "2" in "2 of 4".
-        mfv-nenner:
+        mfvNenner:
           type: integer
           minimum: 2
           description: >
             This field contains the length of this series, i.e. the total number of partial prescriptions of the multiple prescription.
             Example: "4" in "2 of 4".
-        mfv-beginn:
+        mfvBeginn:
           type: string
           description: This field contains the date from which the partial prescription of the multiple prescription can be redeemed.
-        mfv-ende:
+        mfvEnde:
           type: string
           description: >
             This field contains the date of the last redemption day of the partial prescription of the multiple prescription.
@@ -1258,7 +1266,7 @@ components:
         status:
           type: string
           description: Contains the status code of the electronic prescription. The intended values can be found in the key table S_KBV_STATUSKENNZEICHEN.
-        pkv-tarif:
+        pkvTarif:
           type: string
           description: In the case of a private prescription, contains information on the PKV tariff according to KBV_EX_FOR_PKV_Tariff.
         patient:
@@ -1279,12 +1287,14 @@ components:
           oneOf:
             - $ref: '#/components/schemas/prescription'
             - $ref: '#/components/schemas/practiceSupply'
-        asv-tn:
+        asvTn:
           $ref: '#/components/schemas/practitionerRole'
-          description: This element can be used to indicate whether the prescribing physician has another role in the area of outpatient specialist care (Ambulante Spezialärztliche Versorgung, ASV). Details of the practitionerRole element are specified in section A.3.9.
+          description: >
+            This element can be used to indicate whether the prescribing physician has another role in the area of outpatient specialist care (Ambulante Spezialärztliche Versorgung, ASV).
+            Details of the practitionerRole element are specified in section A.3.9.
         arzneimittel:
           $ref: '#/components/schemas/medication'
-          despription: This element contains the information about the prescribed medication. Details about the medication element are specified in section A.3.2.
+          description: This element contains the information about the prescribed medication. Details about the medication element are specified in section A.3.2.
 
     prescriptionID:
       type: string
@@ -1408,7 +1418,7 @@ components:
           description: Allows the user to choose between different delivery options,
             such as onPremise, shipment and delivery.
           $ref: '#/components/schemas/supplyOptionsType'
-        info_text:
+        infoText:
           type: string
           maxLength: 500
           descriptíon: Additional free text from the pharmacy to the insured person.
