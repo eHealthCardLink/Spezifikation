@@ -2,7 +2,7 @@ asyncapi: 3.0.0
 info:
   title: eHealth-CardLink Prescription Communication Interface
   version: 1.0.0
-  description: 
+  description:
     This API defines an interface between a Pharmacy System and a Pharmacy App with 
     eHealth-CardLink service as intermediary, which is used to present the essential 
     parts of a set of available prescriptions and allows to select electronic prescriptions
@@ -731,7 +731,10 @@ components:
           const: coverage
         kostentraegertyp:
           type: string
-          description: {This field specifies the payer type. According to KBV_VS_FOR_Payor_type and KBV_CS_FOR_Payor_Type_KBV, the following values are admissible: "GKV" (statutory health insurance), "PKV" (private health insurance), "BG" (professional association), "SEL" (self-payer), "SKT" (other payers), "UK" (accident insurance funds).}
+          description: >
+            This field specifies the payer type.
+            According to KBV_VS_FOR_Payor_type and KBV_CS_FOR_Payor_Type_KBV, the following values are admissible:
+            "GKV" (statutory health insurance), "PKV" (private health insurance), "BG" (professional association), "SEL" (self-payer), "SKT" (other payers), "UK" (accident insurance funds).
         ik-krankenkasse:
           type: string
           description: This field contains the institutional code (IK) of the responsible health insurance company, e.g. according to the electronic health card (eGK).
@@ -746,7 +749,10 @@ components:
           description: This field contains the place of residence code according to the place of residence principle (WOP) for fee agreements (BMV-Ä Annex 21). The intended values can be found in the key table S_ITA_WOP.
         versichertenstatus:
           type: string
-          description: {This element contains information on the insured person's status. According to the German Basis Guide (STU3), the following values are provided: "1" (members), "3" (family members), "5" (pensioners).}
+          description: >
+            This element contains information on the insured person's status.
+            According to the German Basis Guide (STU3), the following values are provided:
+            "1" (members), "3" (family members), "5" (pensioners).}
         besonderepersonengruppe:
           type: string
           description: This field contains the special group of people to which the insured person belongs (§ 264 SGB V). The corresponding values can be found in the key table S_KBV_PERSONENGRUPPE.
@@ -970,7 +976,7 @@ components:
           type: string
           description: This field contains the name of the facility (practice / hospital).
         address:
-          type: streetAdress
+          $ref: '#/components/schemas/streetAddress'
           description: This field contains the street address of the facility.
         telefon:
           type: string
@@ -1003,7 +1009,7 @@ components:
           type: string
           description: This field contains the insurance number of the health insurance card (Krankenversichertenkarte).
         person:
-          type: person
+          $ref: '#/components/schemas/person'
           description: This field contains information about the respective person.
         geburtsdatum:
           type: string
@@ -1034,7 +1040,8 @@ components:
           type: string
           description: The postal code can be entered in this field.
         ort:
-          type: The place name can be entered in this field. Multiple name components are separated by spaces/special characters.
+          type: string
+          description: The place name can be entered in this field. Multiple name components are separated by spaces/special characters.
         postfach:
           type: string
           description: The mailbox can be specified in this field.
@@ -1058,10 +1065,10 @@ components:
           description: This field contains the person's last name.
         titel:
           type: string
-          description: This field contains the person’s academic degree, e.g. “Dr. med.”, “Dr.rer.nat.”.
+          description: This field contains the person’s academic degree, e.g. "Dr. med.", "Dr.rer.nat.".
         namenszusatz:
           type: string
-          description: This field contains the suffix as part of the person’s last name, e.g. “Freiherr”, “Gräfin”; multiple suffixes are separated by a blank.
+          description: This field contains the suffix as part of the person’s last name, e.g. "Freiherr", "Gräfin"; multiple suffixes are separated by a blank.
         vorsatzwort:
           type: string
           description: This field contains the prefix as part of the person's last name, e.g. "von", "von der", "zu"; multiple prefixes are separated by a space.
@@ -1089,7 +1096,10 @@ components:
           description: This field contains the number of packs prescribed.
         kostentragertyp:
           type: string
-          description: {This field specifies the payer type. According to KBV_VS_FOR_Payor_type and KBV_CS_FOR_Payor_Type_KBV, the following values are expected: "GKV" (statutory health insurance), "PKV" (private health insurance), "BG" (professional association), "SEL" (self-payer), "SKT" (other payers), "UK" (accident insurance funds).}
+          description: >
+            This field specifies the payer type.
+            According to KBV_VS_FOR_Payor_type and KBV_CS_FOR_Payor_Type_KBV, the following values are expected:
+            "GKV" (statutory health insurance), "PKV" (private health insurance), "BG" (professional association), "SEL" (self-payer), "SKT" (other payers), "UK" (accident insurance funds).
         ik-nummer:
           type: string
           description: This field contains the institution code (IK) according to the electronic health card (eGK). See the transfer rule according to "Technical Annex to Annex 4a BMV-Ä" (Section 2.2).
@@ -1097,7 +1107,7 @@ components:
           type: string
           description: This field contains the name of the cost carrier. The correct name is derived from the defined rules according to "Technical Annex to Annex 4a BMV-Ä" (Section 2.3).
 
-    practicitioner:
+    practitioner:
       type: object
       description: The practitioner element contains information about the issuer of a prescription (e.g. medical doctor). See section A.3.8 of specification.
       required:
@@ -1126,13 +1136,13 @@ components:
           type: string
           description: This field contains a telematics ID as an identifier for the person.
         person:
-          type: person
+          $ref: '#/components/schemas/person'
           description: See section A.3.6.
         verantwortlicheperson:
-          type: practitioner
+          $ref: '#/components/schemas/practitioner'
           description: This element is optional and can be used when the prescribing physician is not the responsible physician.
 
-    practicitionerRole:
+    practitionerRole:
       type: object
       description: The optional practitionerRole element can be used to indicate whether the prescribing physician holds another role in the area of outpatient specialty care (ASC). See section A.3.9 of specification.
       required:
@@ -1165,7 +1175,10 @@ components:
           description: This field indicates whether this regulation is issued for persons entitled to benefits under the Federal Compensation Act (Bundesentschädigungsgesetz, BEG) or for persons entitled to benefits under the Federal Social Security Act (Bundesversorgungsgesetz, BVG).
         zuzahlungsstatus:
           type: string
-          description: {This field specifies the co-payment status for the prescription. According to KBV_CS_FOR_StatusCoPayment the following options are available: 0 (not exempt from co-payment / subject to fees), 1 (exempt from co-payment / free of charge), 2 (artificial insemination (regulation according to Section 27a SGB V)).}
+          description: >
+            This field specifies the co-payment status for the prescription.
+            According to KBV_CS_FOR_StatusCoPayment the following options are available:
+            0 (not exempt from co-payment / subject to fees), 1 (exempt from co-payment / free of charge), 2 (artificial insemination (regulation according to Section 27a SGB V)).
         autidem:
           type: boolean
           description: This field indicates whether the medicine is interchangeable or not. If an exchange is allowed in the pharmacy, this field is set to true.
@@ -1201,17 +1214,23 @@ components:
         mfv-zahler:
           type: integer
           minimum: 1
-          description: {This field contains the information about the partial prescription of a multiple prescription (series). Example: "2" in "2 of 4".}
+          description: >
+            This field contains the information about the partial prescription of a multiple prescription (series).
+            Example: "2" in "2 of 4".
         mfv-nenner:
           type: integer
           minimum: 2
-          description: {This field contains the length of this series, i.e. the total number of partial prescriptions of the multiple prescription. Example: "4" in "2 of 4".}
+          description: >
+            This field contains the length of this series, i.e. the total number of partial prescriptions of the multiple prescription.
+            Example: "4" in "2 of 4".
         mfv-beginn:
           type: string
           description: This field contains the date from which the partial prescription of the multiple prescription can be redeemed.
         mfv-ende:
           type: string
-          description: This field contains the date of the last redemption day of the partial prescription of the multiple prescription. The issuing person can specify a redemption period that differs from the Drug Prescription Ordinance (Arzneimittelverschreibungsverordnung, AMVV).
+          description: >
+            This field contains the date of the last redemption day of the partial prescription of the multiple prescription.
+            The issuing person can specify a redemption period that differs from the Drug Prescription Ordinance (Arzneimittelverschreibungsverordnung, AMVV).
 
     prescriptionBundle:
       type: object
@@ -1230,7 +1249,7 @@ components:
           type: string
           const: prescriptionBundle
         prescriptionid:
-          type: prescriptionID
+          $ref: '#/components/schemas/prescriptionID'
           description: This field contains the unique identifier of the electronic prescription over a period of 11 years according to GEM_ERP_PR_PrescriptionId and gemSpec_DM_eRp (section 2.2).
         erstellungszeitpunkt:
           type: string
@@ -1242,16 +1261,16 @@ components:
           type: string
           description: In the case of a private prescription, contains information on the PKV tariff according to KBV_EX_FOR_PKV_Tariff.
         patient:
-          type: patient
+          $ref: '#/components/schemas/patient'
           description: Contains the patient information. Details are specified in section A.3.4.
         arzt:
-          type: practitioner
+          $ref: '#/components/schemas/practitioner'
           description: Contains information about the issuer of the electronic prescription (e.g. doctor). Details are specified in section A.3.8.
         pruefnummer:
           type: string
           description: Contains the verification number of the practice management system with which the electronic prescription was created.
         organisation:
-          type: organization
+          $ref: '#/components/schemas/organization'
           description: Contains information on the issuing organization. Details are specified in section A.3.3.
         verordnung:
           type: object
@@ -1260,10 +1279,10 @@ components:
             - $ref: '#/components/schemas/prescription'
             - $ref: '#/components/schemas/practiceSupply'
         asv-tn:
-          type: practitionerRole
+          $ref: '#/components/schemas/practitionerRole'
           description: This element can be used to indicate whether the prescribing physician has another role in the area of outpatient specialist care (Ambulante Spezialärztliche Versorgung, ASV). Details of the practitionerRole element are specified in section A.3.9.
         arzneimittel:
-          type: medication
+          $ref: '#/components/schemas/medication'
           despription: This element contains the information about the prescribed medication. Details about the medication element are specified in section A.3.2.
 
     prescriptionID:
@@ -1275,7 +1294,7 @@ components:
       description: The prescriptionIndexList element is contained in the selectedPrescriptionList message and specifies which of the available electronic prescriptions should be redeemed.
       minItems: 1
       items:
-        - $ref: '#/components/schemas/PrescriptionID'
+        - $ref: '#/components/schemas/prescriptionID'
 
     streetAddress:
       type: object
@@ -1297,7 +1316,8 @@ components:
           type: string
           description: The postal code can be entered in this field.
         ort:
-          type: The place name can be entered in this field. Multiple name components are separated by spaces/special characters.
+          type: string
+          description: The place name can be entered in this field. Multiple name components are separated by spaces/special characters.
         strasse:
           type: string
           description: The street name can be specified in this field.
@@ -1339,7 +1359,7 @@ components:
         ICCSN:
           $ref: '#/components/schemas/ICCSN'
         prescriptionIndexList:
-          type: prescriptionIndexList
+          $ref: '#/components/schemas/prescriptionIndexList'
           description: This element specifies which of the available electronic prescriptions are to be redeemed. Details are specified in section A.3.12.
         version:
           type: string
@@ -1353,7 +1373,7 @@ components:
           maxLength: 100
           descriptíon: Name of the patient.
         address:
-          type: streetAddress
+          $ref: '#/components/schemas/streetAddress'
           description: Address of the patient. See section A.3.13 for details.
         hint:
           type: string
