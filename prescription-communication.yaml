@@ -1232,26 +1232,6 @@ components:
           description: >
             This element is optional and can be used when the prescribing physician is not the responsible physician.
 
-    practitionerRole:
-      type: object
-      description: >
-        The optional practitionerRole element can be used to indicate whether the prescribing physician holds another role in the area of outpatient specialty care (ASC). See section A.3.9 of specification.
-      required:
-        - type
-        - asvTn
-      properties:
-        type:
-          type: string
-          const: practitionerRole
-        asvTn:
-          type: string
-          description: >
-            This field must be used in the context of outpatient specialist medical care.
-            Each ASV team receives an ASV team number (ASV-TN) from the ASV service center.
-            ASV doctors use this number to identify the services or prescriptions they provide in the ASV.
-            The team number consists of nine digits and is structured like a business location number (BSNR).
-            It is assigned as soon as the doctors have ASV authorization - in addition to the BSNR and the lifelong doctor number.
-
     prescription:
       type: object
       description: >
@@ -1410,9 +1390,14 @@ components:
             - $ref: '#/components/schemas/prescription'
             - $ref: '#/components/schemas/practiceSupply'
         asvTn:
-          $ref: '#/components/schemas/practitionerRole'
+          type: string
           description: >
             This element can be used to indicate whether the prescribing physician has another role in the area of outpatient specialist care (Ambulante Spezialärztliche Versorgung, ASV).
+            This field must be used in the context of outpatient specialist medical care.
+            Each ASV team receives an ASV team number (ASV-TN) from the ASV service center.
+            ASV doctors use this number to identify the services or prescriptions they provide in the ASV.
+            The team number consists of nine digits and is structured like a business location number (BSNR).
+            It is assigned as soon as the doctors have ASV authorization - in addition to the BSNR and the lifelong doctor number.
             Details of the practitionerRole element are specified in section A.3.9.
         arzneimittel:
           $ref: '#/components/schemas/medication'
