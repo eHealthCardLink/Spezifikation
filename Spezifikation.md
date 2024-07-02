@@ -22,7 +22,7 @@
         <ul>2.2.7 - Phase 6 - Das Fachmodul VSDM im Konnektor erstellt den Prüfungsnachweis</ul>
         <ul>2.2.8 - Phase 7 - Der Konnektor liefert den Prüfungsnachweis in ReadVSDResponse zurück</ul>
       <ul>2.3 - Nachrichten jenseits der gematik-Spezifikation</ul>
-    <li><b>3. - Anwendungsfallspezifische Ergänzungsmodule</b></li>
+    <li><b> - Anwendungsfallspezifische Ergänzungsmodule</b></li>
       <ul>3.1 - Generelle Anforderungen an das application_interface</ul> 
       <ul>3.2 - Existierende und geplante anwendungsspezifische Ergänzungsmodule</ul>      
   </ol>
