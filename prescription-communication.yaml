@@ -490,11 +490,11 @@ components:
             selectedPrescriptionListMessage:
               ICCSN: MTIzNDU2Nzg5
               prescriptionIndexList:
-                - prescriptionid: 160.000.764.737.300.50
-                - prescriptionid: 160.100.000.000.012.06
-                - prescriptionid: 160.100.000.000.004.30
-                - prescriptionid: 160.100.000.000.014.97
-                - prescriptionid: 160.100.000.000.006.24
+                - 160.000.764.737.300.50
+                - 160.100.000.000.012.06
+                - 160.100.000.000.004.30
+                - 160.100.000.000.014.97
+                - 160.100.000.000.006.24
               version: 2
               supplyOptionsType: delivery
               name: Der Nachbar ist Heinz Müller und wohnt im 2. OG.
