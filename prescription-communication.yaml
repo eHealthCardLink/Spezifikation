@@ -809,23 +809,13 @@ components:
               - $ref: '#/components/schemas/medicationCompounding'
               - $ref: '#/components/schemas/medicationFreeText'
 
-
-    medicationCompounding:
+    medicationCommonType:
       type: object
       required:
-        - type
         - kategorie
         - impfstoff
-        - herstellungsanweisung
-        - rezepturname
         - darreichungsform
-        - gesamtmenge
-        - listeBestandteilRezepturverordnung
-      description: Prescription of medication, which is defined by a specific recipe. See section A.3.2.3 of specification.
       properties:
-        type:
-          type: string
-          const: medicationCompounding
         kategorie:
           type: string
           description: >
@@ -837,6 +827,26 @@ components:
           description: >
             Indicates whether the prescription is a vaccine or not.
             Default is "false".
+        darreichungsform:
+          type: string
+          description: >
+            Contains the description how to apply the overall prescription.
+
+    medicationCompounding:
+      type: object
+      required:
+        - type
+        - herstellungsanweisung
+        - rezepturname
+        - gesamtmenge
+        - listeBestandteilRezepturverordnung
+      description: Prescription of medication, which is defined by a specific recipe. See section A.3.2.3 of specification.
+      allOf:
+        - $ref: '#/components/schemas/medicationCommonType'
+      properties:
+        type:
+          type: string
+          const: medicationCompounding
         herstellungsanweisung:
           type: string
           description: >
@@ -849,10 +859,6 @@ components:
           type: string
           description: >
             Contains the name of the recipe.
-        darreichungsform:
-          type: string
-          description: >
-            Contains the description how to apply the overall prescription.
         gesamtmenge:
           type: string
           description: >
@@ -872,65 +878,37 @@ components:
       type: object
       required:
         - type
-        - kategorie
-        - impfstoff
         - freitextverordnung
-        - darreichungsform
       description: >
         Prescription of a  medication, which is described by a free text.
         See section A.3.2.4 of specification.
+      allOf:
+        - $ref: '#/components/schemas/medicationCommonType'
       properties:
         type:
           type: string
           const: medicationFreeText
-        kategorie:
-          type: string
-          description: >
-            Category of prescription.
-            Is "00" for regular prescriptions.
-        impfstoff:
-          type: boolean
-          default: false
-          description: >
-            Indicates whether the prescription is a vaccine or not.
-            Default is "false".
         freitextverordnung:
           type: string
           description: >
             Contains a free text, which describes the prescribed medication.
-        darreichungsform:
-          type: string
-          description: >
-            Contains the description how to apply the prescribed medication.
 
 
     medicationPZN:
       type: object
       required:
         - type
-        - kategorie
-        - impfstoff
         - pzn
         - handelsname
-        - darreichungsform
       description: >
         Prescription of standardised medication, which is identified by PZN.
         See section A.3.2.1 of specification.
+      allOf:
+        - $ref: '#/components/schemas/medicationCommonType'
       properties:
         type:
           type: string
           const: medicationPZN
-        kategorie:
-          type: string
-          description: >
-            Category of prescription.
-            Is "00" for regular prescriptions.
-        impfstoff:
-          type: boolean
-          default: false
-          description: >
-            Indicates whether the prescription is a vaccine or not.
-            Default is "false".
         normgroesse:
           type: string
           description: >
@@ -943,10 +921,6 @@ components:
           type: string
           description: >
             Is the name of the standardised prescription.
-        darreichungsform:
-          type: string
-          description: >
-            Contains the encoded value how to apply the prescription.
         packungsgroesseNachMenge:
           type: string
           description: >
@@ -964,35 +938,20 @@ components:
       type: object
       required:
         - type
-        - kategorie
-        - impfstoff
-        - darreichungsform
         - listeBestandteilWirkstoffverordnung
       description: >
         Prescription of medication, which is defined by its ingredients.
         See section A.3.2.2 of specification.
+      allOf:
+        - $ref: '#/components/schemas/medicationCommonType'
       properties:
         type:
           type: string
           const: medicationIngredient
-        kategorie:
-          type: string
-          description: >
-            Category of prescription.
-            Is "00" for regular prescriptions.
-        impfstoff:
-          type: boolean
-          description: >
-            Indicates whether the prescription is a vaccine or not.
-            Default is "false".
         normgroesse:
           type: string
           description: >
             Contains the norm size of the prescription.
-        darreichungsform:
-          type: string
-          description: >
-            Contains the description how to apply the prescription.
         packungsgroesseNachMenge:
           type: string
           description: >
