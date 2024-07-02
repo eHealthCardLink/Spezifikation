@@ -569,7 +569,8 @@ components:
 
     availablePrescriptionList:
       type: object
-      description: List of available prescriptions
+      description: >
+        List of available prescriptions
       required:
         - type
         - ICCSN
@@ -587,7 +588,8 @@ components:
 
     availablePrescriptionLists:
       type: object
-      description: List of available prescription lists
+      description: >
+        List of available prescription lists
       required:
         - type
         - availablePrescriptionLists
@@ -605,29 +607,36 @@ components:
       required:
         - type
         - name
-      description: Medication, which is defined by a specific recipe.
+      description: >
+        Medication, which is defined by a specific recipe.
       properties:
         type:
           type: string
           const: bestandteilRezepturverordnung
         darreichungsform:
           type: string
-          description: Contains the description how to apply the specific part of the medication.
+          description: >
+            Contains the description how to apply the specific part of the medication.
         name:
           type: string
-          description: Name of the specific part of the medication.
+          description: >
+            Name of the specific part of the medication.
         pzn:
           type: string
-          description: Identifier (Pharmazentralnummer, PZN) of the specific part of the medication.
+          description: >
+            Identifier (Pharmazentralnummer, PZN) of the specific part of the medication.
         menge:
           type: string
-          description: Quantity of the specific part of the medication.
+          description: >
+            Quantity of the specific part of the medication.
         einheit:
           type: string
-          description: Unit corresponding to the specific part of the medication.
+          description: >
+            Unit corresponding to the specific part of the medication.
         mengeUndEinheit:
           type: string
-          description: Contains a free text to describe the quantity of the specific part of the medication including its unit.
+          description: >
+            Contains a free text to describe the quantity of the specific part of the medication including its unit.
 
     bestandteilWirkstoffverordnung:
       type: object
@@ -637,23 +646,28 @@ components:
         - wirkstoffname
         - wirkstaerke
         - wirkstaerkeneinheit
-      description: Medication, which is defined by its ingredients.
+      description: >
+        Medication, which is defined by its ingredients.
       properties:
         type:
           type: string
           const: bestandteilWirkstofverordnung
         wirkstoffnummer:
           type: string
-          description: ASK-Number (Arzneimittelkatalog-Nummer).
+          description: >
+            ASK-Number (Arzneimittelkatalog-Nummer).
         wirkstoffname:
           type: string
-          description: Name of the ingredient.
+          description: >
+            Name of the ingredient.
         wirkstaerke:
           type: string
-          description: Contains the strength of the ingredient.
+          description: >
+            Contains the strength of the ingredient.
         wirkstaerkeneinheit:
           type: string
-          description: Unit of strength of the ingredient.
+          description: >
+            Unit of strength of the ingredient.
 
     correlationId:
       description: CorrelationId
@@ -675,17 +689,20 @@ components:
 
     errorBaseType:
       type: object
-      description: Base type for error messages
+      description: >
+        Base type for error messages
       required:
         - errorCode
         - errorMessage
       properties:
         errorCode:
           $ref: '#/components/schemas/genericErrorResultType'
-          description: Error code describing the error in more detail
+          description: >
+            Error code describing the error in more detail
         errorMessage:
           type: string
-          description: Error message describing the error in more detail
+          description: >
+            Error message describing the error in more detail
 
     genericError:
       type: object
@@ -710,7 +727,8 @@ components:
     ICCSN:
       type: string
       format: byte
-      description: ICCSN (Integrated Circuit Card Serial Number) of the eHealth card
+      description: >
+        ICCSN (Integrated Circuit Card Serial Number) of the eHealth card
 
     coverage:
       type: object
@@ -718,7 +736,9 @@ components:
         - type
         - kostentraegertyp
         - ikKrankenkasse
-      description: This element contains information about the health insurance of the patient. See section A.3.1 of specification.
+      description: >
+        This element contains information about the health insurance of the patient.
+        See section A.3.1 of specification.
       properties:
         type:
           type: string
@@ -731,16 +751,21 @@ components:
             "GKV" (statutory health insurance), "PKV" (private health insurance), "BG" (professional association), "SEL" (self-payer), "SKT" (other payers), "UK" (accident insurance funds).
         ikKrankenkasse:
           type: string
-          description: This field contains the institutional code (IK) of the responsible health insurance company, e.g. according to the electronic health card (eGK).
+          description: >
+            This field contains the institutional code (IK) of the responsible health insurance company, e.g. according to the electronic health card (eGK).
         ikKostentraeger:
           type: string
-          description: This field contains the institutional code (IK) of the cost carrier and is used if the cost carrier is not the responsible health insurance fund, e.g. a professional association (BG) or an accident insurance fund (UK).
+          description: >
+            This field contains the institutional code (IK) of the cost carrier and is used if the cost carrier is not the responsible health insurance fund, e.g. a professional association (BG) or an accident insurance fund (UK).
         kostentraeger:
           type: string
-          description: Name of the cost carrier.
+          description: >
+            Name of the cost carrier.
         wop:
           type: string
-          description: This field contains the place of residence code according to the place of residence principle (WOP) for fee agreements (BMV-Ä Annex 21). The intended values can be found in the key table S_ITA_WOP.
+          description: >
+            This field contains the place of residence code according to the place of residence principle (WOP) for fee agreements (BMV-Ä Annex 21).
+            The intended values can be found in the key table S_ITA_WOP.
         versichertenstatus:
           type: string
           description: >
@@ -749,21 +774,27 @@ components:
             "1" (members), "3" (family members), "5" (pensioners).}
         besonderePersonengruppe:
           type: string
-          description: This field contains the special group of people to which the insured person belongs (§ 264 SGB V). The corresponding values can be found in the key table S_KBV_PERSONENGRUPPE.
+          description: >
+            This field contains the special group of people to which the insured person belongs (§ 264 SGB V).
+            The corresponding values can be found in the key table S_KBV_PERSONENGRUPPE.
         dmpKz:
           type: string
-          description: This field contains the disease management program (DMP) in which the insured person is enrolled (Section 284, Paragraph 1, Sentence 1, No. 14 SGB V). The intended values can be found in the key table S_KBV_DMP.
+          description: >
+            This field contains the disease management program (DMP) in which the insured person is enrolled (Section 284, Paragraph 1, Sentence 1, No. 14 SGB V).
+            The intended values can be found in the key table S_KBV_DMP.
         versicherungsschutz-ende:
           type: string
-          description: In this field, the date of the end of insurance coverage can be entered if the date is stored on the insurance card and has been read.
+          description: >
+            In this field, the date of the end of insurance coverage can be entered if the date is stored on the insurance card and has been read.
 
     medication:
       type: object
       required:
         - type
         - medicationItem
-      description: Element containing a medication item, whereas the medication element may either be medicationPZN, medicationIngredient, medicationCompounding,
-        medicationFreeText. See section A.3.2 of specification.
+      description: >
+        Element containing a medication item, whereas the medication element may either be medicationPZN, medicationIngredient, medicationCompounding, medicationFreeText.
+        See section A.3.2 of specification.
       properties:
         type:
           type: string
@@ -797,31 +828,43 @@ components:
           const: medicationCompounding
         kategorie:
           type: string
-          description: Category of prescription. Is "00" for regular prescriptions.
+          description: >
+            Category of prescription.
+            Is "00" for regular prescriptions.
         impfstoff:
           type: boolean
-          description: Indicates whether the prescription is a vaccine or not. Default is "false".
+          default: false
+          description: >
+            Indicates whether the prescription is a vaccine or not.
+            Default is "false".
         herstellungsanweisung:
           type: string
-          description: Contains instructions for the preparation of the recipe.
+          description: >
+            Contains instructions for the preparation of the recipe.
         verpackung:
           type: string
-          description: Describes the packaging of the medication.
+          description: >
+            Describes the packaging of the medication.
         rezepturname:
           type: string
-          description: Contains the name of the recipe.
+          description: >
+            Contains the name of the recipe.
         darreichungsform:
           type: string
-          description: Contains the description how to apply the overall prescription.
+          description: >
+            Contains the description how to apply the overall prescription.
         gesamtmenge:
           type: string
-          description: Contains the total quantity of the prescription.
+          description: >
+            Contains the total quantity of the prescription.
         einheit:
           type: string
-          description: Unit corresponding to the total quantity of the prescription.
+          description: >
+            Unit corresponding to the total quantity of the prescription.
         listeBestandteilRezepturverordnung:
           type: array
-          description: List of ingredients
+          description: >
+            List of ingredients
           items:
             $ref: '#/components/schemas/bestandteilWirkstoffverordnung'
 
@@ -833,23 +876,32 @@ components:
         - impfstoff
         - freitextverordnung
         - darreichungsform
-      description: Prescription of a  medication, which is described by a free text. See section A.3.2.4 of specification.
+      description: >
+        Prescription of a  medication, which is described by a free text.
+        See section A.3.2.4 of specification.
       properties:
         type:
           type: string
           const: medicationFreeText
         kategorie:
           type: string
-          description: Category of prescription. Is "00" for regular prescriptions.
+          description: >
+            Category of prescription.
+            Is "00" for regular prescriptions.
         impfstoff:
           type: boolean
-          description: Indicates whether the prescription is a vaccine or not. Default is "false".
+          default: false
+          description: >
+            Indicates whether the prescription is a vaccine or not.
+            Default is "false".
         freitextverordnung:
           type: string
-          description: Contains a free text, which describes the prescribed medication.
+          description: >
+            Contains a free text, which describes the prescribed medication.
         darreichungsform:
           type: string
-          description: Contains the description how to apply the prescribed medication.
+          description: >
+            Contains the description how to apply the prescribed medication.
 
 
     medicationPZN:
@@ -861,38 +913,52 @@ components:
         - pzn
         - handelsname
         - darreichungsform
-      description: Prescription of standardised medication, which is identified by PZN. See section A.3.2.1 of specification.
+      description: >
+        Prescription of standardised medication, which is identified by PZN.
+        See section A.3.2.1 of specification.
       properties:
         type:
           type: string
           const: medicationPZN
         kategorie:
           type: string
-          description: Category of prescription. Is "00" for regular prescriptions.
+          description: >
+            Category of prescription.
+            Is "00" for regular prescriptions.
         impfstoff:
           type: boolean
-          description: Indicates whether the prescription is a vaccine or not. Default is "false".
+          default: false
+          description: >
+            Indicates whether the prescription is a vaccine or not.
+            Default is "false".
         normgroesse:
           type: string
-          description: Contains the norm size of the prescription.
+          description: >
+            Contains the norm size of the prescription.
         pzn:
           type: string
-          description: Is the identifier of the standardised prescription (Pharmazentralnummer, PZN).
+          description: >
+            Is the identifier of the standardised prescription (Pharmazentralnummer, PZN).
         handelsname:
           type: string
-          description: Is the name of the standardised prescription.
+          description: >
+            Is the name of the standardised prescription.
         darreichungsform:
           type: string
-          description: Contains the encoded value how to apply the prescription.
+          description: >
+            Contains the encoded value how to apply the prescription.
         packungsgroesseNachMenge:
           type: string
-          description: Size of the package.
+          description: >
+            Size of the package.
         einheit:
           type: string
-          description: Unit corresponding to the package size.
+          description: >
+            Unit corresponding to the package size.
         packungsgroesseNachNBezeichnung:
           type: string
-          description: Normal size of the package (e.g. N1).
+          description: >
+            Normal size of the package (e.g. N1).
 
     medicationIngredient:
       type: object
@@ -902,35 +968,47 @@ components:
         - impfstoff
         - darreichungsform
         - listeBestandteilWirkstoffverordnung
-      description: Prescription of medication, which is defined by its ingredients. See section A.3.2.2 of specification.
+      description: >
+        Prescription of medication, which is defined by its ingredients.
+        See section A.3.2.2 of specification.
       properties:
         type:
           type: string
           const: medicationIngredient
         kategorie:
           type: string
-          description: Category of prescription. Is "00" for regular prescriptions.
+          description: >
+            Category of prescription.
+            Is "00" for regular prescriptions.
         impfstoff:
           type: boolean
-          description: Indicates whether the prescription is a vaccine or not. Default is "false".
+          description: >
+            Indicates whether the prescription is a vaccine or not.
+            Default is "false".
         normgroesse:
           type: string
-          description: Contains the norm size of the prescription.
+          description: >
+            Contains the norm size of the prescription.
         darreichungsform:
           type: string
-          description: Contains the description how to apply the prescription.
+          description: >
+            Contains the description how to apply the prescription.
         packungsgroesseNachMenge:
           type: string
-          description: Size of the package.
+          description: >
+            Size of the package.
         einheit:
           type: string
-          description: Unit corresponding to the package size.
+          description: >
+            Unit corresponding to the package size.
         packungsgroesseNachNBezeichnung:
           type: string
-          description: Normal size of the package (e.g. N1).
+          description: >
+            Normal size of the package (e.g. N1).
         listeBestandteilWirkstoffverordnung:
           type: array
-          description: List of ingredients
+          description: >
+            List of ingredients
           items:
             $ref: '#/components/schemas/bestandteilWirkstoffverordnung'
 
@@ -948,7 +1026,9 @@ components:
 
     organization:
       type: object
-      description: Element containing the data of an organization. See section A.3.3 of specification.
+      description: >
+        Element containing the data of an organization.
+        See section A.3.3 of specification.
       required:
         - type
       properties:
@@ -957,38 +1037,52 @@ components:
           const: organization
         bsnr:
           type: string
-          description: This field contains a business location number (Betriebsstättennummer, BSNR) to identify a facility. In the statutory health insurance sector, the field is a prerequisite for billing between service providers and cost bearers. The BSNR must be specified for hospitals. In the context of hospital treatment, this field can show the place of issue.
+          description: >
+            This field contains a business location number (Betriebsstättennummer, BSNR) to identify a facility.
+            In the statutory health insurance sector, the field is a prerequisite for billing between service providers and cost bearers.
+            The BSNR must be specified for hospitals. In the context of hospital treatment, this field can show the place of issue.
         ikNummer:
           type: string
-          description: This field contains an institutional code (IK), which is assigned by the ARGE IK and is a unique identifier for billing with the social insurance providers.
+          description: >
+            This field contains an institutional code (IK), which is assigned by the ARGE IK and is a unique identifier for billing with the social insurance providers.
         kzvAn:
           type: string
-          description: This field contains a billing number from the Association of Statutory Health Insurance Dentists (KZV).
+          description: >
+            This field contains a billing number from the Association of Statutory Health Insurance Dentists (KZV).
         standortnummer:
           type: string
-          description: This field contains a hospital location number.
+          description: >
+            This field contains a hospital location number.
         telematikId:
           type: string
-          description: This field contains a telematics ID of the facility.
+          description: >
+            This field contains a telematics ID of the facility.
         name:
           type: string
-          description: This field contains the name of the facility (practice / hospital).
+          description: >
+            This field contains the name of the facility (practice / hospital).
         address:
           $ref: '#/components/schemas/streetAddress'
-          description: This field contains the street address of the facility.
+          description: >
+            This field contains the street address of the facility.
         telefon:
           type: string
           description: This field contains the phone number of the facility.
         fax:
           type: string
-          description: This field contains the fax number of the facility.
+          description: >
+            This field contains the fax number of the facility.
         eMail:
           type: string
-          description: This field contains the email address of the institution. This must be provided when redeeming a drug prescription across borders.
+          description: >
+            This field contains the email address of the institution.
+            This must be provided when redeeming a drug prescription across borders.
 
     patient:
       type: object
-      description: Element containing the data of a patient. See section A.3.4 of specification.
+      description: >
+        Element containing the data of a patient.
+        See section A.3.4 of specification.
       required:
         - type
         - person
@@ -999,29 +1093,37 @@ components:
           const: patient
         gkvVersichertenId:
           type: string
-          description: This field contains the insured person ID of the statutory health insurance (unchangeable part of the uniform health insurance number of the GKV according to Section 290 SGB V).
+          description: >
+            This field contains the insured person ID of the statutory health insurance (unchangeable part of the uniform health insurance number of the GKV according to Section 290 SGB V).
         pkvVersichertenId:
           type: string
-          description: This field contains the insured ID of the private health insurance (unchangeable part of the uniform health insurance number according to Section 290 SGB V).
+          description: >
+            This field contains the insured ID of the private health insurance (unchangeable part of the uniform health insurance number according to Section 290 SGB V).
         kvkVersichertennummer:
           type: string
-          description: This field contains the insurance number of the health insurance card (Krankenversichertenkarte).
+          description: >
+            This field contains the insurance number of the health insurance card (Krankenversichertenkarte).
         person:
           $ref: '#/components/schemas/person'
-          description: This field contains information about the respective person.
+          description: >
+            This field contains information about the respective person.
         geburtsdatum:
           type: string
-          decription: This field contains the date of birth of the patient.
+          decription: >
+            This field contains the date of birth of the patient.
         adresse:
           type: object
-          description: This field contains either the street address (streetAddress) or the postal box address (pobAddress) of the patient.
+          description: >
+            This field contains either the street address (streetAddress) or the postal box address (pobAddress) of the patient.
           oneOf:
             - $ref: '#/components/schemas/streetAddress'
             - $ref: '#/components/schemas/pobAddress'
 
     pobAddress:
       type: object
-      description: Element containing the mailbox address of the respective person. See section A.3.5 of specification.
+      description: >
+        Element containing the mailbox address of the respective person.
+        See section A.3.5 of specification.
       required:
         - type
         - plz
@@ -1033,20 +1135,26 @@ components:
           const: pobAddress
         land:
           type: string
-          description: This field contains the country code according to "Gemeinsames Rundschreiben DEÜV" (Anlage 8).
+          description: >
+            This field contains the country code according to "Gemeinsames Rundschreiben DEÜV" (Anlage 8).
         plz:
           type: string
-          description: The postal code can be entered in this field.
+          description: >
+            The postal code can be entered in this field.
         ort:
           type: string
-          description: The place name can be entered in this field. Multiple name components are separated by spaces/special characters.
+          description: >
+            The place name can be entered in this field. Multiple name components are separated by spaces/special characters.
         postfach:
           type: string
-          description: The mailbox can be specified in this field.
+          description: >
+            The mailbox can be specified in this field.
 
     person:
       type: object
-      description: Element containing information about a person (e.g. patient or practitioner). See section A.3.6 of specification.
+      description: >
+        Element containing information about a person (e.g. patient or practitioner).
+        See section A.3.6 of specification.
       required:
         - type
         - vorname
@@ -1057,23 +1165,30 @@ components:
           const: person
         vorname:
           type: string
-          description: This field contains the person's first name; multiple first names are separated by a space or hyphen.
+          description: >
+            This field contains the person's first name; multiple first names are separated by a space or hyphen.
         name:
           type: string
-          description: This field contains the person's last name.
+          description: >
+            This field contains the person's last name.
         titel:
           type: string
-          description: This field contains the person’s academic degree, e.g. "Dr. med.", "Dr.rer.nat.".
+          description: >
+            This field contains the person’s academic degree, e.g. "Dr. med.", "Dr.rer.nat.".
         namenszusatz:
           type: string
-          description: This field contains the suffix as part of the person’s last name, e.g. "Freiherr", "Gräfin"; multiple suffixes are separated by a blank.
+          description: >
+            This field contains the suffix as part of the person’s last name, e.g. "Freiherr", "Gräfin"; multiple suffixes are separated by a blank.
         vorsatzwort:
           type: string
-          description: This field contains the prefix as part of the person's last name, e.g. "von", "von der", "zu"; multiple prefixes are separated by a space.
+          description: >
+            This field contains the prefix as part of the person's last name, e.g. "von", "von der", "zu"; multiple prefixes are separated by a space.
 
     practiceSupply:
       type: object
-      description: The practiceSupply element is used to prescribe practice supplies. See section A.3.7 of specification.
+      description: >
+        The practiceSupply element is used to prescribe practice supplies.
+        See section A.3.7 of specification.
       required:
         - type
         - datum
@@ -1087,11 +1202,13 @@ components:
           const: practiceSupply
         datum:
           type: string
-          description: This field contains the date of issue of the prescription for practice supply.
+          description: >
+            This field contains the date of issue of the prescription for practice supply.
         anzahl:
           type: integer
           minimum: 1
-          description: This field contains the number of packs prescribed.
+          description: >
+            This field contains the number of packs prescribed.
         kostentraegertyp:
           type: string
           description: >
@@ -1100,14 +1217,20 @@ components:
             "GKV" (statutory health insurance), "PKV" (private health insurance), "BG" (professional association), "SEL" (self-payer), "SKT" (other payers), "UK" (accident insurance funds).
         ikNummer:
           type: string
-          description: This field contains the institution code (IK) according to the electronic health card (eGK). See the transfer rule according to "Technical Annex to Annex 4a BMV-Ä" (Section 2.2).
+          description: >
+            This field contains the institution code (IK) according to the electronic health card (eGK).
+            See the transfer rule according to "Technical Annex to Annex 4a BMV-Ä" (Section 2.2).
         name:
           type: string
-          description: This field contains the name of the cost carrier. The correct name is derived from the defined rules according to "Technical Annex to Annex 4a BMV-Ä" (Section 2.3).
+          description: >
+            This field contains the name of the cost carrier.
+            The correct name is derived from the defined rules according to "Technical Annex to Annex 4a BMV-Ä" (Section 2.3).
 
     practitioner:
       type: object
-      description: The practitioner element contains information about the issuer of a prescription (e.g. medical doctor). See section A.3.8 of specification.
+      description: >
+        The practitioner element contains information about the issuer of a prescription (e.g. medical doctor).
+        See section A.3.8 of specification.
       required:
         - type
         - typ
@@ -1118,32 +1241,42 @@ components:
           const: practitioner
         typ:
           type: string
-          description: This field contains a type to identify the prescribing person, e.g. doctor, doctor in training. The intended values can be found in the key table KBV_CS_FOR_Qualification_Type.
+          description: >
+            This field contains a type to identify the prescribing person, e.g. doctor, doctor in training.
+            The intended values can be found in the key table KBV_CS_FOR_Qualification_Type.
         berufsbezeichnung:
           type: string
-          description: This field contains free text information about the job title, e.g. specialist in general medicine, general practitioner, midwife.
+          description: >
+            This field contains free text information about the job title, e.g. specialist in general medicine, general practitioner, midwife.
         asvFgn:
           type: string
-          description: This field contains the ASV specialist group number (ASV-FGN, Fachgruppen-Nummer für Ambulante Spezialärztliche Versorgung) according to the Agreement on Outpatient Specialist Medical Care (ASV) (ASV-AV) Section 9 Paragraph 5. According to the ASV-AV, this must be stated by hospital doctors instead of the doctor number.
+          description: >
+            This field contains the ASV specialist group number (ASV-FGN, Fachgruppen-Nummer für Ambulante Spezialärztliche Versorgung) according to the Agreement on Outpatient Specialist Medical Care (ASV) (ASV-AV) Section 9 Paragraph 5.
+            According to the ASV-AV, this must be stated by hospital doctors instead of the doctor number.
         arztnummer:
           type: string
-          description: This field contains a doctor number (lifetime doctor number, LANR, Lebenslange Arztnummer) as an identifier for the practitioner.
+          description: >
+            This field contains a doctor number (lifetime doctor number, LANR, Lebenslange Arztnummer) as an identifier for the practitioner.
         zahnarztnummer:
           type: string
-          description: This field contains a dentist number (ZANR) as an identifier for the person.
+          description: >
+            This field contains a dentist number (ZANR) as an identifier for the person.
         telematikId:
           type: string
-          description: This field contains a telematics ID as an identifier for the person.
+          description: >
+            This field contains a telematics ID as an identifier for the person.
         person:
           $ref: '#/components/schemas/person'
           description: See section A.3.6.
         verantwortlichePerson:
           $ref: '#/components/schemas/practitioner'
-          description: This element is optional and can be used when the prescribing physician is not the responsible physician.
+          description: >
+            This element is optional and can be used when the prescribing physician is not the responsible physician.
 
     practitionerRole:
       type: object
-      description: The optional practitionerRole element can be used to indicate whether the prescribing physician holds another role in the area of outpatient specialty care (ASC). See section A.3.9 of specification.
+      description: >
+        The optional practitionerRole element can be used to indicate whether the prescribing physician holds another role in the area of outpatient specialty care (ASC). See section A.3.9 of specification.
       required:
         - type
         - asvTn
@@ -1162,7 +1295,8 @@ components:
 
     prescription:
       type: object
-      description: The prescription element represents the technically and medically relevant components of a drug prescription.
+      description: >
+        The prescription element represents the technically and medically relevant components of a drug prescription.
       required:
         - type
       properties:
@@ -1171,13 +1305,16 @@ components:
           const: prescription
         ausstellungsdatum:
           type: string
-          description: This field contains the date of issue of the regulation.
+          description: >
+            This field contains the date of issue of the regulation.
         noctu:
           type: boolean
-          description: This field contains the indication whether this prescription should also be delivered during general store closing times, combined with the collection of the Noctu fee (emergency service fee) at the expense of the health insurance company in accordance with the Drug Price Ordinance.
+          description: >
+            This field contains the indication whether this prescription should also be delivered during general store closing times, combined with the collection of the Noctu fee (emergency service fee) at the expense of the health insurance company in accordance with the Drug Price Ordinance.
         bvg:
           type: boolean
-          description: This field indicates whether this regulation is issued for persons entitled to benefits under the Federal Compensation Act (Bundesentschädigungsgesetz, BEG) or for persons entitled to benefits under the Federal Social Security Act (Bundesversorgungsgesetz, BVG).
+          description: >
+            This field indicates whether this regulation is issued for persons entitled to benefits under the Federal Compensation Act (Bundesentschädigungsgesetz, BEG) or for persons entitled to benefits under the Federal Social Security Act (Bundesversorgungsgesetz, BVG).
         zuzahlungsstatus:
           type: string
           description: >
@@ -1186,20 +1323,26 @@ components:
             0 (not exempt from co-payment / subject to fees), 1 (exempt from co-payment / free of charge), 2 (artificial insemination (regulation according to Section 27a SGB V)).
         autidem:
           type: boolean
-          description: This field indicates whether the medicine is interchangeable or not. If an exchange is allowed in the pharmacy, this field is set to true.
+          description: >
+            This field indicates whether the medicine is interchangeable or not.
+            If an exchange is allowed in the pharmacy, this field is set to true.
         anzahl:
           type: integer
           minimum: 1
-          description: This field contains the number of packs prescribed.
+          description: >
+            This field contains the number of packs prescribed.
         dosierung:
           type: boolean
-          description: This field contains a dosage identifier and describes whether a dosage instruction or a medication plan is being transmitted.
+          description: >
+            This field contains a dosage identifier and describes whether a dosage instruction or a medication plan is being transmitted.
         dosieranweisung:
           type: string
-          description: This field contains dosing instructions.
+          description: >
+            This field contains dosing instructions.
         gebrauchsanweisung:
           type: string
-          description: This field contains the instructions for use of the recipe.
+          description: >
+            This field contains the instructions for use of the recipe.
         unfallkennzeichen:
           type: string
           description: >
@@ -1209,16 +1352,20 @@ components:
             1 (accident), 2 (work accident (professional association/accident insurance fund)), 4 (occupational disease (professional association/accident insurance fund)).
         unfalltag:
           type: string
-          description: Day of accident.
+          description: >
+            Day of accident.
         unfallbetrieb:
           type: string
-          description: Accident organisation.
+          description: >
+            Accident organisation.
         mehrfachverordnung:
           type: boolean
-          description: This field indicates whether the prescription is a multiple prescription (Mehrfachverordnung, MFV).
+          description: >
+            This field indicates whether the prescription is a multiple prescription (Mehrfachverordnung, MFV).
         mfvId:
           type: string
-          description: This field contains a unique ID which is identical across all partial prescriptions of a multiple prescription.
+          description: >
+            This field contains a unique ID which is identical across all partial prescriptions of a multiple prescription.
         mfvZaehler:
           type: integer
           minimum: 1
@@ -1233,7 +1380,8 @@ components:
             Example: "4" in "2 of 4".
         mfvBeginn:
           type: string
-          description: This field contains the date from which the partial prescription of the multiple prescription can be redeemed.
+          description: >
+            This field contains the date from which the partial prescription of the multiple prescription can be redeemed.
         mfvEnde:
           type: string
           description: >
@@ -1242,7 +1390,8 @@ components:
 
     prescriptionBundle:
       type: object
-      description: The prescriptionBundle element is the bundling element used for electronic prescriptions, which is derived from the Bundle resource and contains all other data elements.
+      description: >
+        The prescriptionBundle element is the bundling element used for electronic prescriptions, which is derived from the Bundle resource and contains all other data elements.
       required:
         - type
         - prescriptionId
@@ -1259,31 +1408,45 @@ components:
           const: prescriptionBundle
         prescriptionId:
           $ref: '#/components/schemas/prescriptionID'
-          description: This field contains the unique identifier of the electronic prescription over a period of 11 years according to GEM_ERP_PR_PrescriptionId and gemSpec_DM_eRp (section 2.2).
+          description: >
+            This field contains the unique identifier of the electronic prescription over a period of 11 years according to GEM_ERP_PR_PrescriptionId and gemSpec_DM_eRp (section 2.2).
         erstellungszeitpunkt:
           type: string
-          description: Indicates the time at which the e-prescription bundle was created.
+          description: >
+            Indicates the time at which the e-prescription bundle was created.
         status:
           type: string
-          description: Contains the status code of the electronic prescription. The intended values can be found in the key table S_KBV_STATUSKENNZEICHEN.
+          description: >
+            Contains the status code of the electronic prescription.
+            The intended values can be found in the key table S_KBV_STATUSKENNZEICHEN.
         pkvTarif:
           type: string
-          description: In the case of a private prescription, contains information on the PKV tariff according to KBV_EX_FOR_PKV_Tariff.
+          description: >
+            In the case of a private prescription, contains information on the PKV tariff according to KBV_EX_FOR_PKV_Tariff.
         patient:
           $ref: '#/components/schemas/patient'
-          description: Contains the patient information. Details are specified in section A.3.4.
+          description: >
+            Contains the patient information.
+            Details are specified in section A.3.4.
         arzt:
           $ref: '#/components/schemas/practitioner'
-          description: Contains information about the issuer of the electronic prescription (e.g. doctor). Details are specified in section A.3.8.
+          description: >
+            Contains information about the issuer of the electronic prescription (e.g. doctor).
+            Details are specified in section A.3.8.
         pruefnummer:
           type: string
-          description: Contains the verification number of the practice management system with which the electronic prescription was created.
+          description: >
+            Contains the verification number of the practice management system with which the electronic prescription was created.
         organisation:
           $ref: '#/components/schemas/organization'
-          description: Contains information on the issuing organization. Details are specified in section A.3.3.
+          description: >
+            Contains information on the issuing organization.
+            Details are specified in section A.3.3.
         verordnung:
           type: object
-          description: Contains further information on the electronic prescription. The prescription element is specified in section A.3.10 and the practiceSupply element is specified in section A.3.7.
+          description: >
+            Contains further information on the electronic prescription.
+            The prescription element is specified in section A.3.10 and the practiceSupply element is specified in section A.3.7.
           oneOf:
             - $ref: '#/components/schemas/prescription'
             - $ref: '#/components/schemas/practiceSupply'
@@ -1294,22 +1457,29 @@ components:
             Details of the practitionerRole element are specified in section A.3.9.
         arzneimittel:
           $ref: '#/components/schemas/medication'
-          description: This element contains the information about the prescribed medication. Details about the medication element are specified in section A.3.2.
+          description: >
+            This element contains the information about the prescribed medication.
+            Details about the medication element are specified in section A.3.2.
 
     prescriptionID:
       type: string
-      description: This field contains the unique identifier of the electronic prescription over a period of 11 years according to GEM_ERP_PR_PrescriptionId and gemSpec_DM_eRp (section 2.2). It uniquely identifies an electronic prescription.
+      description: >
+        This field contains the unique identifier of the electronic prescription over a period of 11 years according to GEM_ERP_PR_PrescriptionId and gemSpec_DM_eRp (section 2.2).
+        It uniquely identifies an electronic prescription.
 
     prescriptionIndexList:
       type: array
-      description: The prescriptionIndexList element is contained in the selectedPrescriptionList message and specifies which of the available electronic prescriptions should be redeemed.
+      description: >
+        The prescriptionIndexList element is contained in the selectedPrescriptionList message and specifies which of the available electronic prescriptions should be redeemed.
       minItems: 1
       items:
         $ref: '#/components/schemas/prescriptionID'
 
     streetAddress:
       type: object
-      description: Element containing the street address of the respective person. See section A.3.13 of specification.
+      description: >
+        Element containing the street address of the respective person.
+        See section A.3.13 of specification.
       required:
         - type
         - plz
@@ -1322,22 +1492,29 @@ components:
           const: streetAddress
         land:
           type: string
-          description: This field contains the country code according to "Gemeinsames Rundschreiben DEÜV" (Anlage 8).
+          description: >
+            This field contains the country code according to "Gemeinsames Rundschreiben DEÜV" (Anlage 8).
         plz:
           type: string
-          description: The postal code can be entered in this field.
+          description: >
+            The postal code can be entered in this field.
         ort:
           type: string
-          description: The place name can be entered in this field. Multiple name components are separated by spaces/special characters.
+          description: >
+            The place name can be entered in this field.
+            Multiple name components are separated by spaces/special characters.
         strasse:
           type: string
-          description: The street name can be specified in this field.
+          description: >
+            The street name can be specified in this field.
         hausnummer:
           type: string
-          description: The house number can be entered in this field.
+          description: >
+            The house number can be entered in this field.
         zusatz:
           type: string
-          description: In this field you can enter the additional address, e.g. rear building.
+          description: >
+            In this field you can enter the additional address, e.g. rear building.
 
 
     requestPrescriptionList:
@@ -1350,7 +1527,8 @@ components:
           type: string
           const: requestPrescriptionList
         ICCSNs:
-          description: The ICCSNs for which to request prescriptions, or all ICCNs known to the server if the array is empty or absent.
+          description: >
+            The ICCSNs for which to request prescriptions, or all ICCNs known to the server if the array is empty or absent.
           type: array
           minItems: 0
           items:
@@ -1358,7 +1536,9 @@ components:
 
     selectedPrescriptionList:
       type: object
-      description: The selectedPrescriptionList message specifies exactly which electronic prescriptions should be dispensed and how the prescribed medication should be delivered. The selectedPrescriptionList message is based on the structures from gemSpec_DM_eRp (section 2.6.3).
+      description: >
+        The selectedPrescriptionList message specifies exactly which electronic prescriptions should be dispensed and how the prescribed medication should be delivered.
+        The selectedPrescriptionList message is based on the structures from gemSpec_DM_eRp (section 2.6.3).
       required:
         - type
         - ICCSN
@@ -1371,12 +1551,18 @@ components:
           $ref: '#/components/schemas/ICCSN'
         prescriptionIndexList:
           $ref: '#/components/schemas/prescriptionIndexList'
-          description: This element specifies which of the available electronic prescriptions are to be redeemed. Details are specified in section A.3.12.
+          description: >
+            This element specifies which of the available electronic prescriptions are to be redeemed.
+            Details are specified in section A.3.12.
         version:
           type: string
-          description: Specifies the version of the JSON. Currently always 2. Can be changed later in the life cycle.
+          description: >
+            Specifies the version of the JSON.
+            Currently always 2.
+            Can be changed later in the life cycle.
         supplyOptionsType:
-          description: Allows the user to choose between different delivery options,
+          description: >
+            Allows the user to choose between different delivery options,
             such as onPremise, shipment and delivery.
           $ref: '#/components/schemas/supplyOptionsType'
         name:
@@ -1413,27 +1599,37 @@ components:
           const: selectedPrescriptionListResponse
         version:
           type: string
-          description: Specifies the version of the JSON. Currently always 1. Can be changed later in the life cycle.
+          description: >
+            Specifies the version of the JSON. Currently always 1. Can be changed later in the life cycle.
         supplyOptionsType:
-          description: Allows the user to choose between different delivery options,
+          description: >
+            Allows the user to choose between different delivery options,
             such as onPremise, shipment and delivery.
           $ref: '#/components/schemas/supplyOptionsType'
         infoText:
           type: string
           maxLength: 500
-          descriptíon: Additional free text from the pharmacy to the insured person.
+          descriptíon: >
+            Additional free text from the pharmacy to the insured person.
         url:
           type: string
           maxLength: 500
-          descriptíon: Embedding an external URL exclusively for redeeming e-prescriptions in an external ordering platform.
+          descriptíon: >
+            Embedding an external URL exclusively for redeeming e-prescriptions in an external ordering platform.
         pickUpCodeHR:
           type: string
           maxLength: 8
-          description: Human-readable pickup code only for supplyOptionsType "onPremise". If set, the content of the "pickUpCodeHR" is displayed to the user in a visually highlighted manner.
+          description: >
+            Human-readable pickup code only for supplyOptionsType "onPremise".
+            If set, the content of the "pickUpCodeHR" is displayed to the user in a visually highlighted manner.
         pickUpCodeDMC:
           type: string
           maxLength: 128
-          description: Machine-readable pickup code (data matrix code) that is only used with supplyOptionsType "onPremise". If set, the user can display the content as a data matrix code. The content is converted into a DMC by the app in accordance with ISO/IEC 16022:2006. If the interpretation is missing, the code is displayed as free text.
+          description: >
+            Machine-readable pickup code (data matrix code) that is only used with supplyOptionsType "onPremise".
+            If set, the user can display the content as a data matrix code.
+            The content is converted into a DMC by the app in accordance with ISO/IEC 16022:2006.
+            If the interpretation is missing, the code is displayed as free text.
 
     supplyOptionsType:
       type: string
@@ -1444,4 +1640,5 @@ components:
 
     webSocketId:
       type: string
-      description: Identifier for the established web socket connection
+      description: >
+        Identifier for the established web socket connection
