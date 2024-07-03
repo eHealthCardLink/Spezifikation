@@ -153,7 +153,7 @@ Die **selectedPrescriptionList**-Nachricht ist an die Strukturen aus
 | Element | Datentyp | Beschreibung | 
 | --- | --- |  --- |
 | `ICCSN` | string | Die ICCSN identifiziert die eGK für die elektronische Verordnungen eingelöst werden sollen. | 
-| `PrescriptionIndexList` | prescriptionIndexList | Dieses Element spezifiziert, welche der verfügbaren elektronischen Verordnungen eingelöst werden sollen. Details sind in Abschnitt A.3.12 spezifiziert. |
+| `prescriptionIndexList` | prescriptionIndexList | Dieses Element spezifiziert, welche der verfügbaren elektronischen Verordnungen eingelöst werden sollen. Details sind in Abschnitt A.3.12 spezifiziert. |
 | `version` | string | Gibt die Version des JSON an. Aktuell immer 2. Kann im weiteren Lebenszyklus verändert werden. | 
 | `supplyOptionsType` | string | Mit diesem Element kann die gewünschte Bereitstellungsart der verordneten Medikamente spezifiziert werden. Gemäß [gemSpec_DM_eRp](https://fachportal.gematik.de/fachportal-import/files/gemSpec_DM_eRp_V1.9.0.pdf) sind die Werte "onPremise", "shipment", "delivery" vorgesehen. |
 | `name` | string | Name des Versicherten (optional).  |
@@ -174,7 +174,7 @@ Die **selectedPrescriptionListResponse**-Nachricht dient der Bestätigung des Er
 | --- | --- |  --- |
 | `version` | string | Gibt die Version des JSON an. Aktuell immer 1. Kann im weiteren Lebenszyklus verändert werden. | 
 | `supplyOptionsType` | string | Mit diesem Element kann die gewünschte Bereitstellungsart der verordneten Medikamente spezifiziert werden. Gemäß [gemSpec_DM_eRp](https://fachportal.gematik.de/fachportal-import/files/gemSpec_DM_eRp_V1.9.0.pdf) sind die Werte "onPremise", "shipment", "delivery" vorgesehen. |
-| `info_text` | string | Zusätzlicher Freitext der Apotheke an den Versicherten. | 
+| `infoText` | string | Zusätzlicher Freitext der Apotheke an den Versicherten. | 
 | `url` | string | Einbettung einer externen URL ausschließlich für das Einlösen von E-Rezepten in einer externen Bestellplattform. | 
 | `pickUpCodeHR` | string | Menschenlesbarer Abholcode, der nur bei supplyOptionsType "onPremise" gesetzt wird. Wenn gesetzt, wird dem Nutzer der Inhalt des "pickUpCodeHR" optisch hervorgehoben angezeigt. | 
 | `pickUpCodeDMC` | string | Maschinenlesbarer Abholcode (Data-Matrix-Code), der nur bei supplyOptionsType "onPremise" verwendet wird. Wenn gesetzt, kann sich der Nutzer den Inhalt als Data-Matrix-Code anzeigen lassen. Der Inhalt wird gemäß ISO/IEC 16022:2006 von der App in einen DMC gewandelt. Fehlt die Interpretation, so wird der Code als Freitext angezeigt. | 
@@ -209,15 +209,15 @@ Technische Details der **coverage**-Datenstruktur sind in der [YAML-Dokumentatio
 
 | Element | Datentyp | Beschreibung | 
 | --- | --- |  --- |
-| `Kostentraegertyp` | string | Dieses Feld gibt den Kostenträgertyp an. Gemäß [KBV_VS_FOR_Payor_type](https://simplifier.net/for/kbvvsforpayortype) und [KBV_CS_FOR_Payor_Type_KBV](https://simplifier.net/for/kbvcsforpayortypekbv) sind die folgenden  Werte vorgesehen: "GKV"	(gesetzliche Krankenversicherung), "PKV"	(private Krankenversicherung), "BG"	(Berufsgenossenschaft), "SEL"	(Selbstzahler), "SKT" (Sonstige Kostenträger), "UK" (Unfallkassen).| 
-| `IK-Krankenkasse` | string | Dieses Feld enthält das Institutionskennzeichen (IK) der zuständigen Krankenkasse z.B. laut elektronischer Ge-sundheitskarte (eGK). | 
-| `IK-Kostentraeger` | string | Dieses Feld enthält das Institutionskennzeichen (IK) des Kostenträgers und wird verwendet, wenn der Kostenträger nicht die zuständige Krankenkasse ist, bspw. eine Berufsgenossenschaft (BG) oder eine Unfallkasse (UK). | 
-| `Kostentraeger` | string | Name des Kostenträgers | 
-| `WOP` | string | Dieses Feld enthält das Wohnortkennzeichen entsprechend des Wohnortprinzips (WOP) für Honorarvereinbarungen (BMV-Ä Anlage 21). Die vorgesehenen Werte sind der Schlüsseltabelle [S_ITA_WOP](https://applications.kbv.de/S_ITA_WOP.xhtml) zu entnehmen.| 
-| `Versichertenstatus` | string | Dieses Element enthält Angaben zum Versichertenstatus. Gemäß [Leitfaden Basis DE (STU3)](https://ig.fhir.de/basisprofile-de/0.2.30/Versichertenstatus2.html) sind folgende Werte vorgesehen: "1"	(Mitglieder), "3"	(Familienangehörige), "5" (Rentner). | 
-| `BesonderePersonengruppe` | string | Dieses Feld enthält die besondere Personengruppe, zu der der Versicherte gehört ([§ 264 SGB V](https://www.gesetze-im-internet.de/sgb_5/__264.html)). Die entsprechenden Werte sind der Schlüsseltabelle [S_KBV_PERSONENGRUPPE](https://applications.kbv.de/S_KBV_PERSONENGRUPPE.xhtml) zu entnehmen. | 
-| `DMP-KZ` | string | Dieses Feld enthält das Disease-Management-Programm (DMP), in dem der Versicherte eingeschrieben ist ([§ 284 Abs. 1 Satz 1 Nr. 14 SGB V](https://www.gesetze-im-internet.de/sgb_5/__284.html)). Die vorgesehenen Werte sind der Schlüsseltabelle [S_KBV_DMP](https://applications.kbv.de/S_KBV_DMP_V1.06.xhtml) zu entnehmen. | 
-| `Versicherungsschutz-Ende` | date | In diesem Feld kann das Datum des Endes des Versicherungsschutzes angegeben werden, wenn die Datumsangabe auf der Versichertenkarte gespeichert ist und ausgelesen wurde. | 
+| `kostentraegertyp` | string | Dieses Feld gibt den Kostenträgertyp an. Gemäß [KBV_VS_FOR_Payor_type](https://simplifier.net/for/kbvvsforpayortype) und [KBV_CS_FOR_Payor_Type_KBV](https://simplifier.net/for/kbvcsforpayortypekbv) sind die folgenden  Werte vorgesehen: "GKV"	(gesetzliche Krankenversicherung), "PKV"	(private Krankenversicherung), "BG"	(Berufsgenossenschaft), "SEL"	(Selbstzahler), "SKT" (Sonstige Kostenträger), "UK" (Unfallkassen).| 
+| `ikKrankenkasse` | string | Dieses Feld enthält das Institutionskennzeichen (IK) der zuständigen Krankenkasse z.B. laut elektronischer Ge-sundheitskarte (eGK). | 
+| `ikKostentraeger` | string | Dieses Feld enthält das Institutionskennzeichen (IK) des Kostenträgers und wird verwendet, wenn der Kostenträger nicht die zuständige Krankenkasse ist, bspw. eine Berufsgenossenschaft (BG) oder eine Unfallkasse (UK). | 
+| `kostentraeger` | string | Name des Kostenträgers | 
+| `wop` | string | Dieses Feld enthält das Wohnortkennzeichen entsprechend des Wohnortprinzips (WOP) für Honorarvereinbarungen (BMV-Ä Anlage 21). Die vorgesehenen Werte sind der Schlüsseltabelle [S_ITA_WOP](https://applications.kbv.de/S_ITA_WOP.xhtml) zu entnehmen.| 
+| `versichertenstatus` | string | Dieses Element enthält Angaben zum Versichertenstatus. Gemäß [Leitfaden Basis DE (STU3)](https://ig.fhir.de/basisprofile-de/0.2.30/Versichertenstatus2.html) sind folgende Werte vorgesehen: "1"	(Mitglieder), "3"	(Familienangehörige), "5" (Rentner). | 
+| `besonderePersonengruppe` | string | Dieses Feld enthält die besondere Personengruppe, zu der der Versicherte gehört ([§ 264 SGB V](https://www.gesetze-im-internet.de/sgb_5/__264.html)). Die entsprechenden Werte sind der Schlüsseltabelle [S_KBV_PERSONENGRUPPE](https://applications.kbv.de/S_KBV_PERSONENGRUPPE.xhtml) zu entnehmen. | 
+| `dmpKz` | string | Dieses Feld enthält das Disease-Management-Programm (DMP), in dem der Versicherte eingeschrieben ist ([§ 284 Abs. 1 Satz 1 Nr. 14 SGB V](https://www.gesetze-im-internet.de/sgb_5/__284.html)). Die vorgesehenen Werte sind der Schlüsseltabelle [S_KBV_DMP](https://applications.kbv.de/S_KBV_DMP_V1.06.xhtml) zu entnehmen. | 
+| `versicherungsschutzEnde` | date | In diesem Feld kann das Datum des Endes des Versicherungsschutzes angegeben werden, wenn die Datumsangabe auf der Versichertenkarte gespeichert ist und ausgelesen wurde. | 
 
 ### A.3.2 - medication
 
@@ -238,15 +238,15 @@ In diesem Profil werden die Rezeptierdaten einer Verordnung aus den Preis- und P
 
 | Element | Datentyp | Beschreibung | 
 | --- | --- |  --- |
-| `Kategorie` | string | Dieses Feld enthält die Kennzeichnung der Verordnungskategorie, bspw. für ein BtM-Rezept. Der in Abschnitt 6.1 von [[KBV_ITA_VGEX_TECHNISCHE_ANLAGE_ERP]](https://update.kbv.de/ita-update/DigitaleMuster/ERP/KBV_ITA_VGEX_Technische_Anlage_ERP.pdf) definierte Standardwert ist "00".| 
-| `Impfstoff` | boolean | Dieses Feld enthält die Kennzeichnung, ob es sich bei der Verordnung um Impfstoff handelt. Der Standardwert ist "false" und gibt an, dass es sich nicht um einen Impfstoff handelt. "true" gibt an, dass es sich um einen Impfstoff handelt. |
-| `Normgroesse` | string | Enthält den Code der Normgröße der Arzneimittelverordnung. Die Schlüsseltabelle für die Anzeige der codierten Werte wird von der KBV gepflegt und ist unter [S_KBV_NORMGROESSE](https://applications.kbv.de/S_KBV_NORMGROESSE.xhtml) verfügbar. | 
-| `PZN` | string | Dieses Feld enthält die Pharmazentralnummer (PZN), die von der Informationsstelle für Arzneispezialitäten IFA, Frankfurt produktbezogen vergeben wird und für die gesetzlichen Krankenkassen gemäß Vereinbarungen nach [§ 131 SGB V](https://www.gesetze-im-internet.de/sgb_5/__131.html) mit der Pharmazeutischen Industrie und nach [§ 300 SGB V](https://www.gesetze-im-internet.de/sgb_5/__300.html) mit dem Deutschen Apothekerverband vereinbart ist. Die Angaben Handelsname, Darreichungsform, Packungsgröße usw. entstammen den Preis- und Produktangaben nach [§ 131 Abs. 4 SGB V](https://www.gesetze-im-internet.de/sgb_5/__131.html). | 
-| `Handelsname` | string | Dieses Feld enthält den Handelsnamen des verordneten Präparates, welcher aus der PZN abgeleitet wird. |
-| `Darreichungsform` | string | Dieses Feld enthält die Angabe der Darreichungsform entsprechend der Daten nach [§ 131 Abs. 4 SGB V](https://www.gesetze-im-internet.de/sgb_5/__131.html) und ist immer zu verwenden, wenn ein Fertigarzneimittel gemäß Preis- und Produktverzeichnis verordnet wird. Die Schlüsseltabelle für die Anzeige der codierten Werte wird von der KBV gepflegt und ist unter [S_KBV_DARREICHUNGSFORM](https://applications.kbv.de/S_KBV_DARREICHUNGSFORM.xhtml) verfügbar.| 
-| `PackungsgroesseNachMenge` | string | Dieses Feld enthält die Packungsgröße (z.B. 100) und tritt nur in Verbindung mit „Einheit“ auf (z.B. 100 Stück). | 
-| `Einheit` | string | Dieses Feld enthält die Einheit (z.B. Stück) und tritt nur in Verbindung mit „Packungsgröße nach abgeteilter Menge“ auf (z.B. 100 Stück). | 
-| `PackungsgroesseNachNBezeichnung` | string | Dieses Feld enthält die Normgröße der therapiegerechten Packung (z.B. N1). |
+| `kategorie` | string | Dieses Feld enthält die Kennzeichnung der Verordnungskategorie, bspw. für ein BtM-Rezept. Der in Abschnitt 6.1 von [[KBV_ITA_VGEX_TECHNISCHE_ANLAGE_ERP]](https://update.kbv.de/ita-update/DigitaleMuster/ERP/KBV_ITA_VGEX_Technische_Anlage_ERP.pdf) definierte Standardwert ist "00".| 
+| `impfstoff` | boolean | Dieses Feld enthält die Kennzeichnung, ob es sich bei der Verordnung um Impfstoff handelt. Der Standardwert ist "false" und gibt an, dass es sich nicht um einen Impfstoff handelt. "true" gibt an, dass es sich um einen Impfstoff handelt. |
+| `darreichungsform` | string | Dieses Feld enthält die Angabe der Darreichungsform entsprechend der Daten nach [§ 131 Abs. 4 SGB V](https://www.gesetze-im-internet.de/sgb_5/__131.html) und ist immer zu verwenden, wenn ein Fertigarzneimittel gemäß Preis- und Produktverzeichnis verordnet wird. Die Schlüsseltabelle für die Anzeige der codierten Werte wird von der KBV gepflegt und ist unter [S_KBV_DARREICHUNGSFORM](https://applications.kbv.de/S_KBV_DARREICHUNGSFORM.xhtml) verfügbar.| 
+| `normgroesse` | string | Enthält den Code der Normgröße der Arzneimittelverordnung. Die Schlüsseltabelle für die Anzeige der codierten Werte wird von der KBV gepflegt und ist unter [S_KBV_NORMGROESSE](https://applications.kbv.de/S_KBV_NORMGROESSE.xhtml) verfügbar. | 
+| `pzn` | string | Dieses Feld enthält die Pharmazentralnummer (PZN), die von der Informationsstelle für Arzneispezialitäten IFA, Frankfurt produktbezogen vergeben wird und für die gesetzlichen Krankenkassen gemäß Vereinbarungen nach [§ 131 SGB V](https://www.gesetze-im-internet.de/sgb_5/__131.html) mit der Pharmazeutischen Industrie und nach [§ 300 SGB V](https://www.gesetze-im-internet.de/sgb_5/__300.html) mit dem Deutschen Apothekerverband vereinbart ist. Die Angaben Handelsname, Darreichungsform, Packungsgröße usw. entstammen den Preis- und Produktangaben nach [§ 131 Abs. 4 SGB V](https://www.gesetze-im-internet.de/sgb_5/__131.html). | 
+| `handelsname` | string | Dieses Feld enthält den Handelsnamen des verordneten Präparates, welcher aus der PZN abgeleitet wird. |
+| `packungsgroesseNachMenge` | string | Dieses Feld enthält die Packungsgröße (z.B. 100) und tritt nur in Verbindung mit „Einheit“ auf (z.B. 100 Stück). | 
+| `einheit` | string | Dieses Feld enthält die Einheit (z.B. Stück) und tritt nur in Verbindung mit „Packungsgröße nach abgeteilter Menge“ auf (z.B. 100 Stück). | 
+| `packungsgroesseNachNBezeichnung` | string | Dieses Feld enthält die Normgröße der therapiegerechten Packung (z.B. N1). |
 
 #### A.3.2.2 - medicationIngredient ([KBV_PR_ERP_Medication_Ingredient](https://simplifier.net/erezept/kbvprerpmedicationingredient))
 
@@ -254,23 +254,23 @@ In diesem Profil werden die Rezeptierdaten einer **Wirkstoffverordnung** abgebil
 
 | Element | Datentyp | Beschreibung | 
 | --- | --- |  --- |
-| `Kategorie` | string | siehe oben | 
-| `Impfstoff` | boolean | siehe oben |
-| `Normgroesse` | string | siehe oben |
-| `Darreichungsform` | string | Dieses Feld enthält die Darreichungsform als Freitext und kann verwendet werden, wenn es sich nicht um ein Fertigarzneimittel handelt. | 
-| `PackungsgroesseNachMenge` | string | siehe oben |
-| `Einheit` | string | siehe oben | 
-| `PackungsgroesseNachNBezeichnung` | string | siehe oben |
-| `BestandteilWirkstoffverordnung` | array | Eine Wirkstoffverordnung kann eine oder mehrere Bestandteile umfassen. | 
+| `kategorie` | string | siehe oben | 
+| `impfstoff` | boolean | siehe oben |
+| `normgroesse` | string | siehe oben |
+| `darreichungsform` | string | Dieses Feld enthält die Darreichungsform als Freitext und kann verwendet werden, wenn es sich nicht um ein Fertigarzneimittel handelt. | 
+| `packungsgroesseNachMenge` | string | siehe oben |
+| `einheit` | string | siehe oben | 
+| `packungsgroesseNachNBezeichnung` | string | siehe oben |
+| `bestandteilWirkstoffverordnung` | array | Eine Wirkstoffverordnung kann eine oder mehrere Bestandteile umfassen. | 
 
 Das Element `BestandteilWirkstoffverordnung` enthält die folgenden Elemente:
 
 | Element | Datentyp | Beschreibung | 
 | --- | --- |  --- |
-| `Wirkstoffnummer` | string | Dieses Feld enthält eine ASK-Nummer (Arzneimittelstoffkatalog-Nummer). | 
-| `Wirkstoffname` | string | Dieses Feld enthält einen Wirkstoffnamen für ein Wirkstoff- bzw. sonstiges Fertigarzneimittel oder ein Produkt, welches nicht nach [§ 131 Abs. 4 SGB V](https://www.gesetze-im-internet.de/sgb_5/__131.html) gelistet ist. | 
-| `Wirkstaerke` | string | Dieses Feld enthält eine Angabe der Wirkstärke. Diese ermittelt sich durch die Angabe von Wirkstoffmenge / Bezugsgrößenmenge. Die zugehörige Einheit ist im Feld "Wirkstärkeneinheit" anzugeben. | 
-| `Wirkstaerkeneinheit` | string | Dieses Feld enthält die Einheit der Wirkstärke (bspw. mg/ml). | 
+| `wirkstoffnummer` | string | Dieses Feld enthält eine ASK-Nummer (Arzneimittelstoffkatalog-Nummer). | 
+| `wirkstoffname` | string | Dieses Feld enthält einen Wirkstoffnamen für ein Wirkstoff- bzw. sonstiges Fertigarzneimittel oder ein Produkt, welches nicht nach [§ 131 Abs. 4 SGB V](https://www.gesetze-im-internet.de/sgb_5/__131.html) gelistet ist. | 
+| `wirkstaerke` | string | Dieses Feld enthält eine Angabe der Wirkstärke. Diese ermittelt sich durch die Angabe von Wirkstoffmenge / Bezugsgrößenmenge. Die zugehörige Einheit ist im Feld "Wirkstärkeneinheit" anzugeben. | 
+| `wirkstaerkeneinheit` | string | Dieses Feld enthält die Einheit der Wirkstärke (bspw. mg/ml). | 
 
 #### A.3.2.3 - medicationCompounding ([KBV_PR_ERP_Medication_Compounding](https://simplifier.net/eRezept/KBVPRERPMedicationCompounding/~overview))
 
@@ -278,26 +278,26 @@ In diesem Profil werden die Rezeptierdaten einer **Rezepturverordnung** abgebild
 
 | Element | Datentyp | Beschreibung | 
 | --- | --- |  --- |
-| `Kategorie` | string | siehe oben | 
-| `Impfstoff` | boolean | siehe oben |
-| `Herstellungsanweisung` | string | Dieses Feld enthält Anweisungen bzgl. der Herstellung der Rezeptur (Subscriptio). | 
-| `Verpackung` | string | Dieses Feld enthält Angaben zur Verpackung der Rezeptur, z.B. Transportbehältnisse, und Applikationshilfen. | 
-| `Rezepturname` | string | Dieses Feld enthält eine Bezeichnung der Rezeptur (z.B. gemäß Deutschem Arzneibuch: Zinkpaste DAB). | 
-| `Darreichungsform` | string | Dieses Feld enthält die Darreichungsform der Rezeptverordnung als Freitext und kann verwendet werden, wenn es sich bei dem Bestandteil der Rezeptur nicht um ein Fertigarzneimittel handelt. |
-| `Gesamtmenge` | string | Dieses Feld enthält die Gesamtmenge der Rezeptur (ohne die Einheit). | 
-| `Einheit` | string | Dieses Feld enthält die Einheit der Gesamtmenge der Rezeptur. | 
-| `BestandteilRezepturVerordnung` | array | Eine Rezepturverordnung kann eine oder mehrere Bestandteile umfassen. | 
+| `kategorie` | string | siehe oben | 
+| `impfstoff` | boolean | siehe oben |
+| `herstellungsanweisung` | string | Dieses Feld enthält Anweisungen bzgl. der Herstellung der Rezeptur (Subscriptio). | 
+| `verpackung` | string | Dieses Feld enthält Angaben zur Verpackung der Rezeptur, z.B. Transportbehältnisse, und Applikationshilfen. | 
+| `rezepturname` | string | Dieses Feld enthält eine Bezeichnung der Rezeptur (z.B. gemäß Deutschem Arzneibuch: Zinkpaste DAB). | 
+| `darreichungsform` | string | Dieses Feld enthält die Darreichungsform der Rezeptverordnung als Freitext und kann verwendet werden, wenn es sich bei dem Bestandteil der Rezeptur nicht um ein Fertigarzneimittel handelt. |
+| `gesamtmenge` | string | Dieses Feld enthält die Gesamtmenge der Rezeptur (ohne die Einheit). | 
+| `einheit` | string | Dieses Feld enthält die Einheit der Gesamtmenge der Rezeptur. | 
+| `bestandteilRezepturVerordnung` | array | Eine Rezepturverordnung kann eine oder mehrere Bestandteile umfassen. | 
 
 Das Element `BestandteilRezepturverordnung` enthält die folgenden Elemente:
 
 | Element | Datentyp | Beschreibung | 
 | --- | --- |  --- |
-| `Darreichungsform` | string | Dieses Feld enthält die Darreichungsform des Bestandteils als Freitext und kann verwendet werden, wenn es sich bei dem Bestandteil der Rezeptur nicht um ein Fertigarzneimittel handelt. |
-| `Name` | string | Dieses Feld enthält die namentliche Bezeichnung des Bestandteils der Rezeptur. Wenn die PZN des Bestandteils vorhanden ist, dann ist der hinter der PZN liegende Name anzugeben. |
-| `PZN` | string | Dieses Feld enthält die namentliche Bezeichnung des Bestandteils der Rezeptur. Wenn die PZN des Bestandteils vorhanden ist, dann ist der hinter der PZN liegende Name anzugeben. | 
-| `Menge` | string | Dieses Feld enthält die Menge des Bestandteils z. B. 100. |
-| `Einheit` | string | Dieses Feld enthält die Einheit des Bestandteils z.B. mg. |
-| `MengeUndEinheit` | string | Dieses Feld enthält eine freitextliche Angabe zur Menge und Einheit des Bestandteils und kann insbesondere für klassische lateinische Angaben z.B. „ad 100,0“ oder „quantum satis“ genutzt werden. |
+| `darreichungsform` | string | Dieses Feld enthält die Darreichungsform des Bestandteils als Freitext und kann verwendet werden, wenn es sich bei dem Bestandteil der Rezeptur nicht um ein Fertigarzneimittel handelt. |
+| `name` | string | Dieses Feld enthält die namentliche Bezeichnung des Bestandteils der Rezeptur. Wenn die PZN des Bestandteils vorhanden ist, dann ist der hinter der PZN liegende Name anzugeben. |
+| `pzn` | string | Dieses Feld enthält die namentliche Bezeichnung des Bestandteils der Rezeptur. Wenn die PZN des Bestandteils vorhanden ist, dann ist der hinter der PZN liegende Name anzugeben. | 
+| `menge` | string | Dieses Feld enthält die Menge des Bestandteils z. B. 100. |
+| `einheit` | string | Dieses Feld enthält die Einheit des Bestandteils z.B. mg. |
+| `mengeUndEinheit` | string | Dieses Feld enthält eine freitextliche Angabe zur Menge und Einheit des Bestandteils und kann insbesondere für klassische lateinische Angaben z.B. „ad 100,0“ oder „quantum satis“ genutzt werden. |
 
 #### A.3.2.4 - medicationFreeText ([KBV_PR_ERP_Medication_FreeText](https://simplifier.net/eRezept/KBVPRERPMedicationFreeText/))
 
@@ -305,10 +305,10 @@ In diesem Profil werden die Rezeptierdaten einer **freitextlichen Verordnung** a
 
 | Element | Datentyp | Beschreibung | 
 | --- | --- |  --- |
-| `Kategorie` | string | siehe oben | 
-| `Impfstoff` | boolean | siehe oben |
-| `Freitextverordnung` | string | Dieses Feld enthält den Text einer Freitextverordnung. | 
-| `Darreichungsform` | string | siehe oben |
+| `kategorie` | string | siehe oben | 
+| `impfstoff` | boolean | siehe oben |
+| `freitextverordnung` | string | Dieses Feld enthält den Text einer Freitextverordnung. | 
+| `darreichungsform` | string | siehe oben |
 
 ### A.3.3 - organization
 
@@ -320,16 +320,16 @@ Technische Details der **organization**-Datenstruktur sind in der [YAML-Dokument
 
 | Element | Datentyp | Beschreibung | 
 | --- | --- |  --- |
-| `BSNR` | string | Dieses Feld enthält eine Betriebsstättennummer (BSNR) zur Identifikation einer Einrichtung. Im vertragsärztlichen Bereich ist das Feld eine Voraussetzung für die Abrechnung zwischen Leistungserbringern und Kostenträgern. Für Krankenhäuser ist die BSNR anzugeben. Im Rahmen von Krankenhausbehandlungen kann dieses Feld den Ort der Ausstellung abbilden. | 
-| `IK-Nummer` | string | Dieses Feld enthält ein Institutionskennzeichen (IK), welches von der ARGE·IK vergeben wird und ein eindeutiges Merkmal zur Abrechnung mit den Trägern der Sozialversicherung ist. | 
-| `KZV-AN` | string | Dieses Feld enthält eine Abrechnungsnummer der Kassenzahnärztlichen Vereinigung (KZV). | 
-| `Standortnummer` | string | Dieses Feld enthält eine Standortnummer eines Krankenhauses. | 
-| `Telematik-ID` | string | Dieses Feld enthält eine Telematik-ID der Einrichtung. | 
-| `Name` | string | Dieses Feld enthält die Bezeichnung der Einrichtung (Praxis / Krankenhaus). | 
-| `Adresse` | streetAdress | Siehe Abschnitt A.3.13. | 
-| `Telefon` | string | Dieses Feld enthält die Telefonnummer. | 
-| `Fax` | string | Dieses Feld enthält die Faxnummer. | 
-| `E-Mail` | string | Dieses Feld enthält die E-Mail-Adresse der Einrichtung. Bei grenzüberschreitender Einlösung einer Arzneimittelverordnung ist diese zwingend anzugeben. | 
+| `bsnr` | string | Dieses Feld enthält eine Betriebsstättennummer (BSNR) zur Identifikation einer Einrichtung. Im vertragsärztlichen Bereich ist das Feld eine Voraussetzung für die Abrechnung zwischen Leistungserbringern und Kostenträgern. Für Krankenhäuser ist die BSNR anzugeben. Im Rahmen von Krankenhausbehandlungen kann dieses Feld den Ort der Ausstellung abbilden. | 
+| `ikNummer` | string | Dieses Feld enthält ein Institutionskennzeichen (IK), welches von der ARGE·IK vergeben wird und ein eindeutiges Merkmal zur Abrechnung mit den Trägern der Sozialversicherung ist. | 
+| `kzvAn` | string | Dieses Feld enthält eine Abrechnungsnummer der Kassenzahnärztlichen Vereinigung (KZV). | 
+| `standortnummer` | string | Dieses Feld enthält eine Standortnummer eines Krankenhauses. | 
+| `telematikId` | string | Dieses Feld enthält eine Telematik-ID der Einrichtung. | 
+| `name` | string | Dieses Feld enthält die Bezeichnung der Einrichtung (Praxis / Krankenhaus). | 
+| `adresse` | streetAdress | Siehe Abschnitt A.3.13. | 
+| `telefon` | string | Dieses Feld enthält die Telefonnummer. | 
+| `fax` | string | Dieses Feld enthält die Faxnummer. | 
+| `eMail` | string | Dieses Feld enthält die E-Mail-Adresse der Einrichtung. Bei grenzüberschreitender Einlösung einer Arzneimittelverordnung ist diese zwingend anzugeben. | 
 
 ### A.3.4 - patient
 
@@ -341,12 +341,12 @@ Technische Details der **patient**-Datenstruktur sind in der [YAML-Dokumentation
 
 | Element | Datentyp | Beschreibung | 
 | --- | --- |  --- |
-| `GKV-VersichertenID` | string | Dieses Feld enthält die VersichertenID der gesetzlichen Krankenversicherung (unveränderlicher Teil der einheitlichen Krankenversicherungsnummer der GKV gemäß [§ 290 SGB V](https://www.gesetze-im-internet.de/sgb_5/__290.html). | 
-| `PKV-VersichertenID` | string | Dieses Feld enthält die VersichertenID der privaten Krankenversicherung (unveränderlicher Teil der einheitlichen Krankenversichertennummer gemäß [§ 290 SGB V](https://www.gesetze-im-internet.de/sgb_5/__290.html)). | 
-| `KVK-Versichertennummer` | string | Dieses Feld enthält die Versichertennummer der Krankenversichertenkarte. | 
-| `Person` | person | Dieses Element enthält die Informationen zur betreffenden Person. | 
-| `Geburtsdatum` | date | Dieses Feld gibt das Geburtsdatum des Versicherten an. | 
-| `Adresse` | streetAdress oder pobAdress | Entweder Straßenadresse (streetAddress) oder Postfachaddresse (pobAddress). | 
+| `gkvVersichertenId` | string | Dieses Feld enthält die VersichertenID der gesetzlichen Krankenversicherung (unveränderlicher Teil der einheitlichen Krankenversicherungsnummer der GKV gemäß [§ 290 SGB V](https://www.gesetze-im-internet.de/sgb_5/__290.html). | 
+| `pkvVersichertendId` | string | Dieses Feld enthält die VersichertenID der privaten Krankenversicherung (unveränderlicher Teil der einheitlichen Krankenversichertennummer gemäß [§ 290 SGB V](https://www.gesetze-im-internet.de/sgb_5/__290.html)). | 
+| `kvkVersichertennummer` | string | Dieses Feld enthält die Versichertennummer der Krankenversichertenkarte. | 
+| `person` | person | Dieses Element enthält die Informationen zur betreffenden Person. | 
+| `geburtsdatum` | date | Dieses Feld gibt das Geburtsdatum des Versicherten an. | 
+| `adresse` | streetAdress oder pobAdress | Entweder Straßenadresse (streetAddress) oder Postfachaddresse (pobAddress). | 
 
 ### A.3.5 - pobAddress
 
@@ -355,10 +355,10 @@ Dieses Element ist folgendermaßen strukturiert:
 
 | Element | Datentyp | Beschreibung | 
 | --- | --- |  --- |
-| `Land` | string | Dieses Feld enthält den Wohnsitzländercode (entsprechend [Gemeinsames Rundschreiben DEÜV](https://www.gkv-datenaustausch.de/arbeitgeber/deuev/gemeinsame_rundschreiben/gemeinsame_rundschreiben.jsp) [Anlage 08](https://www.gkv-datenaustausch.de/media/dokumente/arbeitgeber/deuev/rundschreiben_anlagen/03_Gem_RS_Anlage_8_Vers._8.00.pdf).| 
-| `PLZ` | string | In diesem Feld kann die Postleitzahl angegeben werden. | 
-| `Ort` | string | In diesem Feld kann der Ortsnamen angegeben werden. Mehrere Namensbestandteile sind durch Blank/Sonderzeichen getrennt. | 
-| `Postfach` | string | In diesem Feld kann das Postfach angegeben werden. | 
+| `land` | string | Dieses Feld enthält den Wohnsitzländercode (entsprechend [Gemeinsames Rundschreiben DEÜV](https://www.gkv-datenaustausch.de/arbeitgeber/deuev/gemeinsame_rundschreiben/gemeinsame_rundschreiben.jsp) [Anlage 08](https://www.gkv-datenaustausch.de/media/dokumente/arbeitgeber/deuev/rundschreiben_anlagen/03_Gem_RS_Anlage_8_Vers._8.00.pdf).| 
+| `plz` | string | In diesem Feld kann die Postleitzahl angegeben werden. | 
+| `ort` | string | In diesem Feld kann der Ortsnamen angegeben werden. Mehrere Namensbestandteile sind durch Blank/Sonderzeichen getrennt. | 
+| `postfach` | string | In diesem Feld kann das Postfach angegeben werden. | 
 
 ### A.3.6 - person
 
@@ -366,11 +366,11 @@ Das Element **person** wird in der Spezifikation der Elemente **patient** (Absch
 
 | Element | Datentyp | Beschreibung | 
 | --- | --- |  --- |
-| `Vorname` | string | Dieses Feld enthält den Vornamen der Person; mehrere Vornamen sind durch Blank oder Bindestrich getrennt.| 
-| `Name` | string | Dieses Feld enthält den Nachnamen des Person. | 
-| `Titel` | string | Dieses Feld enthält den akademischen Grad der Person, z.B. „Dr. med.“, „Dr.rer.nat.“. | 
-| `Namenszusatz` | string | Dieses Feld enthält den Namenszusatz als Bestandteil des Nachnamens der Person, z.B. „Freiherr“, „Gräfin“; mehrere Namenszusätze sind durch Blank getrennt. | 
-| `Vorsatzwort` | string | Dieses Feld enthält das Vorsatzwort als Bestandteil des Nachnamens der Person, z.B. „von“, „von der“, „zu“ ; mehrere Vorsatzwörter sind durch Blank getrennt. | 
+| `vorname` | string | Dieses Feld enthält den Vornamen der Person; mehrere Vornamen sind durch Blank oder Bindestrich getrennt.| 
+| `name` | string | Dieses Feld enthält den Nachnamen des Person. | 
+| `titel` | string | Dieses Feld enthält den akademischen Grad der Person, z.B. „Dr. med.“, „Dr.rer.nat.“. | 
+| `namenszusatz` | string | Dieses Feld enthält den Namenszusatz als Bestandteil des Nachnamens der Person, z.B. „Freiherr“, „Gräfin“; mehrere Namenszusätze sind durch Blank getrennt. | 
+| `vorsatzwort` | string | Dieses Feld enthält das Vorsatzwort als Bestandteil des Nachnamens der Person, z.B. „von“, „von der“, „zu“ ; mehrere Vorsatzwörter sind durch Blank getrennt. | 
 
 ### A.3.7 - practiceSupply
 
@@ -378,11 +378,11 @@ Das **practiceSupply**-Element dient der Verschreibung von Sprechstundenbedarf g
 
 | Element | Datentyp | Beschreibung | 
 | --- | --- |  --- |
-| `Datum` | date | Dieses Feld enthält das Ausstellungsdatum der Verordnung. | 
-| `Anzahl` | integer | Dieses Feld enthält die Anzahl der verordneten Packungen. | 
-| `Kostentraegertyp` | string | Dieses Feld gibt den Kostenträgertyp an. Gemäß [KBV_VS_FOR_Payor_type](https://simplifier.net/for/kbvvsforpayortype) und [KBV_CS_FOR_Payor_Type_KBV](https://simplifier.net/for/kbvcsforpayortypekbv) sind die folgenden  Werte vorgesehen: "GKV"	(gesetzliche Krankenversicherung), "PKV"	(private Krankenversicherung), "BG"	(Berufsgenossenschaft), "SEL"	(Selbstzahler), "SKT" (Sonstige Kostenträger), "UK" (Unfallkassen).| 
-| `IK-Nummer` | string |Dieses Feld enthält das Institutionskennzeichen (IK) laut der elektronischen Gesundheitskarte (eGK). Siehe hierzu die Übertragungsregel gemäß [Technische Anlage zur Anlage 4a BMV-Ä](https://www.kbv.de/media/sp/04a_elektr._Gesundheitskarte_technische_Anlage.pdf) (Abschnitt 2.2).  | 
-| `Name` | string | Dieses Feld enthält den Namen des Kostenträgers. Der korrekte Name ergibt sich aus den definierten Regeln gemäß [Technische Anlage zur Anlage 4a BMV-Ä](https://www.kbv.de/media/sp/04a_elektr._Gesundheitskarte_technische_Anlage.pdf) (Abschnitt 2.3). | 
+| `datum` | date | Dieses Feld enthält das Ausstellungsdatum der Verordnung. | 
+| `anzahl` | integer | Dieses Feld enthält die Anzahl der verordneten Packungen. | 
+| `kostentraegertyp` | string | Dieses Feld gibt den Kostenträgertyp an. Gemäß [KBV_VS_FOR_Payor_type](https://simplifier.net/for/kbvvsforpayortype) und [KBV_CS_FOR_Payor_Type_KBV](https://simplifier.net/for/kbvcsforpayortypekbv) sind die folgenden  Werte vorgesehen: "GKV"	(gesetzliche Krankenversicherung), "PKV"	(private Krankenversicherung), "BG"	(Berufsgenossenschaft), "SEL"	(Selbstzahler), "SKT" (Sonstige Kostenträger), "UK" (Unfallkassen).| 
+| `ikNummer` | string |Dieses Feld enthält das Institutionskennzeichen (IK) laut der elektronischen Gesundheitskarte (eGK). Siehe hierzu die Übertragungsregel gemäß [Technische Anlage zur Anlage 4a BMV-Ä](https://www.kbv.de/media/sp/04a_elektr._Gesundheitskarte_technische_Anlage.pdf) (Abschnitt 2.2).  | 
+| `name` | string | Dieses Feld enthält den Namen des Kostenträgers. Der korrekte Name ergibt sich aus den definierten Regeln gemäß [Technische Anlage zur Anlage 4a BMV-Ä](https://www.kbv.de/media/sp/04a_elektr._Gesundheitskarte_technische_Anlage.pdf) (Abschnitt 2.3). | 
    
 Technische Details der **practiceSupply**-Datenstruktur sind in der [YAML-Dokumentation](https://ehealthcardlink.github.io/Spezifikation/prescription-communication/) näher beschrieben.
 
@@ -396,14 +396,14 @@ Technische Details der **practitioner**-Datenstruktur sind in der [YAML-Dokument
 
 | Element | Datentyp | Beschreibung | 
 | --- | --- |  --- |
-| `Typ` | string | Dieses Feld enthält einen Typ zur Kennzeichnung der verschreibenden Person, z.B. Arzt, Arzt in Weiterbildung. Die vorgesehenen Werte sind der Schlüsseltabelle [KBV_CS_FOR_Qualification_Type](https://simplifier.net/for/kbvcsforqualificationtype) zu entnehmen. | 
-| `Berufsbezeichnung` | string | Dieses Feld enthält eine Freitextangabe zur Berufsbezeichnung, z. B. Facharzt für Allgemeinmedizin, Praktischer Arzt, Hebamme. | 
+| `typ` | string | Dieses Feld enthält einen Typ zur Kennzeichnung der verschreibenden Person, z.B. Arzt, Arzt in Weiterbildung. Die vorgesehenen Werte sind der Schlüsseltabelle [KBV_CS_FOR_Qualification_Type](https://simplifier.net/for/kbvcsforqualificationtype) zu entnehmen. | 
+| `berufsbezeichnung` | string | Dieses Feld enthält eine Freitextangabe zur Berufsbezeichnung, z. B. Facharzt für Allgemeinmedizin, Praktischer Arzt, Hebamme. | 
 | `ASV-FGN` | string | Dieses Feld enthält die ASV-Fachgruppennummer (ASV-FGN) gemäß der Vereinbarung über ambulante spezialärztliche Versorgung (ASV) (ASV-AV) § 9 Absatz 5. Diese ist gemäß der ASV-AV von Krankenhausärzten an Stelle der Arztnummer anzugeben. | 
-| `Arztnummer` | string | Dieses Feld enthält als Identifikator der Person eine Arztnummer (Lebenslange Arztnummer LANR). | 
-| `Zahnarztnummer` | string | Dieses Feld enthält als Identifikator der Person, eine Zahnarztnummer (ZANR). | 
+| `arztnummer` | string | Dieses Feld enthält als Identifikator der Person eine Arztnummer (Lebenslange Arztnummer LANR). | 
+| `zahnarztnummer` | string | Dieses Feld enthält als Identifikator der Person, eine Zahnarztnummer (ZANR). | 
 | `Telematik-ID` | string | Dieses Feld enthält als Identifikator der Person eine Telematik-ID. | 
-| `Person` | person | siehe Abschnitt A.3.6  | 
-| `VerantwortlichePerson` | practitioner | Dieses Element ist optional und kann dafür verwendet werden, wenn der verordnende Arzt nicht der verantwortliche Arzt ist.   | 
+| `person` | person | siehe Abschnitt A.3.6  | 
+| `verantwortlichePerson` | practitioner | Dieses Element ist optional und kann dafür verwendet werden, wenn der verordnende Arzt nicht der verantwortliche Arzt ist.   | 
 
 ### A.3.9 - prescription
 
@@ -415,25 +415,25 @@ Technische Details der **prescription**-Datenstruktur sind in der [YAML-Dokument
 
 | Element | Datentyp | Beschreibung | 
 | --- | --- |  --- |
-| `Ausstellungsdatum` | date | Dieses Feld enthält das Ausstellungsdatum der Verordnung. | 
-| `Noctu` | boolean | Dieses Feld enthält die Kennzeichnung, ob diese Verordnung auch während der allgemeinen Ladenschlusszeiten beliefert werden soll, verbunden mit der Erhebung der Noctu-Gebühr (Notdienstgebühr) zu Lasten der Krankenkasse gemäß Arzneimittelpreisverordnung. |
-| `BVG` | boolean | Dieses Feld enthält die Kennzeichnung, ob diese Verordnung für Anspruchsberechtigte nach dem Bundesentschädigungsgesetz [BEG](https://www.gesetze-im-internet.de/beg/BJNR013870953.html) oder für Anspruchsberechtigte nach dem Bundesversorgungsgesetz [BVG](https://de.wikipedia.org/wiki/Bundesversorgungsgesetz) erfolgt. |
-| `Zuzahlungsstatus` | string | In diesem Feld wird der Zuzahlungsstatus für die Verordnung angegeben. Gemäß [KBV_CS_FOR_StatusCoPayment](https://simplifier.net/packages/kbv.ita.for/1.1.0/files/720086) sind folgende Möglichkeiten vorgesehen: 0 (von Zuzahlungspflicht nicht befreit / gebührenpflichtig), 1	(von Zuzahlungspflicht befreit / gebührenfrei), 2 (künstliche Befruchtung (Regelung nach [§ 27a SGB V](https://www.gesetze-im-internet.de/sgb_5/__27a.html))).|
-| `AutIdem` | boolean | Dieses Feld enthält die Angabe, ob das Arzneimittel austauschbar ist oder nicht. Wenn ein Austausch in der Apotheke zulässig ist, wird dieses Feld auf true gesetzt. |
-| `Abgabehinweis` | string | Dieses Feld enthält über die Dosierung hinausgehende / sonstige Abgabehinweise an die Apotheke. |
-| `Anzahl` | integer | Dieses Feld enthält die Anzahl der verordneten Packungen. |
-| `Dosierung` | boolean | Dieses Feld enthält ein Kennzeichen zur Dosierung und beschreibt, ob eine Dosieranweisung übermittelt oder ein Medikationsplan mitgegeben wird. |
-| `Dosieranweisung` | string | Dieses Feld enthält eine Dosieranweisung. |
-| `Gebrauchsanweisung` | string | Dieses Feld enthält die Gebrauchsanweisung der Rezeptur. |
-| `Unfallkennzeichen` | string | Dieses Feld enthält die Information, in welchem Zusammenhang die Verordnung ausgestellt wurde, z.B. Unfall. Die möglichen Werte sind in [KBV_VS_ERP_Accident_Type](https://simplifier.net/erezept/kbvvserpaccidenttype) spezifiziert. Hierbei sind folgende Fälle vorgesehen: 1	(Unfall), 2	(Arbeitsunfall (Berufsgenossenschaft/Unfallkasse)), 4	(Berufskrankheit (Berufsgenossenschaft/Unfallkasse)) |
-| `Unfalltag` | date | Tag des Unfalls. |
-| `Unfallbetrieb` | string | Name des Unfallbetriebs. |
-| `Mehrfachverordnung` | boolean | Dieses Feld enthält die Kennzeichnung, ob es sich bei der Verordnung um eine Mehrfachverordnung (MFV) handelt. |
-| `MFV-ID` | string | Dieses Feld enthält eine eineindeutige ID, welche über alle Teilverordnungen einer Mehrfachverordnung identisch ist. |
-| `MFV-Zaehler` | integer | Dieses Feld enthält die Angabe, um die wievielte Teilverordnung einer Mehrfachverordnung (Serie) es sich handelt. Beispiel: "2" in "2 von 4". |
-| `MFV-Nenner` | integer | Dieses Feld enthält die Angabe der Länge dieser Serie, d.h. die Gesamtanzahl der Teilverordnungen der Mehrfachverordnung. Beispiel: "4" in "2 von 4". |
-| `MFV-Beginn` | date | Dieses Feld enthält das Datum, ab dem die Teilverordnung der Mehrfachverordnung eingelöst werden kann. |
-| `MFV-Ende` | date | Dieses Feld enthält das Datum des letzten Einlösetages der Teilverordnung der Mehrfachverordnung. Von der ausstellenden Person kann eine von der Arzneimittelverschreibungsverordnung [AMVV](https://www.gesetze-im-internet.de/amvv/) abweichende Einlösefrist angegeben werden. |
+| `ausstellungsdatum` | date | Dieses Feld enthält das Ausstellungsdatum der Verordnung. | 
+| `noctu` | boolean | Dieses Feld enthält die Kennzeichnung, ob diese Verordnung auch während der allgemeinen Ladenschlusszeiten beliefert werden soll, verbunden mit der Erhebung der Noctu-Gebühr (Notdienstgebühr) zu Lasten der Krankenkasse gemäß Arzneimittelpreisverordnung. |
+| `bvg` | boolean | Dieses Feld enthält die Kennzeichnung, ob diese Verordnung für Anspruchsberechtigte nach dem Bundesentschädigungsgesetz [BEG](https://www.gesetze-im-internet.de/beg/BJNR013870953.html) oder für Anspruchsberechtigte nach dem Bundesversorgungsgesetz [BVG](https://de.wikipedia.org/wiki/Bundesversorgungsgesetz) erfolgt. |
+| `zuzahlungsstatus` | string | In diesem Feld wird der Zuzahlungsstatus für die Verordnung angegeben. Gemäß [KBV_CS_FOR_StatusCoPayment](https://simplifier.net/packages/kbv.ita.for/1.1.0/files/720086) sind folgende Möglichkeiten vorgesehen: 0 (von Zuzahlungspflicht nicht befreit / gebührenpflichtig), 1	(von Zuzahlungspflicht befreit / gebührenfrei), 2 (künstliche Befruchtung (Regelung nach [§ 27a SGB V](https://www.gesetze-im-internet.de/sgb_5/__27a.html))).|
+| `autidem` | boolean | Dieses Feld enthält die Angabe, ob das Arzneimittel austauschbar ist oder nicht. Wenn ein Austausch in der Apotheke zulässig ist, wird dieses Feld auf true gesetzt. |
+| `abgabehinweis` | string | Dieses Feld enthält über die Dosierung hinausgehende / sonstige Abgabehinweise an die Apotheke. |
+| `anzahl` | integer | Dieses Feld enthält die Anzahl der verordneten Packungen. |
+| `dosierung` | boolean | Dieses Feld enthält ein Kennzeichen zur Dosierung und beschreibt, ob eine Dosieranweisung übermittelt oder ein Medikationsplan mitgegeben wird. |
+| `dosieranweisung` | string | Dieses Feld enthält eine Dosieranweisung. |
+| `gebrauchsanweisung` | string | Dieses Feld enthält die Gebrauchsanweisung der Rezeptur. |
+| `unfallkennzeichen` | string | Dieses Feld enthält die Information, in welchem Zusammenhang die Verordnung ausgestellt wurde, z.B. Unfall. Die möglichen Werte sind in [KBV_VS_ERP_Accident_Type](https://simplifier.net/erezept/kbvvserpaccidenttype) spezifiziert. Hierbei sind folgende Fälle vorgesehen: 1	(Unfall), 2	(Arbeitsunfall (Berufsgenossenschaft/Unfallkasse)), 4	(Berufskrankheit (Berufsgenossenschaft/Unfallkasse)) |
+| `unfalltag` | date | Tag des Unfalls. |
+| `unfallbetrieb` | string | Name des Unfallbetriebs. |
+| `mehrfachverordnung` | boolean | Dieses Feld enthält die Kennzeichnung, ob es sich bei der Verordnung um eine Mehrfachverordnung (MFV) handelt. |
+| `mfvId` | string | Dieses Feld enthält eine eineindeutige ID, welche über alle Teilverordnungen einer Mehrfachverordnung identisch ist. |
+| `mfvZaehler` | integer | Dieses Feld enthält die Angabe, um die wievielte Teilverordnung einer Mehrfachverordnung (Serie) es sich handelt. Beispiel: "2" in "2 von 4". |
+| `mfvNenner` | integer | Dieses Feld enthält die Angabe der Länge dieser Serie, d.h. die Gesamtanzahl der Teilverordnungen der Mehrfachverordnung. Beispiel: "4" in "2 von 4". |
+| `mfvBeginn` | date | Dieses Feld enthält das Datum, ab dem die Teilverordnung der Mehrfachverordnung eingelöst werden kann. |
+| `mfvEnde` | date | Dieses Feld enthält das Datum des letzten Einlösetages der Teilverordnung der Mehrfachverordnung. Von der ausstellenden Person kann eine von der Arzneimittelverschreibungsverordnung [AMVV](https://www.gesetze-im-internet.de/amvv/) abweichende Einlösefrist angegeben werden. |
 
 ### A.3.10 - prescriptionBundle
 
@@ -445,18 +445,18 @@ Technische Details der **prescriptionBundle**-Datenstruktur sind in der [YAML-Do
 
 | Element | Datentyp | Beschreibung | 
 | --- | --- |  --- |
-| `PrescriptionID` | string | Dieses Feld enthält den im Zeitraum von 11 Jahren eindeutigen Identifikator der elektronischen Verordnung gemäß [GEM_ERP_PR_PrescriptionId](https://simplifier.net/packages/de.gematik.erezept-workflow.r4/1.2.1/files/2030548) und [gemSpec_DM_eRp](https://fachportal.gematik.de/fachportal-import/files/gemSpec_DM_eRp_V1.9.0.pdf) (Abschnitt 2.2). |
-| `Erstellungszeitpunkt` | date-time | Gibt den Zeitpunkt der Erstellung des E-Rezept-Bundles an. |
-| `Status` | string | Enthält das Statuskennzeichen der elektronischen Verordnung. Die vorgesehenen Werte sind der Schlüsseltabelle [S_KBV_STATUSKENNZEICHEN](https://applications.kbv.de/S_KBV_STATUSKENNZEICHEN.xhtml) zu entnehmen. |
-| `PKV-Tarif` | string | Enthält im Fall eines Privatrezeptes Informationen zum PKV-Tarif gemäß [KBV_EX_FOR_PKV_Tariff](https://simplifier.net/for/kbvexforpkvtariff). |
-| `Krankenversicherung` | coverage | Enthält die Informationen zur Krankenversicherung. Details sind in Abschnitt A.3.1 spezifiziert. |
-| `Patient` | patient | Enthält die Informationen zum Patienten. Details sind in Abschnitt A.3.4 spezifiziert. |
-| `Arzt` | practitioner | Enthält die Informationen zum Aussteller der elektronischen Verordnung (z.B. Arzt). Details sind in Abschnitt A.3.8 spezifiziert. |
-| `Pruefnummer` | string | Enthält die Prüfnummer des Praxisverwaltungssystems, mit dem die elektronische Verordnung erstellt wurde. |
-| `Organisation` | organization | Enthält die Information zur ausstellenden Organisation. Details sind in Abschnitt A.3.3 spezifiziert. |
-| `ASV-TN` | string | Dieses Element kann verwendet werden, um anzugeben, ob der verordnende Arzt eine weitere Rolle im Bereich der ambulanten spezialärztlichen Versorgung (ASV) innehat. Dieses Feld muss im Rahmen einer ambulanten spezialfachärztlichen Versorgung genutzt werden. Jedes ASV-Team erhält von der ASV-Servicestelle eine ASV-Teamnummer (ASV-TN). Mit ihr kennzeichnen ASV-Ärzte die Leistungen oder Verordnungen, die sie in der ASV durchführen. Die Teamnummer umfasst neun Ziffern und ist wie eine Betriebsstättennummer (BSNR) aufgebaut. Sie wird vergeben, sobald die Ärzte eine ASV-Berechtigung haben – zusätzlich zur BSNR und zur lebenslangen Arztnummer. | 
-| `Verordnung` | prescription oder practiceSupply | Enthält weitere Informationen zur elektronischen Verordnung. Das **prescription**-Element ist in Abschnitt A.3.10 und das **practiceSupply**-Element ist in Abschnitt A.3.7 näher spezifiziert. | 
-| `Arzneimittel` | medication | Dieses Element enthält die Informationen über das verordnete Arzneimittel. Details zum **medication**-Element sind in Abschnitt A.3.2 spezifiziert. | 
+| `prescriptionId` | string | Dieses Feld enthält den im Zeitraum von 11 Jahren eindeutigen Identifikator der elektronischen Verordnung gemäß [GEM_ERP_PR_PrescriptionId](https://simplifier.net/packages/de.gematik.erezept-workflow.r4/1.2.1/files/2030548) und [gemSpec_DM_eRp](https://fachportal.gematik.de/fachportal-import/files/gemSpec_DM_eRp_V1.9.0.pdf) (Abschnitt 2.2). |
+| `erstellungszeitpunkt` | date-time | Gibt den Zeitpunkt der Erstellung des E-Rezept-Bundles an. |
+| `status` | string | Enthält das Statuskennzeichen der elektronischen Verordnung. Die vorgesehenen Werte sind der Schlüsseltabelle [S_KBV_STATUSKENNZEICHEN](https://applications.kbv.de/S_KBV_STATUSKENNZEICHEN.xhtml) zu entnehmen. |
+| `pkvTarif` | string | Enthält im Fall eines Privatrezeptes Informationen zum PKV-Tarif gemäß [KBV_EX_FOR_PKV_Tariff](https://simplifier.net/for/kbvexforpkvtariff). |
+| `krankenversicherung` | coverage | Enthält die Informationen zur Krankenversicherung. Details sind in Abschnitt A.3.1 spezifiziert. |
+| `patient` | patient | Enthält die Informationen zum Patienten. Details sind in Abschnitt A.3.4 spezifiziert. |
+| `arzt` | practitioner | Enthält die Informationen zum Aussteller der elektronischen Verordnung (z.B. Arzt). Details sind in Abschnitt A.3.8 spezifiziert. |
+| `pruefnummer` | string | Enthält die Prüfnummer des Praxisverwaltungssystems, mit dem die elektronische Verordnung erstellt wurde. |
+| `organisation` | organization | Enthält die Information zur ausstellenden Organisation. Details sind in Abschnitt A.3.3 spezifiziert. |
+| `asvTn` | string | Dieses Element kann verwendet werden, um anzugeben, ob der verordnende Arzt eine weitere Rolle im Bereich der ambulanten spezialärztlichen Versorgung (ASV) innehat. Dieses Feld muss im Rahmen einer ambulanten spezialfachärztlichen Versorgung genutzt werden. Jedes ASV-Team erhält von der ASV-Servicestelle eine ASV-Teamnummer (ASV-TN). Mit ihr kennzeichnen ASV-Ärzte die Leistungen oder Verordnungen, die sie in der ASV durchführen. Die Teamnummer umfasst neun Ziffern und ist wie eine Betriebsstättennummer (BSNR) aufgebaut. Sie wird vergeben, sobald die Ärzte eine ASV-Berechtigung haben – zusätzlich zur BSNR und zur lebenslangen Arztnummer. | 
+| `verordnung` | prescription oder practiceSupply | Enthält weitere Informationen zur elektronischen Verordnung. Das **prescription**-Element ist in Abschnitt A.3.10 und das **practiceSupply**-Element ist in Abschnitt A.3.7 näher spezifiziert. | 
+| `arzneimittel` | medication | Dieses Element enthält die Informationen über das verordnete Arzneimittel. Details zum **medication**-Element sind in Abschnitt A.3.2 spezifiziert. | 
 
 ### A.3.11 - prescriptionIndexList
 
@@ -472,11 +472,11 @@ Das Element **streetAddress** ist folgendermaßen strukturiert.
 
 | Element | Datentyp | Beschreibung | 
 | --- | --- |  --- |
-| `Land` | string | Dieses Feld enthält den Wohnsitzländercode (entsprechend [Gemeinsames Rundschreiben DEÜV](https://www.gkv-datenaustausch.de/arbeitgeber/deuev/gemeinsame_rundschreiben/gemeinsame_rundschreiben.jsp) [Anlage 08](https://www.gkv-datenaustausch.de/media/dokumente/arbeitgeber/deuev/rundschreiben_anlagen/03_Gem_RS_Anlage_8_Vers._8.00.pdf).| 
-| `PLZ` | string | In diesem Feld kann die Postleitzahl angegeben werden. | 
-| `Ort` | string | In diesem Feld kann der Ortsnamen angegeben werden. Mehrere Namensbestandteile sind durch Blank/Sonderzeichen getrennt. | 
-| `Strasse` | string | In diesem Feld kann der Straßennamen angegeben werden. | 
-| `Hausnummer` | string | In diesem Feld kann die Hausnummer angegeben werden. | 
-| `Zusatz` | string | In diesem Feld kann der Anschriftenzusatz angegeben werden, z.B. Hinterhaus. | 
+| `land` | string | Dieses Feld enthält den Wohnsitzländercode (entsprechend [Gemeinsames Rundschreiben DEÜV](https://www.gkv-datenaustausch.de/arbeitgeber/deuev/gemeinsame_rundschreiben/gemeinsame_rundschreiben.jsp) [Anlage 08](https://www.gkv-datenaustausch.de/media/dokumente/arbeitgeber/deuev/rundschreiben_anlagen/03_Gem_RS_Anlage_8_Vers._8.00.pdf).| 
+| `plz` | string | In diesem Feld kann die Postleitzahl angegeben werden. | 
+| `ort` | string | In diesem Feld kann der Ortsnamen angegeben werden. Mehrere Namensbestandteile sind durch Blank/Sonderzeichen getrennt. | 
+| `strasse` | string | In diesem Feld kann der Straßennamen angegeben werden. | 
+| `hausnummer` | string | In diesem Feld kann die Hausnummer angegeben werden. | 
+| `zusatz` | string | In diesem Feld kann der Anschriftenzusatz angegeben werden, z.B. Hinterhaus. | 
 
 
