@@ -1365,7 +1365,7 @@ components:
           description: >
             In the case of a private prescription, contains information on the PKV tariff according to KBV_EX_FOR_PKV_Tariff.
         krankenversicherung: 
-          type: coverage
+          $ref: '#/components/schemas/coverage' 
           description: >
              Contains the health insurance information. Details are specified in section A.3.1.
         patient:
