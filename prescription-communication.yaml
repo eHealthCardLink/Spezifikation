@@ -1251,6 +1251,7 @@ components:
       type: object
       description: >
         The prescription element represents the technically and medically relevant components of a drug prescription.
+        See section A.3.9 of specification.
       required:
         - type
       properties:
@@ -1280,6 +1281,10 @@ components:
           description: >
             This field indicates whether the medicine is interchangeable or not.
             If an exchange is allowed in the pharmacy, this field is set to true.
+        abgabehinweis:
+          type: string
+          description: >
+            This field contains additional / other dispensing instructions for the pharmacy beyond the dosage.
         anzahl:
           type: integer
           minimum: 1
