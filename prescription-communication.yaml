@@ -1350,7 +1350,9 @@ components:
     prescriptionBundle:
       type: object
       description: >
-        The prescriptionBundle element is the bundling element used for electronic prescriptions, which is derived from the Bundle resource and contains all other data elements.
+        The prescriptionBundle element is the bundling element used for electronic prescriptions, 
+        which is derived from the Bundle resource and contains all other data elements.
+        See section A.3.10 of specification.
       required:
         - type
         - prescriptionId
@@ -1367,7 +1369,7 @@ components:
           type: string
           const: prescriptionBundle
         prescriptionId:
-          $ref: '#/components/schemas/prescriptionID'
+          $ref: '#/components/schemas/prescriptionId'
           description: >
             This field contains the unique identifier of the electronic prescription over a period of 11 years according to GEM_ERP_PR_PrescriptionId and gemSpec_DM_eRp (section 2.2).
         erstellungszeitpunkt:
@@ -1429,7 +1431,7 @@ components:
             This element contains the information about the prescribed medication.
             Details about the medication element are specified in section A.3.2.
 
-    prescriptionID:
+    prescriptionId:
       type: string
       description: >
         This field contains the unique identifier of the electronic prescription over a period of 11 years according to GEM_ERP_PR_PrescriptionId and gemSpec_DM_eRp (section 2.2).
@@ -1438,16 +1440,18 @@ components:
     prescriptionIndexList:
       type: array
       description: >
-        The prescriptionIndexList element is contained in the selectedPrescriptionList message and specifies which of the available electronic prescriptions should be redeemed.
+        The prescriptionIndexList element is contained in the selectedPrescriptionList message and specifies 
+        which of the available electronic prescriptions should be redeemed. 
+        See section A.3.11 of specification.
       minItems: 1
       items:
-        $ref: '#/components/schemas/prescriptionID'
+        $ref: '#/components/schemas/prescriptionId'
 
     streetAddress:
       type: object
       description: >
         Element containing the street address of the respective person.
-        See section A.3.13 of specification.
+        See section A.3.12 of specification.
       required:
         - type
         - plz
