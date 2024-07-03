@@ -739,7 +739,7 @@ components:
           description: >
             This field contains the disease management program (DMP) in which the insured person is enrolled (Section 284, Paragraph 1, Sentence 1, No. 14 SGB V).
             The intended values can be found in the key table S_KBV_DMP.
-        versicherungsschutz-ende:
+        versicherungsschutzEnde:
           type: string
           description: >
             In this field, the date of the end of insurance coverage can be entered if the date is stored on the insurance card and has been read.
@@ -815,7 +815,6 @@ components:
       required:
         - kategorie
         - impfstoff
-        - darreichungsform
       properties:
         kategorie:
           type: string
@@ -828,10 +827,6 @@ components:
           description: >
             Indicates whether the prescription is a vaccine or not.
             Default is "false".
-        darreichungsform:
-          type: string
-          description: >
-            Contains the description how to apply the overall prescription.
 
     medicationCompounding:
       type: object
@@ -860,6 +855,11 @@ components:
           type: string
           description: >
             Contains the name of the recipe.
+        darreichungsform:
+          type: string
+          description: >
+            This field contains the dosage form of the prescription as free text and can be 
+            used if the component of the prescription is not a finished medicinal product.
         gesamtmenge:
           type: string
           description: >
@@ -893,8 +893,11 @@ components:
           type: string
           description: >
             Contains a free text, which describes the prescribed medication.
-
-
+        darreichungsform:
+          type: string
+          description: >
+            This field contains the dosage form of the prescription as free text. 
+            
     medicationPZN:
       type: object
       required:
@@ -910,10 +913,16 @@ components:
         type:
           type: string
           const: medicationPZN
+        darreichungsform:
+          type: string
+          description: >
+            This field contains the information on the dosage form according to the data in § 131 (4) SGB V, 
+            and must always be used when a finished medicinal product is prescribed in accordance with the price and product list. 
+            The key table for displaying the coded values ​​is maintained by the KBV and is available in the coding table S_KBV_DARREICHUNGSFORM.
         normgroesse:
           type: string
           description: >
-            Contains the norm size of the prescription.
+            Contains the norm size of the prescription.        
         pzn:
           type: string
           description: >
@@ -953,6 +962,11 @@ components:
           type: string
           description: >
             Contains the norm size of the prescription.
+        darreichungsform:
+          type: string
+          description: >
+            This field contains the dosage form as free text and can be used if the product 
+            is not a finished medicinal product.
         packungsgroesseNachMenge:
           type: string
           description: >
