@@ -308,7 +308,7 @@ In diesem Profil werden die Rezeptierdaten einer **freitextlichen Verordnung** a
 | `kategorie` | string | siehe oben | 
 | `impfstoff` | boolean | siehe oben |
 | `freitextverordnung` | string | Dieses Feld enthält den Text einer Freitextverordnung. | 
-| `darreichungsform` | string | siehe oben |
+| `darreichungsform` | string | Dieses Feld enthält die Darreichungsform des Bestandteils als Freitext und kann verwendet werden, wenn es sich bei dem Bestandteil der Rezeptur nicht um ein Fertigarzneimittel handelt. |
 
 ### A.3.3 - organization
 
