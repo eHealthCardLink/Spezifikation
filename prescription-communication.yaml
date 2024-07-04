@@ -3,8 +3,8 @@ info:
   title: eHealth-CardLink Prescription Communication Interface
   version: 1.0.0
   description:
-    This API defines an interface between a Pharmacy System and a Pharmacy App with 
-    eHealth-CardLink service as intermediary, which is used to present the essential 
+    This API defines an interface between a Pharmacy System and a Pharmacy App with
+    eHealth-CardLink service as intermediary, which is used to present the essential
     parts of a set of available prescriptions and allows to select electronic prescriptions
     for dispensation and delivery.
   contact:
@@ -858,7 +858,7 @@ components:
         darreichungsform:
           type: string
           description: >
-            This field contains the dosage form of the prescription as free text and can be 
+            This field contains the dosage form of the prescription as free text and can be
             used if the component of the prescription is not a finished medicinal product.
         gesamtmenge:
           type: string
@@ -896,8 +896,8 @@ components:
         darreichungsform:
           type: string
           description: >
-            This field contains the dosage form of the prescription as free text. 
-            
+            This field contains the dosage form of the prescription as free text.
+
     medicationPZN:
       type: object
       required:
@@ -916,13 +916,13 @@ components:
         darreichungsform:
           type: string
           description: >
-            This field contains the information on the dosage form according to the data in § 131 (4) SGB V, 
-            and must always be used when a finished medicinal product is prescribed in accordance with the price and product list. 
+            This field contains the information on the dosage form according to the data in § 131 (4) SGB V,
+            and must always be used when a finished medicinal product is prescribed in accordance with the price and product list.
             The key table for displaying the coded values ​​is maintained by the KBV and is available in the coding table S_KBV_DARREICHUNGSFORM.
         normgroesse:
           type: string
           description: >
-            Contains the norm size of the prescription.        
+            Contains the norm size of the prescription.
         pzn:
           type: string
           description: >
@@ -965,7 +965,7 @@ components:
         darreichungsform:
           type: string
           description: >
-            This field contains the dosage form as free text and can be used if the product 
+            This field contains the dosage form as free text and can be used if the product
             is not a finished medicinal product.
         packungsgroesseNachMenge:
           type: string
@@ -1350,7 +1350,7 @@ components:
     prescriptionBundle:
       type: object
       description: >
-        The prescriptionBundle element is the bundling element used for electronic prescriptions, 
+        The prescriptionBundle element is the bundling element used for electronic prescriptions,
         which is derived from the Bundle resource and contains all other data elements.
         See section A.3.10 of specification.
       required:
@@ -1385,8 +1385,8 @@ components:
           type: string
           description: >
             In the case of a private prescription, contains information on the PKV tariff according to KBV_EX_FOR_PKV_Tariff.
-        krankenversicherung: 
-          $ref: '#/components/schemas/coverage' 
+        krankenversicherung:
+          $ref: '#/components/schemas/coverage'
           description: >
              Contains the health insurance information. Details are specified in section A.3.1.
         patient:
@@ -1440,8 +1440,8 @@ components:
     prescriptionIndexList:
       type: array
       description: >
-        The prescriptionIndexList element is contained in the selectedPrescriptionList message and specifies 
-        which of the available electronic prescriptions should be redeemed. 
+        The prescriptionIndexList element is contained in the selectedPrescriptionList message and specifies
+        which of the available electronic prescriptions should be redeemed.
         See section A.3.11 of specification.
       minItems: 1
       items:
