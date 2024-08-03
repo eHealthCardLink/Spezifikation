@@ -48,38 +48,42 @@ App -> AS: 22. Übergabe der Steuerung an ApoShop
 else case 2 Keine Übergabe der Steuerung an ApoShop
 App --> CL: 23. Ausgewählte E-Rezepte (**selectedPrescriptionList**)
 CL --> AVS: 24. Ausgewählte E-Rezepte (**selectedPrescriptionList**)
-AVS-> CL: 25. Rückmeldung des Empfangs (**selectPrescriptionListResponse**)
-CL-> App: 26. Rückmeldung des Empfangs (**selectPrescriptionListResponse**)
+
+opt #lightgreen
+AVS -> AVS: 25. optionale Transformation für alternative Schnittstellen
+end
+
+AVS-> CL: 26. Rückmeldung des Empfangs (**selectPrescriptionListResponse**)
+CL-> App: 27. Rückmeldung des Empfangs (**selectPrescriptionListResponse**)
+end
+
+opt Sofern Steuerung über ApoShop erfolgt ist
+
+AS -> AVS: 28. Ausgewählte E-Rezepte (**selectedPrescriptionList**)
+AVS --> AS: 29. Rückmeldung des Empfangs (**selectPrescriptionListResponse**)
 end
 
 note over Nutzer, FD_eRp#lightgreen:**Phase 4** - Verbindliche Zuweisung der zu dispensierenden E-Rezepte an Apotheke
 
-opt Sofern Steuerung über ApoShop erfolgt ist
-
-AS -> AVS: 27. Ausgewählte E-Rezepte (**selectedPrescriptionList**)
-AVS --> AS: 28. Rückmeldung des Empfangs (**selectPrescriptionListResponse**)
-end
-
-
 loop für alle zu dispensierenden E-Rezepte
-AVS -> FD_eRp: 29. **POST /Task/<id>?$accept?ac**=...
-FD_eRp --> AVS: 30. 200: Bundle(Task,P7-Container)
-AVS -> AVS: 31. Dekodiere Nachricht und speichere secret
+AVS -> FD_eRp: 30. **POST /Task/<id>?$accept?ac**=...
+FD_eRp --> AVS: 31. 200: Bundle(Task,P7-Container)
+AVS -> AVS: 32. Dekodiere Nachricht und speichere secret
 end
 
 note over Nutzer, FD_eRp#lightgreen:**Phase 5** - Signaturvalidierung, Dispensierung des E-Rezepts und Abschluss der Transaktion
 
-opt Bei verteiltem AVS
-AVS->AVS: 32. optionale Abläufe bei verteiltem AVS
+opt #lightgreen Bei verteiltem AVS
+AVS->AVS: 33. optionale Abläufe bei verteiltem AVS
 end
 
 loop für alle zu dispensierenden E-Rezepte
-AVS -> Konnektor: 33. **VerifyDocument** (P7-Container)
-Konnektor --> AVS: 34. Signaturstatus (**VerifyDocumentResponse**)
-AVS->AVS: 35. Extrahiere FHIR-basierte E-Rezept-Nutzdaten aus P7-Container
-AVS->AVS: 36. Abgabe vorbereiten und MedicationDispense erzeugen
-AVS->FD_eRp: 37. **POST /Task/<id>$close?secret=...ac=...MedicationDispense** 
-FD_eRp --> AVS: 38. signierte Quittung
-AVS -> AVS: 39. Protokollieren
+AVS -> Konnektor: 34. **VerifyDocument** (P7-Container)
+Konnektor --> AVS: 35. Signaturstatus (**VerifyDocumentResponse**)
+AVS->AVS: 36. Extrahiere FHIR-basierte E-Rezept-Nutzdaten aus P7-Container
+AVS->AVS: 37. Abgabe vorbereiten und MedicationDispense erzeugen
+AVS->FD_eRp: 38. **POST /Task/<id>$close?secret=...ac=...MedicationDispense** 
+FD_eRp --> AVS: 39. signierte Quittung
+AVS -> AVS: 40. Protokollieren
 end
-AVS -> Nutzer: 40. E-Rezept(e) beliefern
+AVS -> Nutzer: 41. E-Rezept(e) beliefern
