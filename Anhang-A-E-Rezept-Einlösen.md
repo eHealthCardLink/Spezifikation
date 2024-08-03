@@ -92,28 +92,29 @@ mit einer umschließenden Signatur (CAdES-enveloping) des FHIR-codierten E-Rezep
 * `(22)` - Sofern ein Apotheken-Webshop ("ApoShop") existiert, kann dieser nun die weitere Steuerung der Abläufe übernehmen, so dass der Nutzer bei Bedarf weitere Waren (z.B. [OTC-Artikel](https://www.g-ba.de/themen/arzneimittel/arzneimittel-richtlinie-anlagen/otc-uebersicht/)) auswählen und die Bezahlung durchführen kann.
 * `(23)` - Sofern kein ApoShop existiert, werden hier die vom Nutzer ausgewählten E-Rezepte (**selectedPrescriptionList**) von der App an den eHealth-CardLink-Dienst übertragen.
 * `(24)` - Die Liste mit den ausgewählten E-Rezepten (**selectedPrescriptionList**) wird vom eHealth-CardLink-Dienst ans AVS übertragen.
-* `(25)` - Der Empfang der Nachricht wird vom AVS mit der Nachricht (**selectedPrescriptionListResponse**) quittiert.
-* `(26)` - Die (**selectedPrescriptionListResponse**) Nachricht wird an die App weitergeleitet und signalisiert dort, dass der Ablauf für die App beendet ist.
+* `(25)` - Soweit dies notwendig ist, erfolgt eine Transformation für eine alternative vom AVS unterstützte Schnittstelle. 
+* `(26)` - Der Empfang der Nachricht wird vom AVS mit der Nachricht (**selectedPrescriptionListResponse**) quittiert.
+* `(27)` - Die (**selectedPrescriptionListResponse**) Nachricht wird an die App weitergeleitet und signalisiert dort, dass der Ablauf für die App beendet ist.
+* `(28)` - Sofern in Schritt (22) die Steuerung durch den ApoShop übernommen wurde, werden in diesem Schritt die zur Dispensierung vorgesehenen E-Rezepte in der (**selectedPrescriptionList**) Nachricht an das AVS geschickt.
+* `(29)` - Analog zu Schritt (26) wird hier der Empfang der Nachricht vom AVS mit der Nachricht (**selectedPrescriptionList**) quittiert.
 
 ### A.1.4 - Phase 4 - Verbindliche Zuweisung der zu dispensierenden E-Rezepte an Apotheke
 
-* `(27)` - Sofern in Schritt (22) die Steuerung durch den ApoShop übernommen wurde, werden in diesem Schritt die zur Dispensierung vorgesehenen E-Rezepte in der (**selectedPrescriptionList**) Nachricht an das AVS geschickt.
-* `(28)` - Analog zu Schritt (25) wird hier der Empfang der Nachricht vom AVS mit der Nachricht (**selectedPrescriptionList**) quittiert.
-* `(29)` - In diesem Schritt wird das E-Rezept mit einer **$accept**-Nachricht verbindlich bei der Apotheke eingereicht.
-* `(30)` - Der FD_eRp liefert ein Bundle mit einer Task und einen PKCS#7-Container mit dem signierten E-Rezept zurück.
-* `(31)` - Das erhaltene Bundle wird dekodiert und das enthaltene **secret** wird gespeichert.
+* `(30)` - In diesem Schritt wird das E-Rezept mit einer **$accept**-Nachricht verbindlich bei der Apotheke eingereicht.
+* `(31)` - Der FD_eRp liefert ein Bundle mit einer Task und einen PKCS#7-Container mit dem signierten E-Rezept zurück.
+* `(32)` - Das erhaltene Bundle wird dekodiert und das enthaltene **secret** wird gespeichert.
 
 ### A.1.5 - Phase 5 - Signaturvalidierung, Dispensierung der E-Rezepte und Abschluss der Transaktion
   
-* `(32)` - Sofern das AVS in einer verteilten Form realisiert ist und ein Teil in einem Rechenzentrum und ein anderer Teil in einer Vor-Ort-Apotheke betrieben wird, können hier weitere optionale Abläufe zur AVS-internen Kommunikation auftreten. 
-* `(33)` - Die qualifizierte elektronische Signatur, die die E-Rezept-Nutzdaten im PKCS#7-Container umschließt, wird unter Verwendung der **VerifyDocument**-Funktion des Konnektors validiert.
-* `(34)` - Der Konnektor liefert das Ergebnis der Signaturvalidierung mit **VerifyDocumentResponse** zurück.
-* `(35)` - Sofern die Signaturvalidierung erfolgreich war, werden die FHIR-basierten E-Rezept-Nutzdaten aus dem PKCS#7-Container extrahiert.
-* `(36)` - Die Medikamente werden auf dem vom Nutzer gewünschten Weg abgegeben und es wird eine entsprechende **MedicationDispense**-Struktur gemäß [GEM_ERP_PR_MedicationDispense](https://simplifier.net/packages/de.gematik.erezept-workflow.r4/1.4.0-rc1/files/2447785) erzeugt.
-* `(37)` - Die **MedicationDispense**-Struktur wird zusammen mit dem **secret** und dem Access-Token in einer **$close**-Nachricht an den FD_eRp gesandt, um die Dispensierung abzuschließen.
-* `(38)` - Im Gegenzug liefert der FD_eRp eine signierte Quittung zurück.
-* `(39)` - Das AVS führt eine geeignete Protokollierung durch.
-* `(40)` - Im letzten Schritt werden hier die im E-Rezept verordneten Medikamente an den Nutzer per Boten oder Paketversand geliefert bzw. in einer Vor-Ort-Apotheke übergeben.
+* `(33)` - Sofern das AVS in einer verteilten Form realisiert ist und ein Teil in einem Rechenzentrum und ein anderer Teil in einer Vor-Ort-Apotheke betrieben wird, können hier weitere optionale Abläufe zur AVS-internen Kommunikation auftreten. 
+* `(34)` - Die qualifizierte elektronische Signatur, die die E-Rezept-Nutzdaten im PKCS#7-Container umschließt, wird unter Verwendung der **VerifyDocument**-Funktion des Konnektors validiert.
+* `(35)` - Der Konnektor liefert das Ergebnis der Signaturvalidierung mit **VerifyDocumentResponse** zurück.
+* `(36)` - Sofern die Signaturvalidierung erfolgreich war, werden die FHIR-basierten E-Rezept-Nutzdaten aus dem PKCS#7-Container extrahiert.
+* `(37)` - Die Medikamente werden auf dem vom Nutzer gewünschten Weg abgegeben und es wird eine entsprechende **MedicationDispense**-Struktur gemäß [GEM_ERP_PR_MedicationDispense](https://simplifier.net/packages/de.gematik.erezept-workflow.r4/1.4.0-rc1/files/2447785) erzeugt.
+* `(38)` - Die **MedicationDispense**-Struktur wird zusammen mit dem **secret** und dem Access-Token in einer **$close**-Nachricht an den FD_eRp gesandt, um die Dispensierung abzuschließen.
+* `(39)` - Im Gegenzug liefert der FD_eRp eine signierte Quittung zurück.
+* `(40)` - Das AVS führt eine geeignete Protokollierung durch.
+* `(41)` - Im letzten Schritt werden hier die im E-Rezept verordneten Medikamente an den Nutzer per Boten oder Paketversand geliefert bzw. in einer Vor-Ort-Apotheke übergeben.
 
 ## A.2 - Nachrichten jenseits der gematik-Spezifikationen 
 
