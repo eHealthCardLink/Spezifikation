@@ -563,6 +563,8 @@ components:
         - TAN_EXPIRED
         - TAN_INCORRECT
         - TAN_RETRY_LIMIT_EXCEEDED
+        - INVALID_REQUEST
+        - NUMBER_BLOCKED
         - UNKNOWN_ERROR
     ICCSNReassignmentEnvelope:
       type: object
