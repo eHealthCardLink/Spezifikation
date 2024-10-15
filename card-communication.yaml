@@ -568,6 +568,8 @@ components:
         - UNKNOWN_ERROR
     ICCSNReassignmentEnvelope:
       type: object
+      required:
+        - lastAssignment
       properties:
         type:
           type: string
