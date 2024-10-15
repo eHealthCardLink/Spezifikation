@@ -572,6 +572,9 @@ components:
         type:
           type: string
           const: ICCSNReassignment
+        lastAssignment:
+          type: string
+          description: timestamp of the existing connection between phonenumber and eGK
     registerEgkEnvelope:
       type: object
       properties:
