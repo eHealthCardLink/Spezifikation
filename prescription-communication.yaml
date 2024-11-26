@@ -802,13 +802,12 @@ components:
           const: medication
         medicationItem:
           title: medicationItem
-          type: array
-          items:
-            oneOf:
-              - $ref: '#/components/schemas/medicationPZN'
-              - $ref: '#/components/schemas/medicationIngredient'
-              - $ref: '#/components/schemas/medicationCompounding'
-              - $ref: '#/components/schemas/medicationFreeText'
+          type: object
+          oneOf:
+            - $ref: '#/components/schemas/medicationPZN'
+            - $ref: '#/components/schemas/medicationIngredient'
+            - $ref: '#/components/schemas/medicationCompounding'
+            - $ref: '#/components/schemas/medicationFreeText'
 
     medicationCommonType:
       type: object
