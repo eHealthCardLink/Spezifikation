@@ -144,6 +144,11 @@ Ein **availablePrescriptionList**-Element enthält ein **ICCSN**-Element und ein
 Die technischen Details sind in der [YAML-Dokumentation](https://ehealthcardlink.github.io/Spezifikation/prescription-communication/)
 näher beschrieben.
 
+Das `PrescriptionBundle` Element kann den Access-Code für das eRezept in verschlüsselter Form beinhalten.
+Dieser Access-Code kann dazu verwendet werden, eRezepte abzurufen und diese zu blockieren.
+Für die Verschlüsselung wird ein Public Key verwendet, der vorher konfiguriert werden muss.
+Für die Entschlüsselung muss der Aufrufer den dazugehörigen Private Key benutzen.
+
 ### A.2.3 - selectedPrescriptionList
 
 Die **selectedPrescriptionList**-Nachricht spezifiziert, welche elektronischen Verordnungen genau dispensiert werden sollen und wie die verordneten Medikamente zugestellt werden sollen.
@@ -447,6 +452,7 @@ Technische Details der **prescriptionBundle**-Datenstruktur sind in der [YAML-Do
 | Element | Datentyp | Beschreibung |
 | --- | --- |  --- |
 | `prescriptionId` | string | Dieses Feld enthält den im Zeitraum von 11 Jahren eindeutigen Identifikator der elektronischen Verordnung gemäß [GEM_ERP_PR_PrescriptionId](https://simplifier.net/packages/de.gematik.erezept-workflow.r4/1.2.1/files/2030548) und [gemSpec_DM_eRp](https://fachportal.gematik.de/fachportal-import/files/gemSpec_DM_eRp_V1.9.0.pdf) (Abschnitt 2.2). |
+| `accessCode`| string | Dieses Feld enthält den verschlüsselten Access Code, um eRezepte abzurufen und diese zu blockieren. Dieses Feld ist optional und wird nur zurückgeliefert, wenn für den Aufrufer ein Schlüssel für die Verschlüsselung konfiguriert ist.|
 | `erstellungszeitpunkt` | date-time | Gibt den Zeitpunkt der Erstellung des E-Rezept-Bundles an. |
 | `status` | string | Enthält das Statuskennzeichen der elektronischen Verordnung. Die vorgesehenen Werte sind der Schlüsseltabelle [S_KBV_STATUSKENNZEICHEN](https://applications.kbv.de/S_KBV_STATUSKENNZEICHEN.xhtml) zu entnehmen. |
 | `pkvTarif` | string | Enthält im Fall eines Privatrezeptes Informationen zum PKV-Tarif gemäß [KBV_EX_FOR_PKV_Tariff](https://simplifier.net/for/kbvexforpkvtariff). |

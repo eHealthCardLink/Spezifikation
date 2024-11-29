@@ -1371,6 +1371,10 @@ components:
           $ref: '#/components/schemas/prescriptionId'
           description: >
             This field contains the unique identifier of the electronic prescription over a period of 11 years according to GEM_ERP_PR_PrescriptionId and gemSpec_DM_eRp (section 2.2).
+        accessCode:
+          type: string
+          description: >
+            Contains the encrypted access code if simplex-frontend feature is configured for the calling tenant.
         erstellungszeitpunkt:
           type: string
           description: >
