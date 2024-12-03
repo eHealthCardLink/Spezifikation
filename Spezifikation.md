@@ -211,6 +211,7 @@ Für das application_interface existieren folgende Anforderungen:
 | Anhang | Version | Datum | Beschreibung des anwendungsspezifischen Ergänzungsmoduls | 
 | --- | --- |  --- | --- |
 | [`Anhang A`](https://github.com/eHealthCardLink/Spezifikation/blob/main/Anhang-A-E-Rezept-Einl%C3%B6sen.md) | 1.0.0 (RC) | 01.07.2024 | Einlösen von E-Rezepten in einer Apotheke | 
+| geplant |  |  | Online-Check-in in der Praxis | 
 | geplant |  |  | Zugriff auf ePA-Aktensystem für Arzneimittelinteraktionsprüfung | 
 | geplant |  |  | Anforderung eines Folgerezeptes | 
 | geplant |  |  | Entfernter Versicherungsnachweis | 
