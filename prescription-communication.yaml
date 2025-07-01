@@ -1,7 +1,7 @@
 asyncapi: 3.0.0
 info:
   title: eHealth-CardLink Prescription Communication Interface
-  version: 1.0.0
+  version: 1.1.0
   description:
     This API defines an interface between a Pharmacy System and a Pharmacy App with
     eHealth-CardLink service as intermediary, which is used to present the essential
