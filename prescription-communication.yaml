@@ -139,6 +139,12 @@ components:
             availablePrescriptionLists:
               - type: availablePrescriptionList
                 ICCSN: MTIzNDU2Nzg5
+                fetchErrors:
+
+                  - prescriptionId: 160.000.764.333.300.99
+                    errorCode: CONNECT_TIMEOUT_ERROR
+                    errorMessage: Proxy Connect Failure or Timeout
+
                 prescriptionBundleList:
 
                   # prescription with medicationPZN (01)
@@ -585,6 +591,10 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/prescriptionBundle'
+        fetchErrors:
+          type: array
+          items:
+            $ref: '#/components/schemas/prescriptionFetchError'
 
     availablePrescriptionLists:
       type: object
@@ -1617,3 +1627,41 @@ components:
       type: string
       description: >
         Identifier for the established web socket connection
+
+    prescriptionFetchError:
+      type: object
+      description: >
+        Prescription error object, which contains information about prescriptions that could not be fetched
+      required:
+        - type
+        - prescriptionId
+        - errorCode
+        - errorMessage
+      properties:
+        type:
+          type: string
+          const: prescriptionFetchError
+        prescriptionId:
+          $ref: '#/components/schemas/prescriptionId'
+          description: >
+            This field contains the unique identifier of the electronic prescription over a period of 11 years according to GEM_ERP_PR_PrescriptionId and gemSpec_DM_eRp (section 2.2).
+        errorCode:
+          $ref: '#/components/schemas/prescriptionFetchErrorCode'
+          description: >
+            This field contains the error code which describe why the prescription could not be fetched
+        errorMessage:
+          type: string
+          description: >
+            Error message which describes why the prescription could not be fetched
+
+    prescriptionFetchErrorCode:
+      type: string
+      enum:
+        - TI_FORBIDDEN
+        - TI_PRESCRIPTION_NOT_FOUND
+        - TI_TOO_MANY_REQUESTS_SENT
+        - TI_INTERNAL_SERVER_ERROR
+        - TI_UNKNOWN_ERROR
+        - CONNECT_TIMEOUT_ERROR
+        - SERIALIZATION_ERROR
+        - UNKNOWN_ERROR
