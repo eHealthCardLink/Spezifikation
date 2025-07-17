@@ -1192,6 +1192,10 @@ components:
           minimum: 1
           description: >
             This field contains the number of packs prescribed.
+        anzahlEinheit:
+          type: string
+          description: >
+            A human-readable form of the unit.
         kostentraegertyp:
           type: string
           description: >
@@ -1275,6 +1279,10 @@ components:
           type: boolean
           description: >
             This field contains the indication whether this prescription should also be delivered during general store closing times, combined with the collection of the Noctu fee (emergency service fee) at the expense of the health insurance company in accordance with the Drug Price Ordinance.
+        serKennzeichen:
+          type: boolean
+          description: >
+            Indication of whether this regulation is made with reference to the Social Compensation Law under SGB XIV (SER)
         bvg:
           type: boolean
           description: >
@@ -1294,11 +1302,19 @@ components:
           type: string
           description: >
             This field contains additional / other dispensing instructions for the pharmacy beyond the dosage.
+        verschreiberID:
+          type: string
+          description: >
+            Prescriber ID, which must be provided when prescribing certain preparations in order for the pharmacy to dispense the prescription.
         anzahl:
           type: integer
           minimum: 1
           description: >
             This field contains the number of packs prescribed.
+        anzahlEinheit:
+          type: string
+          description: >
+            A human-readable form of the unit.
         dosierung:
           type: boolean
           description: >
