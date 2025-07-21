@@ -1383,11 +1383,8 @@ components:
         - prescriptionId
         - erstellungszeitpunkt
         - status
-        - krankenversicherung
-        - patient
         - arzt
         - organisation
-        - verordnung
         - arzneimittel
       properties:
         type:
