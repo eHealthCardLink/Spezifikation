@@ -1,7 +1,7 @@
 asyncapi: 3.0.0
 info:
   title: eHealth-CardLink Prescription Communication Interface
-  version: 1.0.0
+  version: 1.1.0
   description:
     This API defines an interface between a Pharmacy System and a Pharmacy App with
     eHealth-CardLink service as intermediary, which is used to present the essential
@@ -139,6 +139,12 @@ components:
             availablePrescriptionLists:
               - type: availablePrescriptionList
                 ICCSN: MTIzNDU2Nzg5
+                fetchErrors:
+
+                  - prescriptionId: 160.000.764.333.300.99
+                    errorCode: CONNECT_TIMEOUT_ERROR
+                    errorMessage: Proxy Connect Failure or Timeout
+
                 prescriptionBundleList:
 
                   # prescription with medicationPZN (01)
@@ -585,6 +591,10 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/prescriptionBundle'
+        fetchErrors:
+          type: array
+          items:
+            $ref: '#/components/schemas/prescriptionFetchError'
 
     availablePrescriptionLists:
       type: object
@@ -802,13 +812,12 @@ components:
           const: medication
         medicationItem:
           title: medicationItem
-          type: array
-          items:
-            oneOf:
-              - $ref: '#/components/schemas/medicationPZN'
-              - $ref: '#/components/schemas/medicationIngredient'
-              - $ref: '#/components/schemas/medicationCompounding'
-              - $ref: '#/components/schemas/medicationFreeText'
+          type: object
+          oneOf:
+            - $ref: '#/components/schemas/medicationPZN'
+            - $ref: '#/components/schemas/medicationIngredient'
+            - $ref: '#/components/schemas/medicationCompounding'
+            - $ref: '#/components/schemas/medicationFreeText'
 
     medicationCommonType:
       type: object
@@ -1183,6 +1192,10 @@ components:
           minimum: 1
           description: >
             This field contains the number of packs prescribed.
+        anzahlEinheit:
+          type: string
+          description: >
+            A human-readable form of the unit.
         kostentraegertyp:
           type: string
           description: >
@@ -1266,6 +1279,10 @@ components:
           type: boolean
           description: >
             This field contains the indication whether this prescription should also be delivered during general store closing times, combined with the collection of the Noctu fee (emergency service fee) at the expense of the health insurance company in accordance with the Drug Price Ordinance.
+        serKennzeichen:
+          type: boolean
+          description: >
+            Indication of whether this regulation is made with reference to the Social Compensation Law under SGB XIV (SER)
         bvg:
           type: boolean
           description: >
@@ -1285,11 +1302,19 @@ components:
           type: string
           description: >
             This field contains additional / other dispensing instructions for the pharmacy beyond the dosage.
+        verschreiberID:
+          type: string
+          description: >
+            Prescriber ID, which must be provided when prescribing certain preparations in order for the pharmacy to dispense the prescription.
         anzahl:
           type: integer
           minimum: 1
           description: >
             This field contains the number of packs prescribed.
+        anzahlEinheit:
+          type: string
+          description: >
+            A human-readable form of the unit.
         dosierung:
           type: boolean
           description: >
@@ -1358,11 +1383,8 @@ components:
         - prescriptionId
         - erstellungszeitpunkt
         - status
-        - krankenversicherung
-        - patient
         - arzt
         - organisation
-        - verordnung
         - arzneimittel
       properties:
         type:
@@ -1372,6 +1394,10 @@ components:
           $ref: '#/components/schemas/prescriptionId'
           description: >
             This field contains the unique identifier of the electronic prescription over a period of 11 years according to GEM_ERP_PR_PrescriptionId and gemSpec_DM_eRp (section 2.2).
+        accessCode:
+          type: string
+          description: >
+            Contains the encrypted access code if simplex-frontend feature is configured for the calling tenant.
         erstellungszeitpunkt:
           type: string
           description: >
@@ -1614,3 +1640,41 @@ components:
       type: string
       description: >
         Identifier for the established web socket connection
+
+    prescriptionFetchError:
+      type: object
+      description: >
+        Prescription error object, which contains information about prescriptions that could not be fetched
+      required:
+        - type
+        - prescriptionId
+        - errorCode
+        - errorMessage
+      properties:
+        type:
+          type: string
+          const: prescriptionFetchError
+        prescriptionId:
+          $ref: '#/components/schemas/prescriptionId'
+          description: >
+            This field contains the unique identifier of the electronic prescription over a period of 11 years according to GEM_ERP_PR_PrescriptionId and gemSpec_DM_eRp (section 2.2).
+        errorCode:
+          $ref: '#/components/schemas/prescriptionFetchErrorCode'
+          description: >
+            This field contains the error code which describe why the prescription could not be fetched
+        errorMessage:
+          type: string
+          description: >
+            Error message which describes why the prescription could not be fetched
+
+    prescriptionFetchErrorCode:
+      type: string
+      enum:
+        - TI_FORBIDDEN
+        - TI_PRESCRIPTION_NOT_FOUND
+        - TI_TOO_MANY_REQUESTS_SENT
+        - TI_INTERNAL_SERVER_ERROR
+        - TI_UNKNOWN_ERROR
+        - CONNECT_TIMEOUT_ERROR
+        - SERIALIZATION_ERROR
+        - UNKNOWN_ERROR

@@ -1,0 +1,408 @@
+asyncapi: 3.0.0
+info:
+  title: eHealth-CardLink Card Communication Additions Interface
+  version: 1.0.0
+  description: >
+    This API defines additional messages that will be exchanged by a smartcard of
+    type eHC (electronic Health Card = eGK = elektronische Gesundheitskarte) on one
+    side and a server (i.e. application of type eHealth-CardLink) on the other side.
+  contact:
+    name: eHealth-CardLink-Taskforce
+    url: https://github.com/eHealthCardLink
+  license:
+    name: Apache 2.0
+    url: 'https://www.apache.org/licenses/LICENSE-2.0'
+
+servers:
+  production:
+    host: to.be.configured
+    protocol: wss
+    description: Websocket Server
+
+channels:
+  cardExchange:
+    address: /
+    messages:
+      sessionInformationMessage:
+        $ref: '#/components/messages/sessionInformationMessage'
+      requestSMSCodeMessage:
+        $ref: '#/components/messages/requestSMSCodeMessage'
+      requestSMSCodeResponseMessage:
+        $ref: '#/components/messages/requestSMSCodeResponseMessage'
+      confirmSMSCodeMessage:
+        $ref: '#/components/messages/confirmSMSCodeMessage'
+      confirmSMSCodeResponseMessage:
+        $ref: '#/components/messages/confirmSMSCodeResponseMessage'
+      ICCSNReassignmentMessage:
+        $ref: '#/components/messages/ICCSNReassignmentMessage'
+      registerEgkFinishMessage:
+        $ref: '#/components/messages/registerEgkFinishMessage'
+    bindings:
+      ws:
+        query:
+          type: object
+          properties:
+            token:
+              type: string
+              description: webSocketId
+            version:
+              type: string
+              description: Version of the API required by the client
+operations:
+  sendSessionInformationMessage:
+    action: send
+    title: Session Information
+    summary: Send Session Information for the opened connection to the client (app)
+    channel:
+      $ref: '#/channels/cardExchange'
+    messages:
+      - $ref: '#/channels/cardExchange/messages/sessionInformationMessage'
+  receiveRequestSMSCodeMessage:
+    action: receive
+    title: Receive request SMS Code
+    summary: Receive request SMS Code for the opened connection from the client (app)
+    channel:
+      $ref: '#/channels/cardExchange'
+    messages:
+      - $ref: '#/channels/cardExchange/messages/requestSMSCodeMessage'
+  sendRequestSMSCodeResponseMessage:
+    action: send
+    title: Send request SMS Code Response
+    summary: Send request SMS Code Response for the opened connection to the client (app)
+    channel:
+      $ref: '#/channels/cardExchange'
+    messages:
+      - $ref: '#/channels/cardExchange/messages/requestSMSCodeResponseMessage'
+  receiveConfirmSMSCodeMessage:
+    action: receive
+    title: Receive confirm SMS Code
+    summary: Receive confirm SMS Code for the opened connection from the client (app)
+    channel:
+      $ref: '#/channels/cardExchange'
+    messages:
+      - $ref: '#/channels/cardExchange/messages/confirmSMSCodeMessage'
+  sendConfirmSMSCodeResponseMessage:
+    action: send
+    title: Send confirm SMS Code Response
+    summary: Send confirm SMS Code Response for the opened connection to the client (app)
+    channel:
+      $ref: '#/channels/cardExchange'
+    messages:
+      - $ref: '#/channels/cardExchange/messages/confirmSMSCodeResponseMessage'
+  sendICCSNReassignmentMessage:
+    action: send
+    title: Send ICCSN Reassignment
+    summary: Send ICCSN Reassignment for the opened connection to the client (app)
+    channel:
+      $ref: '#/channels/cardExchange'
+    messages:
+      - $ref: '#/channels/cardExchange/messages/ICCSNReassignmentMessage'
+  sendRegisterEgkFinishMessage:
+    action: send
+    title: Send eGK finished message
+    summary: Send eGK finished message to client (app)
+    channel:
+      $ref: '#/channels/cardExchange'
+    messages:
+      - $ref: '#/channels/cardExchange/messages/registerEgkFinishMessage'
+components:
+  messages:
+    sessionInformationMessage:
+      name: sessionInformationMessage
+      title: Session Information Message
+      summary: Information about the (re-)established session
+      contentType: application/json
+      payload:
+        type: array
+        items:
+          oneOf:
+            - $ref: '#/components/schemas/sessionInformationEnvelope'
+            - $ref: '#/components/schemas/cardSessionId'
+            - $ref: '#/components/schemas/correlationId'
+        minItems: 1
+        maxItems: 1
+      examples:
+        - name: sessionInformation
+          summary: sessionInformation message
+          payload:
+            - type: sessionInformation
+              payload: "eyJ3ZWJTb2NrZXRJZCI6InJ2N20zb045YWhJZGN6RTRTYmQzMGciLCJwaG9uZVJlZ2lzdGVyZWQiOmZhbHNlfQ"
+    requestSMSCodeMessage:
+      name: requestSMSCodeMessage
+      title: Request SMS Code Message
+      summary: Request SMS code validation for a given phone number
+      contentType: application/json
+      payload:
+        type: array
+        items:
+          oneOf:
+            - $ref: '#/components/schemas/requestSMSCodeEnvelope'
+            - $ref: '#/components/schemas/cardSessionId'
+            - $ref: '#/components/schemas/correlationId'
+        minItems: 1
+        maxItems: 3
+      examples:
+        - name: requestSMSCode
+          summary: requestSMSCode message
+          payload:
+            - type: requestSMSCode
+              payload: "eyJwaG9uZU51bWJlciI6Iis0OTE1MTcyNjQyNzk3In0"
+    requestSMSCodeResponseMessage:
+      name: requestSMSCodeResponseMessage
+      title: Request SMS Code Response Message
+      summary: Response for requesting an SMS code validation for a given phone number
+      contentType: application/json
+      payload:
+        type: array
+        items:
+          oneOf:
+            - $ref: '#/components/schemas/requestSMSCodeResponseEnvelope'
+            - $ref: '#/components/schemas/cardSessionId'
+            - $ref: '#/components/schemas/correlationId'
+        minItems: 3
+        maxItems: 3
+      examples:
+        - name: requestSMSCodeResponse success
+          summary: requestSMSCodeResponse message
+          payload:
+            - type: requestSMSCodeResponse
+              payload: "eyJyZXN1bHRDb2RlIjoiU1VDQ0VTUyIsImVycm9yTWVzc2FnZSI6bnVsbH0"
+        - name: requestSMSCodeResponse error
+          summary: requestSMSCodeResponse message
+          payload:
+            - type: requestSMSCodeResponse
+              payload: "eyAicmVzdWx0Q29kZSI6ICJOVU1CRVJfRlJPTV9XUk9OR19DT1VOVFJZIiwgImVycm9yTWVzc2FnZSI6ICJUaGUgcHJvdmlkZWQgbnVtYmVyIGlzIG5vdCBmcm9tIEdlcm1hbnkiIH0="
+    confirmSMSCodeMessage:
+      name: confirmSMSCodeMessage
+      title: Confirm SMS Code Message
+      summary: Confirm SMS code validation for a given phone number
+      contentType: application/json
+      payload:
+        type: array
+        items:
+          oneOf:
+            - $ref: '#/components/schemas/confirmSMSCodeEnvelope'
+            - $ref: '#/components/schemas/cardSessionId'
+            - $ref: '#/components/schemas/correlationId'
+        minItems: 1
+        maxItems: 3
+      examples:
+        - name: confirmSMSCode
+          summary: confirmSMSCode message
+          payload:
+            - type: confirmSMSCode
+              payload: "eyJzbXNDb2RlIjoiNzcyMzc3NTEifQ"
+    confirmSMSCodeResponseMessage:
+      name: confirmSMSCodeResponseMessage
+      title: Confirm SMS Code Response Message
+      summary: Response for confirming an SMS code for a given phone number
+      contentType: application/json
+      payload:
+        type: array
+        items:
+          oneOf:
+            - $ref: '#/components/schemas/confirmSMSCodeResponseEnvelope'
+            - $ref: '#/components/schemas/cardSessionId'
+            - $ref: '#/components/schemas/correlationId'
+        minItems: 3
+        maxItems: 3
+      examples:
+        - name: confirmSMSCodeResponse success
+          summary: confirmSMSCodeResponse message
+          payload:
+            - type: confirmSMSCodeResponse
+              payload: "eyJyZXN1bHRDb2RlIjoiU1VDQ0VTUyIsImVycm9yTWVzc2FnZSI6bnVsbH0"
+        - name: confirmSMSCodeResponse error
+          summary: confirmSMSCodeResponse message
+          payload:
+            - type: confirmSMSCodeResponse
+              payload: "eyAicmVzdWx0Q29kZSI6ICJUQU5fUkVUUllfTElNSVRfRVhDRUVERUQiLCAiZXJyb3JNZXNzYWdlIjogIlRoZSBTTVMgY29kZSBoYXMgYmVlbiBlbnRlcmVkIHdyb25nIHRvbyBtYW55IHRpbWVzIiB9"
+    ICCSNReassignmentMessage:
+      name: ICCSNReassignmentMessage
+      title: Notify user af reassigned ICCSN
+      summary: Notification for the user that the previously paired Phone Number is used with a new eGK
+      contentType: application/json
+      payload:
+        type: array
+        items:
+          oneOf:
+            - $ref: '#/components/schemas/ICCSNReassignmentEnvelope'
+            - $ref: '#/components/schemas/cardSessionId'
+            - $ref: '#/components/schemas/correlationId'
+        minItems: 3
+        maxItems: 3
+      examples:
+        - name: ICCSNReassignment
+          summary: ICCSNReassignment message
+          payload:
+            - type: ICCSNReassignment
+              payload: "eyAibGFzdEFzc2lnbm1lbnQiOiAiMjAyNC0xMS0yNlQxNDo1NTozNS44NTk2MjYxMzZaIiB9"
+    registerEgkFinishMessage:
+      name: registerEgkFinishMessage
+      title: Register eGK Finish Message
+      summary: Finish message for eGK registration
+      contentType: application/json
+      payload:
+        type: array
+        items:
+          oneOf:
+            - $ref: '#/components/schemas/registerEgkFinishEnvelope'
+            - $ref: '#/components/schemas/cardSessionId'
+            - $ref: '#/components/schemas/correlationId'
+        minItems: 3
+        maxItems: 3
+      examples:
+        - name: RegisterEgkFinish
+          summary: Register eGK Finish Message
+          payload:
+            - type: registerEGKFinish
+              payload: "eyJyZW1vdmVDYXJkIjp0cnVlfQ"
+            - 3509584a-04e7-4756-bab0-0da4a84d0c12
+  correlationIds:
+    default:
+      description: Default Correlation ID
+      location: $message.header#/correlationId
+  schemas:
+    webSocketId:
+      type: string
+      description: Identifier for the established web socket connection
+    cardSessionId:
+      type: string
+      description: Card session identifier
+    correlationId:
+      type: string
+      description: CorrelationId
+    sessionInformationEnvelope:
+      type: object
+      properties:
+        type:
+          type: string
+          const: sessionInformation
+        payload:
+          $ref: '#/components/schemas/sessionInformationPayload'
+    sessionInformationPayload:
+      type: object
+      description: Session Information object
+      required:
+        - webSocketId
+      properties:
+        webSocketId:
+          $ref: '#/components/schemas/webSocketId'
+          description: The session ID chosen by the server for this WS channel
+        phoneRegistered:
+          type: boolean
+          default: false
+          description: Indicator whether the phone number of the user has been registered already in this session
+    requestSMSCodeEnvelope:
+      type: object
+      properties:
+        type:
+          type: string
+          const: requestSMSCode
+        payload:
+          $ref: '#/components/schemas/requestSMSCodePayload'
+    requestSMSCodePayload:
+      type: object
+      description: Request SMS Code Payload object
+      required:
+        - phoneNumber
+      properties:
+        phoneNumber:
+          type: string
+          description: The phone number where the SMS code should be sent to
+    requestSMSCodeResponseEnvelope:
+      type: object
+      properties:
+        type:
+          type: string
+          const: requestSMSCodeResponse
+        payload:
+          $ref: '#/components/schemas/requestSMSCodeResponsePayload'
+    requestSMSCodeResponsePayload:
+      type: object
+      description: Request SMS Code Payload Response object
+      required:
+        - resultCode
+      properties:
+        resultCode:
+          $ref: '#/components/schemas/smsCodeResultType'
+          description: Result code for SMS Code responses
+        errorMessage:
+          type: string
+          description: Error message in case of an error
+    confirmSMSCodeEnvelope:
+      type: object
+      properties:
+        type:
+          type: string
+          const: confirmSMSCode
+        payload:
+          $ref: '#/components/schemas/confirmSMSCodePayload'
+    confirmSMSCodePayload:
+      type: object
+      description: Confirm SMS Code Payload object
+      required:
+        - smsCode
+      properties:
+        smsCode:
+          type: string
+          description: The SMS code to validate against the sent value
+    confirmSMSCodeResponseEnvelope:
+      type: object
+      properties:
+        type:
+          type: string
+          const: confirmSMSCodeResponse
+        payload:
+          $ref: '#/components/schemas/confirmSMSCodeResponsePayload'
+    confirmSMSCodeResponsePayload:
+      type: object
+      description: Confirm SMS Code Payload Response object
+      required:
+        - resultCode
+      properties:
+        resultCode:
+          $ref: '#/components/schemas/smsCodeResultType'
+          description: Result code for SMS Code responses
+        errorMessage:
+          type: string
+          description: Error message in case of an error
+    smsCodeResultType:
+      type: string
+      enum:
+        - SUCCESS
+        - NUMBER_FROM_WRONG_COUNTRY
+        - TAN_EXPIRED
+        - TAN_INCORRECT
+        - TAN_RETRY_LIMIT_EXCEEDED
+        - INVALID_REQUEST
+        - NUMBER_BLOCKED
+        - UNKNOWN_ERROR
+    ICCSNReassignmentEnvelope:
+      type: object
+      required:
+        - lastAssignment
+      properties:
+        type:
+          type: string
+          const: ICCSNReassignment
+        lastAssignment:
+          type: string
+          description: timestamp of the existing connection between phonenumber and eGK
+    registerEgkFinishEnvelope:
+      type: object
+      properties:
+        type:
+          type: string
+          const: registerEGKFinish
+        payload:
+          $ref: '#/components/schemas/registerEgkFinishPayload'
+    registerEgkFinishPayload:
+      type: object
+      description: Base64 encoded json payload
+      properties:
+        removeCard:
+          type: boolean
+          default: true
+          description: Indicator whether the card should be removed from the card reader
+      contentType: application/json
